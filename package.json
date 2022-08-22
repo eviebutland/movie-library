@@ -1,0 +1,14 @@
+{
+  "name": "movie-library",
+  "version": "1.0.0",
+  "description": "Web accessible API to get, read, update and delete movies",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Evie Butland evie.butland@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "openapi-backend": "^5.3.0"
+  }
+}

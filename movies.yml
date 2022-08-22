@@ -1,0 +1,840 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: movie-library.com
+  contact:
+    email: evie@butland.com
+    url: 'http://example.com/contact'
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  description: |
+    This is a free web accessible API that allows you to get all information about a movie
+externalDocs:
+  description: Find out how to create a GitHub repo for your OpenAPI definition.
+  url: 'https://github.com/Rebilly/generator-openapi-repo'
+tags:
+  - name: genre
+    description: Operations related to movie genres.
+  - name: name
+    description: Operations relates to movie names.
+  - name: id
+    description: Operations relates to movie id's.
+servers:
+  - url: 'http://example.com/api/v1'
+paths:
+  '/movies/genre/{genre}':
+    parameters:
+      - name: genre
+        in: query
+        description: Get movies by genre
+        schema:
+          type: string
+    get:
+      tags:
+        - genre
+      summary: Get movies by genre
+      description: |
+        Get movies by genre
+      operationId: getListMoviesByGenre
+      parameters:
+        - name: genre
+          in: path
+          description: Get a list of movies by genre
+          required: true
+          schema:
+            type: string
+      security:
+        - main_auth:
+            - 'read:users'
+        - api_key: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              example:
+                username: user1
+                email: user@example.com
+        '403':
+          description: Forbidden
+        '404':
+          description: User not found
+    post:
+      tags:
+        - genre
+      summary: Create a new genre
+      description: |
+        Operation description **markdown**.
+      operationId: createGenre
+      parameters:
+        - name: genre
+          in: path
+          description: Create a new genre
+          required: true
+          schema:
+            type: string
+      security:
+        - api_key: []
+        - basic_auth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Rate-Limit:
+              description: Calls per hour allowed by the user.
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              $ref: '#/components/headers/ExpiresAfter'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schema'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Schema'
+        description: requestBody description
+        required: true
+    patch:
+      tags:
+        - genre
+      summary: Updates the list of movies
+      description: This can only be done by the logged in user.
+      operationId: updateMovieGenreList
+      parameters:
+        - name: genre
+          in: path
+          description: The name that needs to be updated
+          required: true
+          schema:
+            type: string
+      security:
+        - main_auth:
+            - 'write:users'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid user supplied
+        '404':
+          description: User not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+        description: Updated user object
+        required: true
+    delete: 
+      tags:
+        - genre
+      summary: Deletes a genre for a movie
+      description: This can only be done by the logged in user.
+      operationId: deleteGenre
+      parameters:
+        - name: genre
+          in: path
+          description: The name that needs to be updated
+          required: true
+          schema:
+            type: string
+      security:
+        - main_auth:
+            - 'write:users'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid user supplied
+        '404':
+          description: User not found
+  '/movies/name/{name}':
+    get:
+      tags:
+        - name
+      summary: Get movie by name
+      description: Get movie from library by its name
+      operationId: getMovieByName
+      parameters:
+        - name: name
+          in: path
+          description: The name of a movie that needs to be retrieved
+          required: true
+          schema:
+            type: string
+      security:
+        - api_key: []
+        - basic_auth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              $ref: '#/components/headers/ExpiresAfter'
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                response:
+                  value: Hello world!
+            application/xml:
+              schema:
+                type: string
+            text/csv:
+              schema:
+                type: string
+    post:
+      tags:
+        - name
+      summary: Create movie by name
+      description: Create movie from library by its name
+      operationId: createMovieByName
+      parameters:
+        - name: name
+          in: path
+          description: The name of a movie that needs to be create
+          required: true
+          schema:
+            type: string
+      security:
+        - api_key: []
+        - basic_auth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              $ref: '#/components/headers/ExpiresAfter'
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                response:
+                  value: Hello world!
+            application/xml:
+              schema:
+                type: string
+            text/csv:
+              schema:
+                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              example: Hello world!
+          application/xml:
+            schema:
+              type: string
+              example: Hello world!
+        description: Echo payload
+        required: true
+    patch:
+      tags:
+        - name
+      summary: Update movie by name
+      description: Update movie from library by its name
+      operationId: updateMovieByName
+      parameters:
+        - name: name
+          in: path
+          description: The name that needs to be updated
+          required: true
+          schema:
+            type: string
+      security:
+        - api_key: []
+        - basic_auth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              $ref: '#/components/headers/ExpiresAfter'
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                response:
+                  value: Hello world!
+            application/xml:
+              schema:
+                type: string
+            text/csv:
+              schema:
+                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              example: Hello world!
+          application/xml:
+            schema:
+              type: string
+              example: Hello world!
+        description: Echo payload
+        required: true
+    delete: 
+      tags:
+        - name
+      summary: Delete movie by name
+      description: Delete movie from library by its name
+      operationId: deleteMovieByName
+      parameters:
+        - name: name
+          in: path
+          description: The name that needs to be deleted
+          required: true
+          schema:
+            type: string
+      security:
+        - api_key: []
+        - basic_auth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              $ref: '#/components/headers/ExpiresAfter'
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                response:
+                  value: Hello world!
+            application/xml:
+              schema:
+                type: string
+            text/csv:
+              schema:
+                type: string
+  '/movies/{id}':
+    get:
+      tags:
+        - id
+      summary: Get movie by id
+      description: Get movie from library by it's id
+      operationId: getMovieById
+      parameters:
+        - name: id
+          in: path
+          description: The name of a movie that needs to be retrieved
+          required: true
+          schema:
+            type: string
+      security:
+        - api_key: []
+        - basic_auth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              $ref: '#/components/headers/ExpiresAfter'
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                response:
+                  value: Hello world!
+            application/xml:
+              schema:
+                type: string
+            text/csv:
+              schema:
+                type: string
+    patch:
+      tags:
+        - id
+      summary: Update movie by id
+      description: Update movie from library by its id
+      operationId: updateMovieById
+      parameters:
+        - name: id
+          in: path
+          description: The name that needs to be updated
+          required: true
+          schema:
+            type: string
+      security:
+        - api_key: []
+        - basic_auth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              $ref: '#/components/headers/ExpiresAfter'
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                response:
+                  value: Hello world!
+            application/xml:
+              schema:
+                type: string
+            text/csv:
+              schema:
+                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              example: Hello world!
+          application/xml:
+            schema:
+              type: string
+              example: Hello world!
+        description: Echo payload
+        required: true
+    delete: 
+      tags:
+        - id
+      summary: Delete movie by id
+      description: Delete movie from library by its id
+      operationId: deleteMovieById
+      parameters:
+        - name: id
+          in: path
+          description: The id of a movie that needs to be deleted
+          required: true
+          schema:
+            type: string
+      security:
+        - api_key: []
+        - basic_auth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              $ref: '#/components/headers/ExpiresAfter'
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                response:
+                  value: Hello world!
+            application/xml:
+              schema:
+                type: string
+            text/csv:
+              schema:
+                type: string
+  '/actor': 
+     post:
+      tags:
+        - actor
+      summary: Create an actor
+      description: Create an actor
+      operationId: createActor
+      security:
+        - api_key: []
+        - basic_auth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              $ref: '#/components/headers/ExpiresAfter'
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                response:
+                  value: Hello world!
+            application/xml:
+              schema:
+                type: string
+            text/csv:
+              schema:
+                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              example: Hello world!
+          application/xml:
+            schema:
+              type: string
+              example: Hello world!
+        description: Echo payload
+        required: true
+  '/actor/{id}':
+    get:
+      tags:
+        - actor
+      summary: Get actor by id
+      description: Get an actor by id
+      operationId: getActorById
+      parameters:
+        - name: id
+          in: path
+          description: The name of an actor that needs to be retrieved
+          required: true
+          schema:
+            type: string
+      security:
+        - api_key: []
+        - basic_auth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              $ref: '#/components/headers/ExpiresAfter'
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                response:
+                  value: Hello world!
+            application/xml:
+              schema:
+                type: string
+            text/csv:
+              schema:
+                type: string
+    patch:
+      tags:
+        - actor
+      summary: Update an actor by id
+      description: Update an actor their id
+      operationId: updateActorById
+      parameters:
+        - name: id
+          in: path
+          description: The actor that needs to be updated
+          required: true
+          schema:
+            type: string
+      security:
+        - api_key: []
+        - basic_auth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              $ref: '#/components/headers/ExpiresAfter'
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                response:
+                  value: Hello world!
+            application/xml:
+              schema:
+                type: string
+            text/csv:
+              schema:
+                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              example: Hello world!
+          application/xml:
+            schema:
+              type: string
+              example: Hello world!
+        description: Echo payload
+        required: true
+    delete: 
+      tags:
+        - actor
+      summary: Delete actor by id
+      description: Delete an actor from library by their id
+      operationId: deleteActorById
+      parameters:
+        - name: id
+          in: path
+          description: The actor that needs to be deleted
+          required: true
+          schema:
+            type: string
+      security:
+        - api_key: []
+        - basic_auth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              $ref: '#/components/headers/ExpiresAfter'
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                response:
+                  value: Hello world!
+            application/xml:
+              schema:
+                type: string
+            text/csv:
+              schema:
+                type: string
+components:
+  securitySchemes:
+    main_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: 'http://example.com/api/oauth/dialog'
+          scopes:
+            'read:users': read users info
+            'write:users': modify or remove users
+    api_key:
+      type: apiKey
+      in: header
+      name: api_key
+    basic_auth:
+      type: http
+      scheme: basic
+  schemas:
+    Email:
+      description: User email address
+      type: string
+      format: test
+      example: john.smith@example.com
+    User:
+      type: object
+      properties:
+        username:
+          description: User supplied username
+          type: string
+          minLength: 4
+          example: John78
+        firstName:
+          description: User first name
+          type: string
+          minLength: 1
+          example: John
+        lastName:
+          description: User last name
+          type: string
+          minLength: 1
+          example: Smith
+        email:
+          $ref: '#/components/schemas/Email'
+    Schema:
+      type: object
+      title: Scalars
+      properties:
+        stringProperty:
+          description: Property name's description (type is string)1111
+          type: string
+          example: example
+        readOnlyStringProperty:
+          description: Notice this only appears in the response.
+          type: string
+          readOnly: true
+          example: example
+        writeOnlyStringProperty:
+          description: Notice this only appears in the request.
+          type: string
+          writeOnly: true
+          example: example
+        minLengthString:
+          description: Property name's description (type is string)
+          type: string
+          minLength: 4
+          example: example
+        maxLengthString:
+          description: Property name's description (type is string)
+          type: string
+          maxLength: 140
+          example: example
+        minAndMaxLengthString:
+          description: Property name's description (type is string)
+          type: string
+          minLength: 4
+          maxLength: 140
+          example: example
+        stringEnumValues:
+          description: Property name's description (type is string)
+          type: string
+          enum:
+            - sample
+            - example
+            - specimen
+            - case
+            - instance
+            - illustration
+        stringDateTime:
+          description: 'Property name''s description (type is string, format is date-time)'
+          type: string
+          format: date-time
+        stringDate:
+          description: 'Property name''s description (type is string, format is date-time)'
+          type: string
+          format: date
+        stringEmail:
+          description: 'Property name''s description (type is string, format is email)'
+          type: string
+          format: email
+        stringIpAddressV4:
+          description: 'Property name''s description (type is string, format is ipv4 address)'
+          type: string
+          format: ipv4
+        stringIpAddressV6:
+          description: 'Property name''s description (type is string, format is ipv6 address)'
+          type: string
+          format: ipv6
+        stringPassword:
+          description: 'Property name''s description (type is string, format is password)'
+          type: string
+          format: password
+        stringHostname:
+          description: 'Property name''s description (type is string, format is hostname)'
+          type: string
+          format: hostname
+        stringUri:
+          description: 'Property name''s description (type is string, format is uri)'
+          type: string
+          format: uri
+        stringUuid:
+          description: 'Property name''s description (type is string, format is uuid)'
+          type: string
+          format: uuid
+        numberProperty:
+          description: Property name's description (type is number)
+          type: number
+          example: 8
+        numberFloat:
+          description: 'Property name''s description (type is number, format is float)'
+          type: number
+          format: float
+        numberDouble:
+          description: 'Property name''s description (type is number, format is double)'
+          type: number
+          format: double
+        numberGreaterThanOrEquals:
+          description: Property name's description (type is number)
+          type: number
+          minimum: 5
+        numberGreaterThan:
+          description: Property name's description (type is number)
+          type: number
+        numberLessThan:
+          description: Property name's description (type is number)
+          type: number
+        numberLessThanOrEquals:
+          description: Property name's description (type is number)
+          type: number
+          maximum: 8
+        numberRange:
+          description: Property name's description (type is number)
+          type: number
+          minimum: 5
+          maximum: 8
+        numberRangeExclusiveMaximum:
+          description: Property name's description (type is number)
+          type: number
+        numberRangeExclusiveMinimumAndMaximum:
+          description: Property name's description (type is number)
+          type: number
+        numberMultipleOf:
+          description: Property name's description (type is number)
+          type: number
+          multipleOf: 2
+        integerType:
+          description: Property name's description (type is integer)
+          type: integer
+        integer32bit:
+          description: 'Property name''s description (type is integer, format is int32)'
+          type: integer
+          format: int32
+        integer64bit:
+          description: 'Property name''s description (type is integer, format is int64)'
+          type: integer
+          format: int64
+        booleanProperty:
+          description: Property name's description (type is boolean)
+          type: boolean
+  headers:
+    ExpiresAfter:
+      description: date in UTC when token expires
+      schema:
+        type: string
+        format: date-time
