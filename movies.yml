@@ -23,6 +23,29 @@ tags:
 servers:
   - url: 'http://example.com/api/v1'
 paths:
+  '/movies': 
+    get:
+      tags:
+        - general
+      summary: Get all movies
+      description: |
+        Get all movies
+      operationId: getListAllMovies
+      security:
+        - main_auth:
+            - 'read:users'
+        - api_key: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '403':
+          description: Forbidden
+        '404':
+          description: User not found
   '/movies/genre/{genre}':
     parameters:
       - name: genre
@@ -53,11 +76,8 @@ paths:
           description: Success
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-              example:
-                username: user1
-                email: user@example.com
+             schema:
+                $ref: '#/components/schemas/Genre'
         '403':
           description: Forbidden
         '404':
@@ -93,12 +113,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Schema'
+                $ref: '#/components/schemas/Genre'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Schema'
+              $ref: '#/components/schemas/Genre'
         description: requestBody description
         required: true
     patch:
@@ -120,18 +140,19 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Genre'
         '400':
-          description: Invalid user supplied
+          description: Invalid genre supplied
         '404':
-          description: User not found
+          description: Genre not found
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/Genre'
         description: Updated user object
         required: true
     delete: 
@@ -188,16 +209,7 @@ paths:
           content:
             application/json:
               schema:
-                type: string
-              examples:
-                response:
-                  value: Hello world!
-            application/xml:
-              schema:
-                type: string
-            text/csv:
-              schema:
-                type: string
+                $ref: '#/components/schemas/Movie'
     post:
       tags:
         - name
@@ -228,16 +240,7 @@ paths:
           content:
             application/json:
               schema:
-                type: string
-              examples:
-                response:
-                  value: Hello world!
-            application/xml:
-              schema:
-                type: string
-            text/csv:
-              schema:
-                type: string
+                $ref: '#/components/schemas/Movie'
       requestBody:
         content:
           application/json:
@@ -280,16 +283,7 @@ paths:
           content:
             application/json:
               schema:
-                type: string
-              examples:
-                response:
-                  value: Hello world!
-            application/xml:
-              schema:
-                type: string
-            text/csv:
-              schema:
-                type: string
+                $ref: '#/components/schemas/Movie'
       requestBody:
         content:
           application/json:
@@ -373,16 +367,7 @@ paths:
           content:
             application/json:
               schema:
-                type: string
-              examples:
-                response:
-                  value: Hello world!
-            application/xml:
-              schema:
-                type: string
-            text/csv:
-              schema:
-                type: string
+                $ref: '#/components/schemas/Movie'
     patch:
       tags:
         - id
@@ -413,27 +398,13 @@ paths:
           content:
             application/json:
               schema:
-                type: string
-              examples:
-                response:
-                  value: Hello world!
-            application/xml:
-              schema:
-                type: string
-            text/csv:
-              schema:
-                type: string
+                $ref: '#/components/schemas/Movie'
       requestBody:
         content:
           application/json:
             schema:
-              type: string
-              example: Hello world!
-          application/xml:
-            schema:
-              type: string
-              example: Hello world!
-        description: Echo payload
+              $ref: '#/components/schemas/Movie'
+        description: Movie patch request body
         required: true
     delete: 
       tags:
@@ -466,16 +437,8 @@ paths:
             application/json:
               schema:
                 type: string
-              examples:
-                response:
-                  value: Hello world!
-            application/xml:
-              schema:
-                type: string
-            text/csv:
-              schema:
-                type: string
-  '/actor': 
+              example: 'Successfully deleted'
+  '/movies/actor': 
      post:
       tags:
         - actor
@@ -502,13 +465,7 @@ paths:
                 type: string
               examples:
                 response:
-                  value: Hello world!
-            application/xml:
-              schema:
-                type: string
-            text/csv:
-              schema:
-                type: string
+                 $ref: '#/components/schemas/Movie'
       requestBody:
         content:
           application/json:
@@ -521,7 +478,7 @@ paths:
               example: Hello world!
         description: Echo payload
         required: true
-  '/actor/{id}':
+  '/movies/actor/{id}':
     get:
       tags:
         - actor
@@ -555,7 +512,7 @@ paths:
                 type: string
               examples:
                 response:
-                  value: Hello world!
+                  $ref: '#/components/schemas/Movie'
             application/xml:
               schema:
                 type: string
@@ -592,16 +549,11 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                type: object
               examples:
                 response:
-                  value: Hello world!
-            application/xml:
-              schema:
-                type: string
-            text/csv:
-              schema:
-                type: string
+                  $ref: '#/components/schemas/Actor'
+
       requestBody:
         content:
           application/json:
@@ -672,65 +624,101 @@ components:
       type: http
       scheme: basic
   schemas:
-    Email:
-      description: User email address
-      type: string
-      format: test
-      example: john.smith@example.com
-    User:
+    type: object
+    Movie:
       type: object
+      title: Movie
       properties:
-        username:
-          description: User supplied username
+        name:
+          description: Name of movie
           type: string
           minLength: 4
-          example: John78
-        firstName:
-          description: User first name
+          example: The greatest showman
+        key: 
+          description: Name of movie in kebab case
+          type: string
+          minLength: 4
+          example: the-greatest-showman
+        yearReleased:
+          description: Year the movie was released
+          type: number
+          minLength: 4
+          example: 2022
+        description:
+          description: Description of the movie
+          type: string
+          minLength: 10
+          example: This is a musical 
+        keyWords:
+          description: Keywords can help summarise the feel of the movie
+          type: array
+          items:
+            type: string
+          minLength: 1
+          example: ['musical', 'romance', 'feel-good']
+        actors:
+          description: A list of main actors in the movie
+          type: array
+          items:
+            type: string
+          minLength: 1
+          example: ['Hugh Jackman', 'Zac Efron', 'Zendaya']
+        image:
+          description: An image from the movie
           type: string
           minLength: 1
-          example: John
-        lastName:
-          description: User last name
+          example: 'https://en.wikipedia.org/wiki/The_Greatest_Showman'
+        boxOfficeTotal:
+          description: How much did the movie make in box office?
+          type: number
+          minLength: 1
+          example: 434.9
+        rating:
+          description: This is the rating of the movie
+          type: number
+          minLength: 1
+          example: 4.9
+        trailerUrl:
+          description: A Url to the trailer 
           type: string
           minLength: 1
-          example: Smith
-        email:
-          $ref: '#/components/schemas/Email'
-    Schema:
-      type: object
-      title: Scalars
-      properties:
-        stringProperty:
-          description: Property name's description (type is string)1111
+          example: 'https://en.wikipedia.org/wiki/The_Greatest_Showman'
+    Actor:
+        name:
+          description: Name of the actor
           type: string
-          example: example
-        readOnlyStringProperty:
-          description: Notice this only appears in the response.
+          example: 'Hugh Jackman'
+        dateOfBirth:
+          description: Date of birth of actor
           type: string
-          readOnly: true
-          example: example
-        writeOnlyStringProperty:
-          description: Notice this only appears in the request.
+          format: date-time
+          example: '2022-08-23T06:56:16Z'
+        moviesAppearedIn:
+          description: The movies the actor has appeared in
+          type: array
+          items: 
+            type: object
+            properties: 
+              name: 
+                type: string
+              label: 
+                type: string
+                description: kebab cased name
+          example: [{ name: 'The greatest showman', label: 'the-greatest-showman'}]
+        gender:
+          description: The actor's gender
           type: string
-          writeOnly: true
-          example: example
-        minLengthString:
-          description: Property name's description (type is string)
+          example: male
+        bornIn:
+          description: This is where the actor is from
           type: string
-          minLength: 4
-          example: example
-        maxLengthString:
-          description: Property name's description (type is string)
-          type: string
-          maxLength: 140
-          example: example
-        minAndMaxLengthString:
-          description: Property name's description (type is string)
-          type: string
-          minLength: 4
-          maxLength: 140
-          example: example
+          example: 'Hampshire, United Kindom'
+        awards:
+          description: The awards this actor has recieved
+          type: array
+          items: 
+            type: string
+          example: ['Grammy award 2017', 'Oscar - best actor 2019']
         stringEnumValues:
           description: Property name's description (type is string)
           type: string
@@ -832,6 +820,20 @@ components:
         booleanProperty:
           description: Property name's description (type is boolean)
           type: boolean
+    Genre: 
+      type: object
+      title: Genre
+      properties:
+        name:
+          description: The name of the genre
+          type: string
+          example: 'Comedy'
+        characteristics: 
+          description: What is this genre like
+          type: array
+          items: 
+            type: string
+          example: ['upbeat', 'happy', 'makes you laugh']
   headers:
     ExpiresAfter:
       description: date in UTC when token expires
