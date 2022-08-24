@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "Web accessible API to get, read, update and delete movies",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "author": "Evie Butland evie.butland@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "fastify": "^4.5.2",
     "openapi-backend": "^5.3.0"
   }
 }

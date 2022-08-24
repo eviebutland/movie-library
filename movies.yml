@@ -4,15 +4,16 @@ info:
   title: movie-library.com
   contact:
     email: evie@butland.com
-    url: 'http://example.com/contact'
+    url: http://example.com/contact
   license:
     name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-  description: |
-    This is a free web accessible API that allows you to get all information about a movie
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: >
+    This is a free web accessible API that allows you to get all information
+    about a movie
 externalDocs:
   description: Find out how to create a GitHub repo for your OpenAPI definition.
-  url: 'https://github.com/Rebilly/generator-openapi-repo'
+  url: https://github.com/Rebilly/generator-openapi-repo
 tags:
   - name: genre
     description: Operations related to movie genres.
@@ -21,9 +22,9 @@ tags:
   - name: id
     description: Operations relates to movie id's.
 servers:
-  - url: 'http://example.com/api/v1'
+  - url: http://example.com/api/v1
 paths:
-  '/movies': 
+  /movies:
     get:
       tags:
         - general
@@ -33,7 +34,7 @@ paths:
       operationId: getListAllMovies
       security:
         - main_auth:
-            - 'read:users'
+            - read:users
         - api_key: []
       responses:
         '200':
@@ -46,7 +47,7 @@ paths:
           description: Forbidden
         '404':
           description: User not found
-  '/movies/genre/{genre}':
+  /movies/genre/{genre}:
     parameters:
       - name: genre
         in: query
@@ -69,14 +70,14 @@ paths:
             type: string
       security:
         - main_auth:
-            - 'read:users'
+            - read:users
         - api_key: []
       responses:
         '200':
           description: Success
           content:
             application/json:
-             schema:
+              schema:
                 $ref: '#/components/schemas/Genre'
         '403':
           description: Forbidden
@@ -136,7 +137,7 @@ paths:
             type: string
       security:
         - main_auth:
-            - 'write:users'
+            - write:users
       responses:
         '200':
           description: OK
@@ -155,7 +156,7 @@ paths:
               $ref: '#/components/schemas/Genre'
         description: Updated user object
         required: true
-    delete: 
+    delete:
       tags:
         - genre
       summary: Deletes a genre for a movie
@@ -170,7 +171,7 @@ paths:
             type: string
       security:
         - main_auth:
-            - 'write:users'
+            - write:users
       responses:
         '200':
           description: OK
@@ -178,7 +179,7 @@ paths:
           description: Invalid user supplied
         '404':
           description: User not found
-  '/movies/name/{name}':
+  /movies/name/{name}:
     get:
       tags:
         - name
@@ -296,7 +297,7 @@ paths:
               example: Hello world!
         description: Echo payload
         required: true
-    delete: 
+    delete:
       tags:
         - name
       summary: Delete movie by name
@@ -336,7 +337,7 @@ paths:
             text/csv:
               schema:
                 type: string
-  '/movies/{id}':
+  /movies/{id}:
     get:
       tags:
         - id
@@ -406,7 +407,7 @@ paths:
               $ref: '#/components/schemas/Movie'
         description: Movie patch request body
         required: true
-    delete: 
+    delete:
       tags:
         - id
       summary: Delete movie by id
@@ -437,9 +438,9 @@ paths:
             application/json:
               schema:
                 type: string
-              example: 'Successfully deleted'
-  '/movies/actor': 
-     post:
+              example: Successfully deleted
+  /movies/actor:
+    post:
       tags:
         - actor
       summary: Create an actor
@@ -465,7 +466,7 @@ paths:
                 type: string
               examples:
                 response:
-                 $ref: '#/components/schemas/Movie'
+                  $ref: '#/components/schemas/Movie'
       requestBody:
         content:
           application/json:
@@ -478,7 +479,7 @@ paths:
               example: Hello world!
         description: Echo payload
         required: true
-  '/movies/actor/{id}':
+  /movies/actor/{id}:
     get:
       tags:
         - actor
@@ -553,7 +554,6 @@ paths:
               examples:
                 response:
                   $ref: '#/components/schemas/Actor'
-
       requestBody:
         content:
           application/json:
@@ -566,7 +566,7 @@ paths:
               example: Hello world!
         description: Echo payload
         required: true
-    delete: 
+    delete:
       tags:
         - actor
       summary: Delete actor by id
@@ -607,34 +607,15 @@ paths:
               schema:
                 type: string
 components:
-  securitySchemes:
-    main_auth:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: 'http://example.com/api/oauth/dialog'
-          scopes:
-            'read:users': read users info
-            'write:users': modify or remove users
-    api_key:
-      type: apiKey
-      in: header
-      name: api_key
-    basic_auth:
-      type: http
-      scheme: basic
   schemas:
-    type: object
     Movie:
-      type: object
-      title: Movie
       properties:
         name:
           description: Name of movie
           type: string
           minLength: 4
           example: The greatest showman
-        key: 
+        key:
           description: Name of movie in kebab case
           type: string
           minLength: 4
@@ -648,26 +629,32 @@ components:
           description: Description of the movie
           type: string
           minLength: 10
-          example: This is a musical 
+          example: This is a musical
         keyWords:
           description: Keywords can help summarise the feel of the movie
           type: array
           items:
             type: string
           minLength: 1
-          example: ['musical', 'romance', 'feel-good']
+          example:
+            - musical
+            - romance
+            - feel-good
         actors:
           description: A list of main actors in the movie
           type: array
           items:
             type: string
           minLength: 1
-          example: ['Hugh Jackman', 'Zac Efron', 'Zendaya']
+          example:
+            - Hugh Jackman
+            - Zac Efron
+            - Zendaya
         image:
           description: An image from the movie
           type: string
           minLength: 1
-          example: 'https://en.wikipedia.org/wiki/The_Greatest_Showman'
+          example: https://en.wikipedia.org/wiki/The_Greatest_Showman
         boxOfficeTotal:
           description: How much did the movie make in box office?
           type: number
@@ -679,32 +666,35 @@ components:
           minLength: 1
           example: 4.9
         trailerUrl:
-          description: A Url to the trailer 
+          description: A Url to the trailer
           type: string
           minLength: 1
-          example: 'https://en.wikipedia.org/wiki/The_Greatest_Showman'
+          example: https://en.wikipedia.org/wiki/The_Greatest_Showman
     Actor:
+      type: object
+      properties:
         name:
           description: Name of the actor
           type: string
-          example: 'Hugh Jackman'
+          example: Hugh Jackman
         dateOfBirth:
           description: Date of birth of actor
           type: string
-          format: date-time
           example: '2022-08-23T06:56:16Z'
         moviesAppearedIn:
           description: The movies the actor has appeared in
           type: array
-          items: 
+          items:
             type: object
-            properties: 
-              name: 
+            properties:
+              name:
                 type: string
-              label: 
+              label:
                 type: string
                 description: kebab cased name
-          example: [{ name: 'The greatest showman', label: 'the-greatest-showman'}]
+          example:
+            - name: The greatest showman
+              label: the-greatest-showman
         gender:
           description: The actor's gender
           type: string
@@ -712,131 +702,52 @@ components:
         bornIn:
           description: This is where the actor is from
           type: string
-          example: 'Hampshire, United Kindom'
+          example: Hampshire, United Kindom
         awards:
           description: The awards this actor has recieved
           type: array
-          items: 
+          items:
             type: string
-          example: ['Grammy award 2017', 'Oscar - best actor 2019']
-        stringEnumValues:
-          description: Property name's description (type is string)
-          type: string
-          enum:
-            - sample
-            - example
-            - specimen
-            - case
-            - instance
-            - illustration
-        stringDateTime:
-          description: 'Property name''s description (type is string, format is date-time)'
-          type: string
-          format: date-time
-        stringDate:
-          description: 'Property name''s description (type is string, format is date-time)'
-          type: string
-          format: date
-        stringEmail:
-          description: 'Property name''s description (type is string, format is email)'
-          type: string
-          format: email
-        stringIpAddressV4:
-          description: 'Property name''s description (type is string, format is ipv4 address)'
-          type: string
-          format: ipv4
-        stringIpAddressV6:
-          description: 'Property name''s description (type is string, format is ipv6 address)'
-          type: string
-          format: ipv6
-        stringPassword:
-          description: 'Property name''s description (type is string, format is password)'
-          type: string
-          format: password
-        stringHostname:
-          description: 'Property name''s description (type is string, format is hostname)'
-          type: string
-          format: hostname
-        stringUri:
-          description: 'Property name''s description (type is string, format is uri)'
-          type: string
-          format: uri
-        stringUuid:
-          description: 'Property name''s description (type is string, format is uuid)'
-          type: string
-          format: uuid
-        numberProperty:
-          description: Property name's description (type is number)
-          type: number
-          example: 8
-        numberFloat:
-          description: 'Property name''s description (type is number, format is float)'
-          type: number
-          format: float
-        numberDouble:
-          description: 'Property name''s description (type is number, format is double)'
-          type: number
-          format: double
-        numberGreaterThanOrEquals:
-          description: Property name's description (type is number)
-          type: number
-          minimum: 5
-        numberGreaterThan:
-          description: Property name's description (type is number)
-          type: number
-        numberLessThan:
-          description: Property name's description (type is number)
-          type: number
-        numberLessThanOrEquals:
-          description: Property name's description (type is number)
-          type: number
-          maximum: 8
-        numberRange:
-          description: Property name's description (type is number)
-          type: number
-          minimum: 5
-          maximum: 8
-        numberRangeExclusiveMaximum:
-          description: Property name's description (type is number)
-          type: number
-        numberRangeExclusiveMinimumAndMaximum:
-          description: Property name's description (type is number)
-          type: number
-        numberMultipleOf:
-          description: Property name's description (type is number)
-          type: number
-          multipleOf: 2
-        integerType:
-          description: Property name's description (type is integer)
-          type: integer
-        integer32bit:
-          description: 'Property name''s description (type is integer, format is int32)'
-          type: integer
-          format: int32
-        integer64bit:
-          description: 'Property name''s description (type is integer, format is int64)'
-          type: integer
-          format: int64
-        booleanProperty:
-          description: Property name's description (type is boolean)
-          type: boolean
-    Genre: 
+          example:
+            - Grammy award 2017
+            - Oscar - best actor 2019
+    Genre:
       type: object
       title: Genre
       properties:
         name:
           description: The name of the genre
           type: string
-          example: 'Comedy'
-        characteristics: 
+          example: Comedy
+        characteristics:
           description: What is this genre like
           type: array
-          items: 
+          items:
             type: string
-          example: ['upbeat', 'happy', 'makes you laugh']
+          example:
+            - upbeat
+            - happy
+            - makes you laugh
+  securitySchemes:
+    main_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://example.com/api/oauth/dialog
+          scopes:
+            read:users: read users info
+            write:users: modify or remove users
+    api_key:
+      type: apiKey
+      in: header
+      name: api_key
+    basic_auth:
+      type: http
+      scheme: basic
+  
   headers:
     ExpiresAfter:
       description: date in UTC when token expires
       schema:
         type: string
-        format: date-time
+        
