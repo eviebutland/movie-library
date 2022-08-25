@@ -1,46 +1,58 @@
-import { OpenAPIBackend, OpenAPIRouter } from 'openapi-backend';
-const api = new OpenAPIBackend({
-    definition: './movies.yml',
-    strict: true,
-    quick: false,
-    validate: true,
-    ignoreTrailingSlashes: true,
-    // ajvOpts: { unknownFormats: true }, // ajv is validation
-})
+import { OpenAPIBackend, OpenAPIRouter } from 'openapi-backend'
+import Fastify from 'fastify'
+import { routes, handlers } from './routes/index.js'
 
-//   api.register({
-//     getListAllMovies:(c, req, res) => { 
-//         console.log(c)
-
-//         res.status(200).json({ result: 'ok' }
-//     )}
-//   })
-
-api.register('getListAllMovies', function (c, req, res) {
-    console.log(req)
-    return {
-        status: 200,
-        body: JSON.stringify(['pet1', 'pet2']),
-    }
+export const api = new OpenAPIBackend({
+  definition: './movies.yml',
+  strict: true,
+  quick: false,
+  validate: true,
+  ignoreTrailingSlashes: true
+  //   handlers: routes ->  TODO: MAKE OPENAPI AWARE OF THE ROUTE HANDLER FUNCTIONS
 })
 
 api.init()
 
-const router = new OpenAPIRouter({
-    definition: './movies.yml',
-    apiRoot: '/',
-    ignoreTrailingSlashes: true,
+api.register('getListAllMovies', handlers.getListAllMovies)
+
+const fastify = Fastify({
+  logger: {
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        translateTime: 'HH:MM:ss Z',
+        ignore: 'pid,hostname'
+      }
+    }
+  }
 })
 
+// TODO connect to database first, then register the routes
+fastify.register(routes)
 
+// const router = new OpenAPIRouter({
+//   definition: './movies.yml',
+//   apiRoot: '/',
+//   ignoreTrailingSlashes: true
+// })
 
-const parsedRequest = router.parseRequest({
-method: 'GET',
-path: '/',
-headers: {
-    accept: 'application/json',
-    // cookie: 'token=abc123;path=/',
-    },
-}, router.getOperation('getListAllMovies'));
-  
-console.log(parsedRequest, 'get');
+// const parsedRequest = router.parseRequest(
+//   {
+//     method: 'GET',
+//     path: '/',
+//     headers: {
+//       accept: 'application/json'
+//       // cookie: 'token=abc123;path=/',
+//     }
+//   },
+//   router.getOperation('getListAllMovies')
+// )
+
+fastify.listen({ port: 8000, host: '0.0.0.0' }, (err, address) => {
+  if (err) {
+    fastify.log.error(err)
+    process.exit(1)
+  }
+
+  //   fastify.log.info(`server listening on ${address}`)
+})
