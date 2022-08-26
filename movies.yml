@@ -47,6 +47,37 @@ paths:
           description: Forbidden
         '404':
           description: User not found
+    post:
+      tags:
+        - general
+      summary: Create a list of movies
+      description: Create a list of movies to add to database for seeding
+      operationId: createListOfMovies
+      security:
+        - api_key: []
+        - basic_auth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Rate-Limit:
+              description: Calls per hour allowed by the user.
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              $ref: '#/components/headers/ExpiresAfter'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+        description: requestBody description
+        required: true
   /movies/genre/{genre}:
     parameters:
       - name: genre

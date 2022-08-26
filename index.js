@@ -1,6 +1,7 @@
 import { OpenAPIBackend, OpenAPIRouter } from 'openapi-backend'
 import Fastify from 'fastify'
 import { routes, handlers } from './routes/index.js'
+import fastifyMongodb from '@fastify/mongodb'
 
 export const api = new OpenAPIBackend({
   definition: './movies.yml',
@@ -25,6 +26,13 @@ const fastify = Fastify({
       }
     }
   }
+})
+
+// Connect to database
+fastify.register(fastifyMongodb, {
+  // Close the connection when the app stops
+  forceClose: true,
+  url: 'mongodb+srv://evie-b-mongo:5EnKzNIhwHYVEl5H@aws-movie-library-clust.demazqw.mongodb.net/test'
 })
 
 // TODO connect to database first, then register the routes
