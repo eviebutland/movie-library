@@ -3,6 +3,9 @@ import Fastify from 'fastify'
 import { routes, handlers } from './routes/index.js'
 import fastifyMongodb from '@fastify/mongodb'
 
+import dotenv from 'dotenv'
+dotenv.config({ path: 'env.local' })
+
 export const api = new OpenAPIBackend({
   definition: './movies.yml',
   strict: true,
@@ -32,7 +35,7 @@ const fastify = Fastify({
 fastify.register(fastifyMongodb, {
   // Close the connection when the app stops
   forceClose: true,
-  url: 'mongodb+srv://evie-b-mongo:5EnKzNIhwHYVEl5H@aws-movie-library-clust.demazqw.mongodb.net/test'
+  url: `mongodb+srv://${process.env.MONGODB_ATLAS_CLUSTER_USERNAME}:${process.env.MONGODB_ATLAS_CLUSTER_PASSWORD}@aws-movie-library-clust.demazqw.mongodb.net/test`
 })
 
 // TODO connect to database first, then register the routes
