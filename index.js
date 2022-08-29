@@ -1,6 +1,6 @@
-import { OpenAPIBackend, OpenAPIRouter } from 'openapi-backend'
+import { OpenAPIBackend } from 'openapi-backend'
 import Fastify from 'fastify'
-import { routes, handlers } from './routes/index.js'
+import { routes, handlers, responses } from './routes/index.js'
 import fastifyMongodb from '@fastify/mongodb'
 import schema from './schema/openapi.json' assert { type: 'json' }
 import dotenv from 'dotenv'
@@ -12,13 +12,12 @@ export const api = new OpenAPIBackend({
   strict: true,
   quick: false,
   validate: true,
-  ignoreTrailingSlashes: true
-  //   handlers: routes ->  TODO: MAKE OPENAPI AWARE OF THE ROUTE HANDLER FUNCTIONS
+  ignoreTrailingSlashes: true,
+  handlers,
+  apiRoot: '/movies'
 })
 
 api.init()
-
-api.register('getListAllMovies', handlers.getListAllMovies)
 
 const fastify = Fastify({
   logger: {
@@ -39,32 +38,13 @@ fastify.register(fastifyMongodb, {
   url: `mongodb+srv://${process.env.MONGODB_ATLAS_CLUSTER_USERNAME}:${process.env.MONGODB_ATLAS_CLUSTER_PASSWORD}@aws-movie-library-clust.demazqw.mongodb.net/movie-library`
 })
 
-// TODO connect to database first, then register the routes
 fastify.register(routes)
 
-// const router = new OpenAPIRouter({
-//   definition: './movies.yml',
-//   apiRoot: '/',
-//   ignoreTrailingSlashes: true
-// })
-
-// const parsedRequest = router.parseRequest(
-//   {
-//     method: 'GET',
-//     path: '/',
-//     headers: {
-//       accept: 'application/json'
-//       // cookie: 'token=abc123;path=/',
-//     }
-//   },
-//   router.getOperation('getListAllMovies')
-// )
+api.register('validationFail', responses.validationFailHandler)
 
 fastify.listen({ port: 8000, host: '0.0.0.0' }, (err, address) => {
   if (err) {
     fastify.log.error(err)
     process.exit(1)
   }
-
-  //   fastify.log.info(`server listening on ${address}`)
 })
