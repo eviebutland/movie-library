@@ -2,12 +2,13 @@ import { OpenAPIBackend, OpenAPIRouter } from 'openapi-backend'
 import Fastify from 'fastify'
 import { routes, handlers } from './routes/index.js'
 import fastifyMongodb from '@fastify/mongodb'
-
+import schema from './schema/openapi.json' assert { type: 'json' }
 import dotenv from 'dotenv'
+
 dotenv.config({ path: 'env.local' })
 
 export const api = new OpenAPIBackend({
-  definition: './movies.yml',
+  definition: schema,
   strict: true,
   quick: false,
   validate: true,
