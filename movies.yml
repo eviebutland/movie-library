@@ -46,7 +46,11 @@ paths:
         '403':
           description: Forbidden
         '404':
-          description: User not found
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
     post:
       tags:
         - general
@@ -71,6 +75,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Movie'
+        '400':
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
       requestBody:
         content:
           application/json:
@@ -113,7 +123,11 @@ paths:
         '403':
           description: Forbidden
         '404':
-          description: User not found
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
     post:
       tags:
         - genre
@@ -146,6 +160,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Genre'
+        '400':
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
       requestBody:
         content:
           application/json:
@@ -177,9 +197,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/Genre'
         '400':
-          description: Invalid genre supplied
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
         '404':
-          description: Genre not found
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
       requestBody:
         content:
           application/json:
@@ -207,9 +235,17 @@ paths:
         '200':
           description: OK
         '400':
-          description: Invalid user supplied
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
         '404':
-          description: User not found
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
   /movies/name/{name}:
     get:
       tags:
@@ -242,6 +278,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Movie'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
     post:
       tags:
         - name
@@ -273,6 +315,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Movie'
+        '400':
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
       requestBody:
         content:
           application/json:
@@ -316,6 +364,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Movie'
+        '400':
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
       requestBody:
         content:
           application/json:
@@ -361,13 +421,14 @@ paths:
                 type: string
               examples:
                 response:
-                  value: Hello world!
-            application/xml:
+                  value: Successfully deleted
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
               schema:
-                type: string
-            text/csv:
-              schema:
-                type: string
+                $ref: '#/components/schemas/NotFound' 
+                
   /movies/{id}:
     get:
       tags:
@@ -400,6 +461,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Movie'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
     patch:
       tags:
         - id
@@ -431,6 +498,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Movie'
+        '400':
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
       requestBody:
         content:
           application/json:
@@ -470,6 +549,12 @@ paths:
               schema:
                 type: string
               example: Successfully deleted
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
   /movies/actor:
     post:
       tags:
@@ -498,6 +583,12 @@ paths:
               examples:
                 response:
                   $ref: '#/components/schemas/Movie'
+        '400':
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
       requestBody:
         content:
           application/json:
@@ -545,12 +636,12 @@ paths:
               examples:
                 response:
                   $ref: '#/components/schemas/Movie'
-            application/xml:
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
               schema:
-                type: string
-            text/csv:
-              schema:
-                type: string
+                $ref: '#/components/schemas/NotFound'
     patch:
       tags:
         - actor
@@ -585,6 +676,18 @@ paths:
               examples:
                 response:
                   $ref: '#/components/schemas/Actor'
+        '400':
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
       requestBody:
         content:
           application/json:
@@ -631,12 +734,12 @@ paths:
               examples:
                 response:
                   value: Hello world!
-            application/xml:
+        '404':
+          description: NOT_FOUND
+          content:
+            application/json:
               schema:
-                type: string
-            text/csv:
-              schema:
-                type: string
+                $ref: '#/components/schemas/NotFound'
 components:
   schemas:
     Movie:
@@ -759,6 +862,25 @@ components:
             - upbeat
             - happy
             - makes you laugh
+    BadRequest: 
+      properties:
+          code:
+            type: integer
+            description: The error code
+            example: 400
+          error:
+            type: string
+            description: The error.
+    NotFound: 
+      properties:
+          code:
+            type: integer
+            description: The error code
+            example: 404
+          error:
+            type: string
+            description: The error.
+            example: Could not be found
   securitySchemes:
     main_auth:
       type: oauth2

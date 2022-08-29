@@ -35,7 +35,7 @@ const fastify = Fastify({
 fastify.register(fastifyMongodb, {
   // Close the connection when the app stops
   forceClose: true,
-  url: `mongodb+srv://${process.env.MONGODB_ATLAS_CLUSTER_USERNAME}:${process.env.MONGODB_ATLAS_CLUSTER_PASSWORD}@aws-movie-library-clust.demazqw.mongodb.net/test`
+  url: `mongodb+srv://${process.env.MONGODB_ATLAS_CLUSTER_USERNAME}:${process.env.MONGODB_ATLAS_CLUSTER_PASSWORD}@aws-movie-library-clust.demazqw.mongodb.net/movie-library`
 })
 
 // TODO connect to database first, then register the routes

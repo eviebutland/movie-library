@@ -11,7 +11,7 @@ export async function getListAllMovies(request, reply) {
     reply.send(movies.toArray())
   })
 
-  return movies.toArray() // 500 error as this is in wrong format
+  return movies.find().toArray()
 
   // request.log.info('Some info about the current request', this.mongo)
   // return { hello: 'World!' }
