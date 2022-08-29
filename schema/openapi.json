@@ -649,7 +649,11 @@
                 "schema": {
                   "type": "string"
                 },
-                "value": "Successfully deleted"
+                "examples": {
+                  "response": {
+                    "value": "Successfully deleted"
+                  }
+                }
               }
             }
           },
@@ -1165,6 +1169,133 @@
   },
   "components": {
     "schemas": {
+      "Movie": {
+        "type": "object",
+        "required": ["name", "key", "yearReleased"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of movie",
+            "minLength": 4,
+            "example": "The greatest showman"
+          },
+          "key": {
+            "description": "Name of movie in kebab case",
+            "type": "string",
+            "minLength": 4,
+            "example": "the-greatest-showman"
+          },
+          "yearReleased": {
+            "description": "Year the movie was released",
+            "type": "number",
+            "minLength": 4,
+            "example": 2022
+          },
+          "description": {
+            "description": "Description of the movie",
+            "type": "string",
+            "minLength": 10,
+            "example": "This is a musical"
+          },
+          "keyWords": {
+            "description": "Keywords can help summarise the feel of the movie",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minLength": 1,
+            "example": ["musical", "romance", "feel-good"]
+          },
+          "actors": {
+            "description": "A list of main actors in the movie",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minLength": 1,
+            "example": ["Hugh Jackman", "Zac Efron", "Zendaya"]
+          },
+          "image": {
+            "description": "An image from the movie",
+            "type": "string",
+            "minLength": 1,
+            "example": "https://en.wikipedia.org/wiki/The_Greatest_Showman"
+          },
+          "boxOfficeTotal": {
+            "description": "How much did the movie make in box office?",
+            "type": "number",
+            "minLength": 1,
+            "example": 434.9
+          },
+          "rating": {
+            "description": "This is the rating of the movie",
+            "type": "number",
+            "minLength": 1,
+            "example": 4.9
+          },
+          "trailerUrl": {
+            "description": "A Url to the trailer",
+            "type": "string",
+            "minLength": 1,
+            "example": "https://en.wikipedia.org/wiki/The_Greatest_Showman"
+          }
+        }
+      },
+      "Actor": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Name of the actor",
+            "type": "string",
+            "example": "Hugh Jackman"
+          },
+          "dateOfBirth": {
+            "description": "Date of birth of actor",
+            "type": "string",
+            "example": "2022-08-23T06:56:16Z"
+          },
+          "moviesAppearedIn": {
+            "description": "The movies the actor has appeared in",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string",
+                  "description": "kebab cased name"
+                }
+              }
+            },
+            "example": [
+              {
+                "name": "The greatest showman",
+                "label": "the-greatest-showman"
+              }
+            ]
+          },
+          "gender": {
+            "description": "The actor's gender",
+            "type": "string",
+            "example": "male"
+          },
+          "bornIn": {
+            "description": "This is where the actor is from",
+            "type": "string",
+            "example": "Hampshire, United Kindom"
+          },
+          "awards": {
+            "description": "The awards this actor has recieved",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": ["Grammy award 2017", "Oscar - best actor 2019"]
+          }
+        }
+      },
       "Genre": {
         "type": "object",
         "title": "Genre",
