@@ -137,6 +137,67 @@
         }
       }
     },
+    "/movies/genre": {
+      "post": {
+        "tags": ["genre"],
+        "summary": "Create a new genre",
+        "description": "Operation description **markdown**.\n",
+        "operationId": "createGenre",
+        "security": [
+          {
+            "api_key": []
+          },
+          {
+            "basic_auth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Rate-Limit": {
+                "description": "Calls per hour allowed by the user.",
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "X-Expires-After": {
+                "$ref": "#/components/headers/ExpiresAfter"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Genre"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Genre"
+              }
+            }
+          },
+          "description": "requestBody description",
+          "required": true
+        }
+      }
+    },
     "/movies/genre/{genre}": {
       "parameters": [
         {
@@ -198,76 +259,7 @@
           }
         }
       },
-      "post": {
-        "tags": ["genre"],
-        "summary": "Create a new genre",
-        "description": "Operation description **markdown**.\n",
-        "operationId": "createGenre",
-        "parameters": [
-          {
-            "name": "genre",
-            "in": "path",
-            "description": "Create a new genre",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "security": [
-          {
-            "api_key": []
-          },
-          {
-            "basic_auth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "X-Rate-Limit": {
-                "description": "Calls per hour allowed by the user.",
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              },
-              "X-Expires-After": {
-                "$ref": "#/components/headers/ExpiresAfter"
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Genre"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "BAD_REQUEST",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BadRequest"
-                }
-              }
-            }
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Genre"
-              }
-            }
-          },
-          "description": "requestBody description",
-          "required": true
-        }
-      },
+
       "patch": {
         "tags": ["genre"],
         "summary": "Updates the list of movies",

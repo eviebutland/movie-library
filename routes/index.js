@@ -1,7 +1,6 @@
-import { getListAllMovies } from './movies/get.js'
-import { createListOfMovies } from './movies/post.js'
-import { getListMoviesByGenre } from './genres/get.js'
-import { getAllActors } from './actors/get.js'
+import { getListAllMovies, createListOfMovies } from './movies/index.js'
+import { getListMoviesByGenre, createGenre } from './genres/index.js'
+import { getAllActors } from './actors/index.js'
 
 export async function routes(fastify, options) {
   // General
@@ -10,6 +9,7 @@ export async function routes(fastify, options) {
 
   // Genre
   fastify.get('/movies/genres/:genre', getListMoviesByGenre)
+  fastify.post('/movies/genres', createGenre)
 
   // Actor
   fastify.get('/movies/actors', getAllActors)
