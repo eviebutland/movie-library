@@ -1,15 +1,26 @@
-import { getListAllMovies, createListOfMovies } from './movies/index.js'
-import { getListMoviesByGenre, createGenre } from './genres/index.js'
+import { getListAllMovies, createListOfMovies, createMovie } from './movies/index.js'
+import { getListMoviesByGenre, createGenre, updateGenre } from './genres/index.js'
 import { getAllActors } from './actors/index.js'
 
 export async function routes(fastify, options) {
   // General
   fastify.get('/movies', getListAllMovies)
-  fastify.post('/movies', createListOfMovies)
+  fastify.post('/movies/list', createListOfMovies)
+  fastify.post('/movies', createMovie)
 
   // Genre
-  fastify.get('/movies/genres/:genre', getListMoviesByGenre)
+  // fastify.patch('/movies/:genre', updateMovieGenreList)
   fastify.post('/movies/genres', createGenre)
+  fastify.get('/movies/genres/:genre', getListMoviesByGenre)
+  fastify.patch(
+    '/movies/genres/:genre',
+    updateGenre
+    // {
+    //   schema: {
+    //     body: './schema/openapi.json'
+    //   }
+    // }
+  )
 
   // Actor
   fastify.get('/movies/actors', getAllActors)

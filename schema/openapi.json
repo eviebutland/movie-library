@@ -79,6 +79,67 @@
       },
       "post": {
         "tags": ["general"],
+        "summary": "Create a movie",
+        "description": "Create a single movie to add to database",
+        "operationId": "createMovie",
+        "security": [
+          {
+            "api_key": []
+          },
+          {
+            "basic_auth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Rate-Limit": {
+                "description": "Calls per hour allowed by the user.",
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "X-Expires-After": {
+                "$ref": "#/components/headers/ExpiresAfter"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Movie"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD_REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Movie"
+              }
+            }
+          },
+          "description": "requestBody description",
+          "required": true
+        }
+      }
+    },
+    "/movies/list": {
+      "post": {
+        "tags": ["general"],
         "summary": "Create a list of movies",
         "description": "Create a list of movies to add to database for seeding",
         "operationId": "createListOfMovies",
@@ -259,12 +320,11 @@
           }
         }
       },
-
       "patch": {
         "tags": ["genre"],
-        "summary": "Updates the list of movies",
+        "summary": "Updates the genre",
         "description": "This can only be done by the logged in user.",
-        "operationId": "updateMovieGenreList",
+        "operationId": "updatGenre",
         "parameters": [
           {
             "name": "genre",
@@ -1271,6 +1331,11 @@
             "type": "number",
             "minLength": 1,
             "example": 434.9
+          },
+          "genre": {
+            "description": "Genre of the movie",
+            "type": "string",
+            "example": "Comedy"
           },
           "rating": {
             "description": "This is the rating of the movie",

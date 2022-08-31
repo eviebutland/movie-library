@@ -1,4 +1,4 @@
 import { getListAllMovies } from './get.js'
-import { createListOfMovies } from './post.js'
+import { createListOfMovies, createMovie } from './post.js'
 
-export { createListOfMovies, getListAllMovies }
+export { createListOfMovies, getListAllMovies, createMovie }
