@@ -19,3 +19,10 @@ export async function getListMoviesByGenre(request, reply) {
     reply.code(500).send(error)
   }
 }
+
+export async function getAllGenres(request, reply) {
+  const genreCollection = this.mongo.db.collection('genres')
+  const allGenres = await genreCollection.find().toArray()
+
+  reply.code(200).send({ genres: allGenres, total: allGenres.length })
+}

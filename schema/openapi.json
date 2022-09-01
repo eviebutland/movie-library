@@ -257,6 +257,45 @@
           "description": "requestBody description",
           "required": true
         }
+      },
+      "get": {
+        "tags": ["genre"],
+        "summary": "Get all genres",
+        "description": "Get all genres",
+        "operationId": "getAllGenres",
+        "security": [
+          {
+            "main_auth": ["read:users"]
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Genre"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/movies/genre/{genre}": {

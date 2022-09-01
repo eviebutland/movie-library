@@ -1,5 +1,5 @@
 import { getListAllMovies, createListOfMovies, createMovie } from './movies/index.js'
-import { getListMoviesByGenre, createGenre, updateGenre } from './genres/index.js'
+import { getListMoviesByGenre, getAllGenres, createGenre, updateGenre, deleteGenre } from './genres/index.js'
 import { getAllActors } from './actors/index.js'
 
 export async function routes(fastify, options) {
@@ -9,9 +9,10 @@ export async function routes(fastify, options) {
   fastify.post('/movies', createMovie)
 
   // Genre
-  // fastify.patch('/movies/:genre', updateMovieGenreList)
   fastify.post('/movies/genres', createGenre)
+  fastify.get('/movies/genres', getAllGenres)
   fastify.get('/movies/genres/:genre', getListMoviesByGenre)
+  fastify.delete('/movies/genres/:genre', deleteGenre)
   fastify.patch(
     '/movies/genres/:genre',
     updateGenre
