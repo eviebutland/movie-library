@@ -363,7 +363,7 @@
         "tags": ["genre"],
         "summary": "Updates the genre",
         "description": "This can only be done by the logged in user.",
-        "operationId": "updatGenre",
+        "operationId": "updateGenre",
         "parameters": [
           {
             "name": "genre",
@@ -477,7 +477,7 @@
         "tags": ["name"],
         "summary": "Get movie by name",
         "description": "Get movie from library by its name",
-        "operationId": "getMovieByName",
+        "operationId": "getMoviebyName",
         "parameters": [
           {
             "name": "name",
@@ -530,83 +530,6 @@
               }
             }
           }
-        }
-      },
-      "post": {
-        "tags": ["name"],
-        "summary": "Create movie by name",
-        "description": "Create movie from library by its name",
-        "operationId": "createMovieByName",
-        "parameters": [
-          {
-            "name": "name",
-            "in": "path",
-            "description": "The name of a movie that needs to be create",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "security": [
-          {
-            "api_key": []
-          },
-          {
-            "basic_auth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "X-Rate-Limit": {
-                "description": "calls per hour allowed by the user",
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              },
-              "X-Expires-After": {
-                "$ref": "#/components/headers/ExpiresAfter"
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Movie"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "BAD_REQUEST",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BadRequest"
-                }
-              }
-            }
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "string",
-                "example": "Hello world!"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "type": "string",
-                "example": "Hello world!"
-              }
-            }
-          },
-          "description": "Echo payload",
-          "required": true
         }
       },
       "patch": {

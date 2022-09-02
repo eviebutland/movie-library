@@ -1,4 +1,11 @@
-import { getListAllMovies, createListOfMovies, createMovie } from './movies/index.js'
+import {
+  getListAllMovies,
+  getMoviebyName,
+  createListOfMovies,
+  createMovie,
+  updateMovieByName,
+  deleteMovieByName
+} from './movies/index.js'
 import { getListMoviesByGenre, getAllGenres, createGenre, updateGenre, deleteGenre } from './genres/index.js'
 import { getAllActors } from './actors/index.js'
 
@@ -7,6 +14,11 @@ export async function routes(fastify, options) {
   fastify.get('/movies', getListAllMovies)
   fastify.post('/movies/list', createListOfMovies)
   fastify.post('/movies', createMovie)
+
+  // By name
+  fastify.get('/movies/name/:name', getMoviebyName)
+  fastify.patch('/movies/name/:name', updateMovieByName)
+  fastify.delete('/movies/name/:name', deleteMovieByName)
 
   // Genre
   fastify.post('/movies/genres', createGenre)
@@ -35,7 +47,17 @@ function validationFailHandler(c, req, res) {
 
 export const handlers = {
   getListAllMovies,
-  createListOfMovies
+  getMoviebyName,
+  createListOfMovies,
+  createMovie,
+  updateMovieByName,
+  deleteMovieByName,
+  getListMoviesByGenre,
+  getAllGenres,
+  createGenre,
+  updateGenre,
+  deleteGenre,
+  getAllActors
 }
 
 export const responses = {
