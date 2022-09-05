@@ -28,3 +28,22 @@ export async function updateMovieByName(request, reply) {
     reply.code(404).send({ message: `Could not find a match for '${request.params.name}'` })
   }
 }
+
+export async function updateMovieById(request, reply) {
+  const movieCollection = this.mongo.db.collection('movies')
+
+  const id = this.mongo.ObjectId(request.params.id)
+  try {
+    const movieToUpdate = await movieCollection.findOne({ _id: id })
+
+    if (movieToUpdate) {
+      // TO COMPLETE
+      console.log(request.body)
+    } else {
+      request.log.error(`Movie with id ${request.params.id} could not be found`)
+      reply.code(401).send({ message: `Movie with id ${request.params.id} could not be found` })
+    }
+  } catch (error) {
+    request.log.error(error)
+  }
+}

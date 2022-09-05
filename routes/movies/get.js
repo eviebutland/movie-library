@@ -23,3 +23,17 @@ export async function getMoviebyName(request, reply) {
     reply.code(404).send({ message: `Movie '${request.params.name}' could not be found` })
   }
 }
+
+export async function getMovieById(request, reply) {
+  const movieCollection = this.mongo.db.collection('movies')
+
+  const id = this.mongo.ObjectId(request.params.id)
+
+  try {
+    const movie = await movieCollection.findOne({ _id: id })
+    reply.code(200).send(movie)
+  } catch (error) {
+    request.log.error(error)
+    reply.code(500).send({ message: 'Something went wrong' })
+  }
+}

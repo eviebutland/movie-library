@@ -4,7 +4,8 @@ import {
   createListOfMovies,
   createMovie,
   updateMovieByName,
-  deleteMovieByName
+  deleteMovieByName,
+  getMovieById
 } from './movies/index.js'
 import { getListMoviesByGenre, getAllGenres, createGenre, updateGenre, deleteGenre } from './genres/index.js'
 import { getAllActors } from './actors/index.js'
@@ -34,6 +35,8 @@ export async function routes(fastify, options) {
     //   }
     // }
   )
+  // By Id
+  fastify.get('/movies/:id', getMovieById)
 
   // Actor
   fastify.get('/movies/actors', getAllActors)
@@ -47,6 +50,7 @@ function validationFailHandler(c, req, res) {
 
 export const handlers = {
   getListAllMovies,
+  getMovieById,
   getMoviebyName,
   createListOfMovies,
   createMovie,
