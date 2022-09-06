@@ -3,7 +3,6 @@ export async function getListMoviesByGenre(request, reply) {
 
   try {
     const movies = await movieCollection.find({ genre: request.params.genre }).toArray()
-    console.log(movies)
 
     const response = { docs: movies, total: movies.length }
 
@@ -14,8 +13,7 @@ export async function getListMoviesByGenre(request, reply) {
       reply.code(200).send(response)
     }
   } catch (error) {
-    console.log(error)
-    // request.log.error('Error on list all movies by genre', error)
+    request.log.error('Error on list all movies by genre', error)
     reply.code(500).send(error)
   }
 }

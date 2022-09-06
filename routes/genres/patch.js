@@ -9,8 +9,6 @@ export async function updateGenre(request, reply) {
   // Update the genre's details
   const genreCollection = this.mongo.db.collection('genres')
   const genreToUpdate = await genreCollection.findOne({ name: request.params.genre })
-
-  console.log(genreToUpdate)
   if (genreToUpdate === null) {
     const postModel = {
       ...request.body,
