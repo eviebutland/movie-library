@@ -31,7 +31,12 @@ export async function getMovieById(request, reply) {
 
   try {
     const movie = await movieCollection.findOne({ _id: id })
-    reply.code(200).send(movie)
+
+    if (movie) {
+      reply.code(200).send(movie)
+    } else {
+      reply.code(404).send({ message: `Movie with id ${request.params.id} could not be found` })
+    }
   } catch (error) {
     request.log.error(error)
     reply.code(500).send({ message: 'Something went wrong' })

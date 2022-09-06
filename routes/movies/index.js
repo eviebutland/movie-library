@@ -1,7 +1,7 @@
 import { getListAllMovies, getMoviebyName, getMovieById } from './get.js'
 import { createListOfMovies, createMovie } from './post.js'
-import { updateMovieByName } from './patch.js'
-import { deleteMovieByName } from './delete.js'
+import { updateMovieByName, updateMovieById } from './patch.js'
+import { deleteMovieByName, deleteMovieById } from './delete.js'
 
 export {
   createListOfMovies,
@@ -10,5 +10,7 @@ export {
   getMovieById,
   createMovie,
   updateMovieByName,
-  deleteMovieByName
+  deleteMovieByName,
+  deleteMovieById,
+  updateMovieById
 }

@@ -37,8 +37,23 @@ export async function updateMovieById(request, reply) {
     const movieToUpdate = await movieCollection.findOne({ _id: id })
 
     if (movieToUpdate) {
-      // TO COMPLETE
-      console.log(request.body)
+      const id = this.mongo.ObjectId(movieToUpdate._id)
+
+      const model = {
+        ...movieToUpdate,
+        ...request.body
+      }
+
+      await movieCollection.updateOne(
+        { _id: id },
+        {
+          $set: {
+            ...model
+          }
+        }
+      )
+
+      reply.code(200).send(model)
     } else {
       request.log.error(`Movie with id ${request.params.id} could not be found`)
       reply.code(401).send({ message: `Movie with id ${request.params.id} could not be found` })
