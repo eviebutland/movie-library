@@ -51,7 +51,6 @@ export async function routes(fastify, options) {
 
 // Need to get this to validate the requests
 function validationFailHandler(c, req, res) {
-  console.log(res)
   return res.code(400).send({ status: 400, err: c.validation.errors })
 }
 
