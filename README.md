@@ -4,8 +4,10 @@
 - Open API backend to define the routes and validation
 - Fastify as the server, an alternative to ExpressJs [DOCS](https://github.com/fastify/fastify/blob/main/docs/Guides/Getting-Started.md). I picked this as have used ExpressJs before and wanted to try something new.
 - Pino pretty to make the fastify logs easier to read
-- AJV is used by Open API backend behind the scenes to validate routes, operation IDs, requests and responses
 
+#### Validation
+AJV is used by Open API backend and Fastify behind the scenes to validate routes, operation IDs, requests and responses
+ - [Fastify Validation](https://www.fastify.io/docs/latest/Reference/Validation-and-Serialization/)
 ### Database
 - Researched free AWS noSQL database [DynanmoDB](https://www.integrate.io/blog/dynamodb-vs-mongodb-differences/#four)
 but decided that I want to learn how to secure the database and how to manage it myself. However, I do want to know more about AWS and its other services so planning on trialling DynanmoDB in the future.
