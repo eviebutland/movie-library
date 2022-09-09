@@ -850,14 +850,7 @@ export const document = {
           content: {
             'application/json': {
               schema: {
-                type: 'string',
-                example: 'Hello world!'
-              }
-            },
-            'application/xml': {
-              schema: {
-                type: 'string',
-                example: 'Hello world!'
+                $ref: '#/components/schemas/Actor'
               }
             }
           },

@@ -15,6 +15,7 @@ export const api = new OpenAPIBackend({
   validate: true,
   ignoreTrailingSlashes: true,
   handlers,
+  quick: true,
   apiRoot: '/movies'
 })
 

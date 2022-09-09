@@ -12,11 +12,15 @@ import {
 import { getListMoviesByGenre, getAllGenres, createGenre, updateGenre, deleteGenre } from './genres/index.js'
 import { getAllActors, getActorById, createActor, updateActorById, deleteActorById } from './actors/index.js'
 
+import { ActorSchema } from './actors/schema.js'
+import { GenreSchema } from './genres/schema.js'
+import { MovieSchema } from './movies/schema.js'
+
 export async function routes(fastify, options) {
   // General
   fastify.get('/movies', getListAllMovies)
   fastify.post('/movies/list', createListOfMovies)
-  fastify.post('/movies', createMovie)
+  fastify.post('/movies', { schema: MovieSchema }, createMovie)
 
   // By name
   fastify.get('/movies/name/:name', getMoviebyName)
@@ -24,27 +28,19 @@ export async function routes(fastify, options) {
   fastify.delete('/movies/name/:name', deleteMovieByName)
 
   // Genre
-  fastify.post('/movies/genres', createGenre)
+  fastify.post('/movies/genres', { schema: GenreSchema }, createGenre)
   fastify.get('/movies/genres', getAllGenres)
   fastify.get('/movies/genres/:genre', getListMoviesByGenre)
   fastify.delete('/movies/genres/:genre', deleteGenre)
-  fastify.patch(
-    '/movies/genres/:genre',
-    updateGenre
-    // {
-    //   schema: {
-    //     body: './schema/openapi.json'
-    //   }
-    // }
-  )
+  fastify.patch('/movies/genres/:genre', updateGenre)
   // By Id
   fastify.get('/movies/:id', getMovieById)
   fastify.patch('/movies/:id', updateMovieById)
   fastify.delete('/movies/:id', deleteMovieById)
   // Actor
   fastify.get('/movies/actors', getAllActors)
-  fastify.get('/movies/actors/:id', getActorById)
-  fastify.post('/movies/actors', createActor)
+  fastify.get('/movies/actors/:id', { schema: { params: ActorSchema.params } }, getActorById)
+  fastify.post('/movies/actors', { schema: ActorSchema }, createActor)
   fastify.patch('/movies/actors/:id', updateActorById)
   fastify.delete('/movies/actors/:id', deleteActorById)
 }
