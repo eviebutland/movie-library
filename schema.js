@@ -10,15 +10,15 @@ export const document = {
         tags: ['general'],
         summary: 'Get all movies',
         operationId: 'getListAllMovies',
-        security: [
-          {
-            main_auth: ['read:users']
-          },
-          {
-            api_key: []
+        security: [{ jwt: [] }],
+        headers: {
+          Authorization: {
+            description: 'Authorization header',
+            schema: {
+              type: 'string'
+            }
           }
-        ],
-
+        },
         responses: {
           200: {
             $ref: '#/components/schemas/Movie'
@@ -35,27 +35,28 @@ export const document = {
         tags: ['general'],
         summary: 'Create a single movie to add to database',
         operationId: 'createMovie',
+        headers: {
+          Authorization: {
+            description: 'Authorization header',
+            schema: {
+              type: 'string'
+            }
+          }
+        },
         security: [
           {
-            api_key: []
-          },
-          {
-            basic_auth: []
+            jwt: []
           }
         ],
         responses: {
           200: {
             description: 'OK',
             headers: {
-              'X-Rate-Limit': {
-                description: 'Calls per hour allowed by the user.',
+              Authorization: {
+                description: 'Authorization header',
                 schema: {
-                  type: 'integer',
-                  format: 'int32'
+                  type: 'string'
                 }
-              },
-              'X-Expires-After': {
-                // $ref: '#/components/headers/ExpiresAfter'
               }
             }
 
@@ -92,25 +93,18 @@ export const document = {
         operationId: 'createListOfMovies',
         security: [
           {
-            api_key: []
-          },
-          {
-            basic_auth: []
+            jwt: []
           }
         ],
         responses: {
           200: {
             description: 'OK',
             headers: {
-              'X-Rate-Limit': {
-                description: 'Calls per hour allowed by the user.',
+              Authorization: {
+                description: 'Authorization header',
                 schema: {
-                  type: 'integer',
-                  format: 'int32'
+                  type: 'string'
                 }
-              },
-              'X-Expires-After': {
-                // $ref: '#/components/headers/ExpiresAfter'
               }
             },
             content: {
@@ -154,25 +148,18 @@ export const document = {
         operationId: 'createGenre',
         security: [
           {
-            api_key: []
-          },
-          {
-            basic_auth: []
+            jwt: []
           }
         ],
         responses: {
           200: {
             description: 'OK',
             headers: {
-              'X-Rate-Limit': {
-                description: 'Calls per hour allowed by the user.',
+              Authorization: {
+                description: 'Authorization header',
                 schema: {
-                  type: 'integer',
-                  format: 'int32'
+                  type: 'string'
                 }
-              },
-              'X-Expires-After': {
-                // $ref: '#/components/headers/ExpiresAfter'
               }
             },
             content: {
@@ -212,10 +199,7 @@ export const document = {
         operationId: 'getAllGenres',
         security: [
           {
-            main_auth: ['read:users']
-          },
-          {
-            api_key: []
+            jwt: []
           }
         ],
         responses: {
@@ -274,10 +258,7 @@ export const document = {
         ],
         security: [
           {
-            main_auth: ['read:users']
-          },
-          {
-            api_key: []
+            jwt: []
           }
         ],
         responses: {
@@ -324,7 +305,7 @@ export const document = {
         ],
         security: [
           {
-            main_auth: ['write:users']
+            jwt: []
           }
         ],
         responses: {
@@ -388,7 +369,7 @@ export const document = {
         ],
         security: [
           {
-            main_auth: ['write:users']
+            jwt: []
           }
         ],
         responses: {
@@ -436,25 +417,18 @@ export const document = {
         ],
         security: [
           {
-            api_key: []
-          },
-          {
-            basic_auth: []
+            jwt: []
           }
         ],
         responses: {
           200: {
             description: 'OK',
             headers: {
-              'X-Rate-Limit': {
-                description: 'calls per hour allowed by the user',
+              Authorization: {
+                description: 'Authorization header',
                 schema: {
-                  type: 'integer',
-                  format: 'int32'
+                  type: 'string'
                 }
-              },
-              'X-Expires-After': {
-                // $ref: '#/components/headers/ExpiresAfter'
               }
             },
             content: {
@@ -494,25 +468,18 @@ export const document = {
         ],
         security: [
           {
-            api_key: []
-          },
-          {
-            basic_auth: []
+            jwt: []
           }
         ],
         responses: {
           200: {
             description: 'OK',
             headers: {
-              'X-Rate-Limit': {
-                description: 'calls per hour allowed by the user',
+              Authorization: {
+                description: 'Authorization header',
                 schema: {
-                  type: 'integer',
-                  format: 'int32'
+                  type: 'string'
                 }
-              },
-              'X-Expires-After': {
-                // $ref: '#/components/headers/ExpiresAfter'
               }
             },
             content: {
@@ -573,25 +540,18 @@ export const document = {
         ],
         security: [
           {
-            api_key: []
-          },
-          {
-            basic_auth: []
+            jwt: []
           }
         ],
         responses: {
           200: {
             description: 'OK',
             headers: {
-              'X-Rate-Limit': {
-                description: 'calls per hour allowed by the user',
+              Authorization: {
+                description: 'Authorization header',
                 schema: {
-                  type: 'integer',
-                  format: 'int32'
+                  type: 'string'
                 }
-              },
-              'X-Expires-After': {
-                // $ref: '#/components/headers/ExpiresAfter'
               }
             },
             content: {
@@ -638,25 +598,18 @@ export const document = {
         ],
         security: [
           {
-            api_key: []
-          },
-          {
-            basic_auth: []
+            jwt: []
           }
         ],
         responses: {
           200: {
             description: 'OK',
             headers: {
-              'X-Rate-Limit': {
-                description: 'calls per hour allowed by the user',
+              Authorization: {
+                description: 'Authorization header',
                 schema: {
-                  type: 'integer',
-                  format: 'int32'
+                  type: 'string'
                 }
-              },
-              'X-Expires-After': {
-                // $ref: '#/components/headers/ExpiresAfter'
               }
             },
             content: {
@@ -696,25 +649,18 @@ export const document = {
         ],
         security: [
           {
-            api_key: []
-          },
-          {
-            basic_auth: []
+            jwt: []
           }
         ],
         responses: {
           200: {
             description: 'OK',
             headers: {
-              'X-Rate-Limit': {
-                description: 'calls per hour allowed by the user',
+              Authorization: {
+                description: 'Authorization header',
                 schema: {
-                  type: 'integer',
-                  format: 'int32'
+                  type: 'string'
                 }
-              },
-              'X-Expires-After': {
-                // $ref: '#/components/headers/ExpiresAfter'
               }
             },
             content: {
@@ -775,25 +721,18 @@ export const document = {
         ],
         security: [
           {
-            api_key: []
-          },
-          {
-            basic_auth: []
+            jwt: []
           }
         ],
         responses: {
           200: {
             description: 'OK',
             headers: {
-              'X-Rate-Limit': {
-                description: 'calls per hour allowed by the user',
+              Authorization: {
+                description: 'Authorization header',
                 schema: {
-                  type: 'integer',
-                  format: 'int32'
+                  type: 'string'
                 }
-              },
-              'X-Expires-After': {
-                // $ref: '#/components/headers/ExpiresAfter'
               }
             },
             content: {
@@ -825,10 +764,7 @@ export const document = {
         operationId: 'createActor',
         security: [
           {
-            api_key: []
-          },
-          {
-            basic_auth: []
+            jwt: []
           }
         ],
         responses: {
@@ -864,10 +800,7 @@ export const document = {
         operationId: 'getAllActors',
         security: [
           {
-            api_key: []
-          },
-          {
-            basic_auth: []
+            jwt: []
           }
         ],
         responses: {
@@ -905,25 +838,18 @@ export const document = {
         ],
         security: [
           {
-            api_key: []
-          },
-          {
-            basic_auth: []
+            jwt: []
           }
         ],
         responses: {
           200: {
             description: 'OK',
             headers: {
-              'X-Rate-Limit': {
-                description: 'calls per hour allowed by the user',
+              Authorization: {
+                description: 'Authorization header',
                 schema: {
-                  type: 'integer',
-                  format: 'int32'
+                  type: 'string'
                 }
-              },
-              'X-Expires-After': {
-                // $ref: '#/components/headers/ExpiresAfter'
               }
             },
             content: {
@@ -968,25 +894,18 @@ export const document = {
         ],
         security: [
           {
-            api_key: []
-          },
-          {
-            basic_auth: []
+            jwt: []
           }
         ],
         responses: {
           200: {
             description: 'OK',
             headers: {
-              'X-Rate-Limit': {
-                description: 'calls per hour allowed by the user',
+              Authorization: {
+                description: 'Authorization header',
                 schema: {
-                  type: 'integer',
-                  format: 'int32'
+                  type: 'string'
                 }
-              },
-              'X-Expires-After': {
-                // $ref: '#/components/headers/ExpiresAfter'
               }
             },
             content: {
@@ -1057,27 +976,16 @@ export const document = {
             }
           }
         ],
-        security: [
-          {
-            api_key: []
-          },
-          {
-            basic_auth: []
-          }
-        ],
+        security: [{ jwt: [] }],
         responses: {
           200: {
             description: 'OK',
             headers: {
-              'X-Rate-Limit': {
-                description: 'calls per hour allowed by the user',
+              Authorization: {
+                description: 'Authorization header',
                 schema: {
-                  type: 'integer',
-                  format: 'int32'
+                  type: 'string'
                 }
-              },
-              'X-Expires-After': {
-                // $ref: '#/components/headers/ExpiresAfter'
               }
             },
             content: {
@@ -1109,6 +1017,13 @@ export const document = {
   },
   components: {
     parameters: {},
+    securitySchemes: {
+      jwt: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT'
+      }
+    },
     schemas: {
       Movie: {
         required: ['name', 'key', 'yearReleased'],

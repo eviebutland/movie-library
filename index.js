@@ -42,10 +42,22 @@ fastify.register(fastifyMongodb, {
 
 fastify.register(routes)
 
-// api.registerSecurityHandler('ApiKey', c => {
-//   const authorized = c.request.headers['x-api-key'] === 'SuperSecretPassword123'
-//   return authorized
-// })
+fastify.addHook('onRequest', async (request, reply) => {
+  // not sure if we should call this here?
+  await api.securityHandlers.jwt(request, reply)
+})
+
+// need to try and use these instead of creating own hooks
+api.registerSecurityHandler('jwt', (request, reply) => {
+  const authHeader = request.headers['authorization'] === 'Bearer 2342342'
+
+  return !authHeader ? reply.code(401).send({ err: 'unauthorized' }) : true
+})
+
+// How do we use these?
+api.register('unauthorizedHandler', (c, req, res) => {
+  return res.status(401).json({ err: 'unauthorized' })
+})
 
 api.register('validationFail', responses.validationFailHandler)
 

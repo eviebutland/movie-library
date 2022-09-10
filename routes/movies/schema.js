@@ -1,5 +1,4 @@
-const requestBody = {
-  required: ['name', 'key', 'yearReleased'],
+const movieProperties = {
   properties: {
     name: {
       type: 'string',
@@ -10,36 +9,31 @@ const requestBody = {
       minLength: 4
     },
     yearReleased: {
-      type: 'number',
-      minLength: 4
+      type: 'number'
     },
     description: {
       type: 'string',
       minLength: 10
     },
     keyWords: {
-      type: 'array',
+      type: 'array'
       // items: {
       //   type: 'string'
       // },
-      minLength: 1
     },
     actors: {
-      type: 'array',
+      type: 'array'
       // items: {
       //   type: 'string'
       // },
-      minLength: 1
     },
     image: {
       description: 'An image from the movie',
-      type: 'string',
-      minLength: 1
+      type: 'string'
     },
     boxOfficeTotal: {
       description: 'How much did the movie make in box office?',
-      type: 'number',
-      minLength: 1
+      type: 'number'
     },
     genre: {
       description: 'Genre of the movie',
@@ -47,15 +41,41 @@ const requestBody = {
     },
     rating: {
       description: 'This is the rating of the movie',
-      type: 'number',
-      minLength: 1
+      type: 'number'
     },
     trailerUrl: {
       description: 'A Url to the trailer',
-      type: 'string',
-      minLength: 1
+      type: 'string'
+    }
+  }
+}
+const singleMovieRequestBody = {
+  type: 'object',
+  required: ['name', 'key', 'yearReleased'],
+  ...movieProperties
+}
+
+const listMovieRequestBody = {
+  type: 'object',
+  properties: {
+    movies: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['name', 'key', 'yearReleased'],
+        ...movieProperties
+      }
     }
   }
 }
 
-export const MovieSchema = { body: requestBody }
+const patchRequestBody = {
+  type: 'object',
+  ...movieProperties
+}
+
+export const MovieSchema = {
+  post: { body: singleMovieRequestBody },
+  patch: { body: patchRequestBody },
+  postMany: { body: listMovieRequestBody }
+}

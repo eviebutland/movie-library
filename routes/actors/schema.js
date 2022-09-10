@@ -1,6 +1,4 @@
-const requestBody = {
-  type: 'object',
-  required: ['name', 'dateOfBirth', 'gender', 'bornIn'],
+const actorProperties = {
   properties: {
     name: {
       description: 'Name of the actor',
@@ -43,6 +41,16 @@ const requestBody = {
     }
   }
 }
+const requestBody = {
+  type: 'object',
+  required: ['name', 'dateOfBirth', 'gender', 'bornIn'],
+  ...actorProperties
+}
+
+const patchRequestBody = {
+  type: 'object',
+  ...actorProperties
+}
 
 const headerSchema = {
   // add for authorization
@@ -57,4 +65,4 @@ const params = {
   }
 }
 
-export const ActorSchema = { body: requestBody, params }
+export const ActorSchema = { post: { body: requestBody }, patch: { body: patchRequestBody }, params }

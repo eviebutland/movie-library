@@ -16,4 +16,18 @@ const requestBody = {
   }
 }
 
-export const GenreSchema = { body: requestBody }
+const patchRequestBody = {
+  type: 'object',
+  required: ['characteristics'],
+  properties: {
+    characteristics: {
+      description: 'What is this genre like',
+      type: 'array',
+      items: {
+        type: 'string'
+      }
+    }
+  }
+}
+
+export const GenreSchema = { post: { body: requestBody }, patch: { body: patchRequestBody } }

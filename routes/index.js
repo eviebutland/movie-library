@@ -16,32 +16,32 @@ import { ActorSchema } from './actors/schema.js'
 import { GenreSchema } from './genres/schema.js'
 import { MovieSchema } from './movies/schema.js'
 
-export async function routes(fastify, options) {
+export async function routes(fastify) {
   // General
   fastify.get('/movies', getListAllMovies)
-  fastify.post('/movies/list', createListOfMovies)
-  fastify.post('/movies', { schema: MovieSchema }, createMovie)
+  fastify.post('/movies/list', { schema: MovieSchema.postMany }, createListOfMovies)
+  fastify.post('/movies', { schema: MovieSchema.post }, createMovie)
 
   // By name
   fastify.get('/movies/name/:name', getMoviebyName)
-  fastify.patch('/movies/name/:name', updateMovieByName)
+  fastify.patch('/movies/name/:name', { schema: MovieSchema.patch }, updateMovieByName)
   fastify.delete('/movies/name/:name', deleteMovieByName)
 
   // Genre
-  fastify.post('/movies/genres', { schema: GenreSchema }, createGenre)
+  fastify.post('/movies/genres', { schema: GenreSchema.post }, createGenre)
   fastify.get('/movies/genres', getAllGenres)
   fastify.get('/movies/genres/:genre', getListMoviesByGenre)
   fastify.delete('/movies/genres/:genre', deleteGenre)
-  fastify.patch('/movies/genres/:genre', updateGenre)
+  fastify.patch('/movies/genres/:genre', { schema: GenreSchema.patch }, updateGenre)
   // By Id
   fastify.get('/movies/:id', getMovieById)
-  fastify.patch('/movies/:id', updateMovieById)
+  fastify.patch('/movies/:id', { schema: MovieSchema.patch }, updateMovieById)
   fastify.delete('/movies/:id', deleteMovieById)
   // Actor
   fastify.get('/movies/actors', getAllActors)
   fastify.get('/movies/actors/:id', { schema: { params: ActorSchema.params } }, getActorById)
-  fastify.post('/movies/actors', { schema: ActorSchema }, createActor)
-  fastify.patch('/movies/actors/:id', updateActorById)
+  fastify.post('/movies/actors', { schema: ActorSchema.post }, createActor)
+  fastify.patch('/movies/actors/:id', { schema: ActorSchema.post }, updateActorById)
   fastify.delete('/movies/actors/:id', deleteActorById)
 }
 
