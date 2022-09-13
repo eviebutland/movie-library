@@ -5,6 +5,7 @@ import fastifyMongodb from '@fastify/mongodb'
 // import schema from './schema/openapi.json' assert { type: 'json' }
 import { document } from './schema.js'
 import dotenv from 'dotenv'
+import jwt from 'jsonwebtoken'
 
 dotenv.config({ path: 'env.local' })
 
@@ -43,13 +44,29 @@ fastify.register(fastifyMongodb, {
 fastify.register(routes)
 
 fastify.addHook('onRequest', async (request, reply) => {
-  // not sure if we should call this here?
-  await api.securityHandlers.jwt(request, reply)
+  if (request.url !== '/auth/login') {
+    await api.securityHandlers.jwt(request, reply)
+  }
 })
 
-// need to try and use these instead of creating own hooks
 api.registerSecurityHandler('jwt', (request, reply) => {
   const authHeader = request.headers['authorization'] === 'Bearer 2342342'
+
+  // const signature = jwt.sign(
+  //   {
+  //     data: 'foobar'
+  //   },
+  //   'secret',
+  //   { expiresIn: '1h' }
+  // )
+
+  // console.log(signature)
+
+  console.log(request.headers['x-auth-key'])
+
+  jwt.verify(request.headers['x-auth-key'], 'secret', function (err, decoded) {
+    console.log(decoded) // bar
+  })
 
   return !authHeader ? reply.code(401).send({ err: 'unauthorized' }) : true
 })

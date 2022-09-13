@@ -11,12 +11,17 @@ import {
 } from './movies/index.js'
 import { getListMoviesByGenre, getAllGenres, createGenre, updateGenre, deleteGenre } from './genres/index.js'
 import { getAllActors, getActorById, createActor, updateActorById, deleteActorById } from './actors/index.js'
+import { authLogin, authLogout } from './authentication/index.js'
 
 import { ActorSchema } from './actors/schema.js'
 import { GenreSchema } from './genres/schema.js'
 import { MovieSchema } from './movies/schema.js'
 
 export async function routes(fastify) {
+  // Auth
+  fastify.post('/auth/login', authLogin)
+  fastify.post('/auth/logout', authLogout)
+
   // General
   fastify.get('/movies', getListAllMovies)
   fastify.post('/movies/list', { schema: MovieSchema.postMany }, createListOfMovies)

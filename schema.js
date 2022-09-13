@@ -43,11 +43,7 @@ export const document = {
             }
           }
         },
-        security: [
-          {
-            jwt: []
-          }
-        ],
+        security: [{ jwt: [] }],
         responses: {
           200: {
             description: 'OK',
@@ -91,11 +87,7 @@ export const document = {
         tags: ['general'],
         summary: 'Create a list of movies to add to database for seeding',
         operationId: 'createListOfMovies',
-        security: [
-          {
-            jwt: []
-          }
-        ],
+        security: [{ jwt: [] }],
         responses: {
           200: {
             description: 'OK',
@@ -146,11 +138,7 @@ export const document = {
         tags: ['genre'],
         summary: 'Create a new genre',
         operationId: 'createGenre',
-        security: [
-          {
-            jwt: []
-          }
-        ],
+        security: [{ jwt: [] }],
         responses: {
           200: {
             description: 'OK',
@@ -256,11 +244,7 @@ export const document = {
             }
           }
         ],
-        security: [
-          {
-            jwt: []
-          }
-        ],
+        security: [{ jwt: [] }],
         responses: {
           200: {
             description: 'Success',
@@ -303,11 +287,7 @@ export const document = {
             }
           }
         ],
-        security: [
-          {
-            jwt: []
-          }
-        ],
+        security: [{ jwt: [] }],
         responses: {
           200: {
             description: 'OK',
@@ -367,11 +347,7 @@ export const document = {
             }
           }
         ],
-        security: [
-          {
-            jwt: []
-          }
-        ],
+        security: [{ jwt: [] }],
         responses: {
           200: {
             description: 'OK'
@@ -415,11 +391,7 @@ export const document = {
             }
           }
         ],
-        security: [
-          {
-            jwt: []
-          }
-        ],
+        security: [{ jwt: [] }],
         responses: {
           200: {
             description: 'OK',
@@ -466,11 +438,7 @@ export const document = {
             }
           }
         ],
-        security: [
-          {
-            jwt: []
-          }
-        ],
+        security: [{ jwt: [] }],
         responses: {
           200: {
             description: 'OK',
@@ -538,11 +506,7 @@ export const document = {
             }
           }
         ],
-        security: [
-          {
-            jwt: []
-          }
-        ],
+        security: [{ jwt: [] }],
         responses: {
           200: {
             description: 'OK',
@@ -596,11 +560,7 @@ export const document = {
             }
           }
         ],
-        security: [
-          {
-            jwt: []
-          }
-        ],
+        security: [{ jwt: [] }],
         responses: {
           200: {
             description: 'OK',
@@ -647,11 +607,7 @@ export const document = {
             }
           }
         ],
-        security: [
-          {
-            jwt: []
-          }
-        ],
+        security: [{ jwt: [] }],
         responses: {
           200: {
             description: 'OK',
@@ -719,11 +675,7 @@ export const document = {
             }
           }
         ],
-        security: [
-          {
-            jwt: []
-          }
-        ],
+        security: [{ jwt: [] }],
         responses: {
           200: {
             description: 'OK',
@@ -762,11 +714,7 @@ export const document = {
         tags: ['actor'],
         summary: 'Create an actor',
         operationId: 'createActor',
-        security: [
-          {
-            jwt: []
-          }
-        ],
+        security: [{ jwt: [] }],
         responses: {
           200: {
             $ref: '#/components/schemas/Actor'
@@ -798,11 +746,7 @@ export const document = {
         tags: ['actor'],
         summary: 'Get all actors',
         operationId: 'getAllActors',
-        security: [
-          {
-            jwt: []
-          }
-        ],
+        security: [{ jwt: [] }],
         responses: {
           200: {
             $ref: '#/components/schemas/Actor'
@@ -836,11 +780,7 @@ export const document = {
             }
           }
         ],
-        security: [
-          {
-            jwt: []
-          }
-        ],
+        security: [{ jwt: [] }],
         responses: {
           200: {
             description: 'OK',
@@ -892,11 +832,7 @@ export const document = {
             }
           }
         ],
-        security: [
-          {
-            jwt: []
-          }
-        ],
+        security: [{ jwt: [] }],
         responses: {
           200: {
             description: 'OK',
@@ -1007,6 +943,71 @@ export const document = {
               'application/json': {
                 schema: {
                   $ref: '#/components/schemas/NotFound'
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    '/auth/login': {
+      post: {
+        tags: ['auth'],
+        summary: 'Login as user',
+        operationId: 'authLogin',
+        security: [{ jwt: [] }],
+        responses: {
+          200: {
+            description: 'OK'
+          },
+          400: {
+            description: 'BAD_REQUEST',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/BadRequest'
+                }
+              }
+            }
+          }
+        },
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Auth'
+              }
+            }
+          },
+          description: 'requestBody description',
+          required: true
+        }
+      }
+    },
+    '/auth/logout': {
+      get: {
+        tags: ['auth'],
+        summary: 'Logout as user',
+        operationId: 'authLogout',
+        security: [{ jwt: [] }],
+        headers: {
+          Authorization: {
+            description: 'Authorization header',
+            schema: {
+              type: 'string'
+            }
+          }
+        },
+        responses: {
+          200: {
+            description: 'OK'
+          },
+          400: {
+            description: 'BAD_REQUEST',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/BadRequest'
                 }
               }
             }
@@ -1164,6 +1165,21 @@ export const document = {
               type: 'string'
             },
             example: ['upbeat', 'happy', 'makes you laugh']
+          }
+        }
+      },
+      Auth: {
+        title: 'Auth',
+        properties: {
+          username: {
+            type: 'string',
+            description: 'Username of user',
+            example: 'Evie B'
+          },
+          password: {
+            type: 'string',
+            description: 'Password of user',
+            example: 'A1234'
           }
         }
       },
