@@ -2,7 +2,7 @@ import { OpenAPIBackend } from 'openapi-backend'
 import Fastify from 'fastify'
 import { routes, handlers, responses } from './routes/index.js'
 import fastifyMongodb from '@fastify/mongodb'
-// import schema from './schema/openapi.json' assert { type: 'json' }
+
 import { document } from './schema.js'
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
@@ -50,34 +50,25 @@ fastify.addHook('onRequest', async (request, reply) => {
 })
 
 api.registerSecurityHandler('jwt', (request, reply) => {
-  const authHeader = request.headers['authorization'] === 'Bearer 2342342'
-
-  // const signature = jwt.sign(
-  //   {
-  //     data: 'foobar'
-  //   },
-  //   'secret',
-  //   { expiresIn: '1h' }
-  // )
-
-  // console.log(signature)
-
-  console.log(request.headers['x-auth-key'])
+  // need to remove hard coded value
+  const authHeader = request.headers['authorization'].includes(request.headers['x-auth-key'])
 
   jwt.verify(request.headers['x-auth-key'], 'secret', function (err, decoded) {
-    console.log(decoded) // bar
+    if (err) {
+      reply.code(401).send({ message: err })
+    }
   })
 
   return !authHeader ? reply.code(401).send({ err: 'unauthorized' }) : true
 })
 
-// How do we use these?
 api.register('unauthorizedHandler', (c, req, res) => {
   return res.status(401).json({ err: 'unauthorized' })
 })
 
 api.register('validationFail', responses.validationFailHandler)
 
+// how do we use these?
 api.register({
   notFound: (c, req, res) => {
     res.statusCode = 404

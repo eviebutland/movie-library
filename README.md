@@ -23,4 +23,8 @@ AJV is used by Open API backend and Fastify behind the scenes to validate routes
 
 #### Authorisation and Authentication
 For Authorisation I wanted to use JWT to follow the work project. JWT tokens allow for different roles/permissions where as API keys are application level. 
-- [Fastify JWT](https://github.com/fastify/fastify-jwt)
+- [JWT token](jsonwebtoken) is used to create and verify tokens. This allows me to store objects in an encryted value, seperated by dots i.e xxx.xxxxxxx.xxx. 
+On login, we check the user exists within the database, and if successful we create a new JWT token for the user. This value is stored within a global variable within Postman so all endpoints requiring authentication have access to the latest token. This token has an expiry of one hour. 
+If the user does not exist, they will get an error message and can use the create user endpoint to create one. This endpoint will set up the roles/permissions of the user and these values will be stored in their unique JWT token.
+
+Per call, we have a fastify hook ('onRequest') to check if there is an authentication and x-api-key header being sent, verifying these before continuing with request. 
