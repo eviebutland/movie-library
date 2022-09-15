@@ -17,6 +17,20 @@ export const document = {
             schema: {
               type: 'string'
             }
+          },
+          'x-api-key': {
+            description: 'Authorization header',
+            schema: {
+              type: 'string'
+            }
+          }
+        },
+        headers: {
+          Authorization: {
+            description: 'Authorization header',
+            schema: {
+              type: 'string'
+            }
           }
         },
         responses: {
@@ -781,6 +795,20 @@ export const document = {
           }
         ],
         security: [{ jwt: [] }],
+        headers: {
+          Authorization: {
+            description: 'Authorization header',
+            schema: {
+              type: 'string'
+            }
+          },
+          'x-api-key': {
+            description: 'Authorization header',
+            schema: {
+              type: 'string'
+            }
+          }
+        },
         responses: {
           200: {
             description: 'OK',
@@ -901,6 +929,20 @@ export const document = {
         tags: ['actor'],
         summary: 'Delete actor by id',
         operationId: 'deleteActorById',
+        headers: {
+          Authorization: {
+            description: 'Authorization header',
+            schema: {
+              type: 'string'
+            }
+          },
+          'x-api-key': {
+            description: 'Authorization header',
+            schema: {
+              type: 'string'
+            }
+          }
+        },
         parameters: [
           {
             name: 'id',

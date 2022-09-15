@@ -56,7 +56,7 @@ export async function updateMovieById(request, reply) {
       reply.code(200).send(model)
     } else {
       request.log.error(`Movie with id ${request.params.id} could not be found`)
-      reply.code(401).send({ message: `Movie with id ${request.params.id} could not be found` })
+      reply.code(404).send({ message: `Movie with id ${request.params.id} could not be found` })
     }
   } catch (error) {
     request.log.error(error)
