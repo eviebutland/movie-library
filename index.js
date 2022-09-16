@@ -68,20 +68,22 @@ fastify.addHook('onRequest', async (request, reply) => {
 // https://github.com/fastify/fastify-jwt#usage
 api.registerSecurityHandler('jwt', async (request, reply) => {
   try {
-    // const authHeader = request.headers['authorization']?.includes(request.headers['x-auth-key'])
+    const authHeader = request.headers['authorization']?.includes(request.headers['x-auth-key'])
 
-    // if (!authHeader) {
-    //   reply.code(401).send({ err: 'unauthorized' })
-    // }
-
-    await request.jwtVerify()
+    if (request.url !== '/auth/logout') {
+      if (authHeader) {
+        await request.jwtVerify()
+      } else {
+        api.handlers.unauthorizedHandler(reply)
+      }
+    }
   } catch (err) {
     reply.send(err)
   }
 })
 
-api.register('unauthorizedHandler', (c, req, res) => {
-  return res.status(401).json({ err: 'unauthorized' })
+api.register('unauthorizedHandler', reply => {
+  return reply.code(401).send({ err: 'unauthorized' })
 })
 
 api.register('validationFail', responses.validationFailHandler)

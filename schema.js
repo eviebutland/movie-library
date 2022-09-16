@@ -1056,6 +1056,40 @@ export const document = {
           }
         }
       }
+    },
+    '/auth/new': {
+      post: {
+        tags: ['auth'],
+        summary: 'Create a new user',
+        operationId: 'createUser',
+        security: [{ jwt: [] }],
+        responses: {
+          201: {
+            description: 'OK'
+          },
+          400: {
+            description: 'BAD_REQUEST',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/BadRequest'
+                }
+              }
+            }
+          }
+        },
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/User'
+              }
+            }
+          },
+          description: 'requestBody description',
+          required: true
+        }
+      }
     }
   },
   components: {
@@ -1222,6 +1256,26 @@ export const document = {
             type: 'string',
             description: 'Password of user',
             example: 'A1234'
+          }
+        }
+      },
+      User: {
+        title: 'User',
+        required: ['name', 'email', 'permissions'],
+        properties: {
+          name: {
+            type: 'string',
+            minLength: 4
+          },
+          email: {
+            type: 'string',
+            minLength: 4
+          },
+          role: {
+            type: 'string'
+          },
+          permissions: {
+            type: 'array'
           }
         }
       },
