@@ -6,12 +6,13 @@
 // 2. can do all (create/read/update/delete)
 // 3. partial access (movies + genre collection: (create/read/update/delete), view only: actors)
 
-export function createUser(request, reply) {
+export async function createUser(request, reply) {
   // check they don't exist in DB already
-  const userCollection = this.mongo.collection('users')
+  const userCollection = this.mongo.db.collection('users')
 
-  const matchingUser = userCollection.findOne({ email: request.body.email })
+  const matchingUser = await userCollection.findOne({ email: request.body.email })
 
+  console.log(matchingUser)
   if (matchingUser) {
     reply.code(400).send({ message: `User with email: ${request.body.email} already exists` })
   } else {

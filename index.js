@@ -68,15 +68,15 @@ fastify.addHook('onRequest', async (request, reply) => {
 // https://github.com/fastify/fastify-jwt#usage
 api.registerSecurityHandler('jwt', async (request, reply) => {
   try {
-    const authHeader = request.headers['authorization']?.includes(request.headers['x-auth-key'])
+    // const authHeader = request.headers['authorization']?.includes(request.headers['x-auth-key'])
 
-    if (request.url !== '/auth/logout') {
-      if (authHeader) {
-        await request.jwtVerify()
-      } else {
-        api.handlers.unauthorizedHandler(reply)
-      }
-    }
+    // if (request.url !== '/auth/logout') {
+    //   if (authHeader) {
+    await request.jwtVerify()
+    // } else {
+    //   api.handlers.unauthorizedHandler(reply)
+    // }
+    // }
   } catch (err) {
     reply.send(err)
   }

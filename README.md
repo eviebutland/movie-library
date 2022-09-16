@@ -29,4 +29,4 @@ If the user does not exist, they will get an error message and can use the creat
 
 Per call, we have a fastify hook ('onRequest') to check if there is an authentication and x-api-key header being sent, verifying these before continuing with request. 
 
-- Logout -> [Logouts with JWT](https://medium.com/devgorilla/how-to-log-out-when-using-jwt-a8c7823e8a6). As described in the article, the JWT tokens cannot be manually expired. Currently, when the user calls the /auth/logout endpoint, they get a successful response and if they go to call an endpoint that requires authentication it fails with error FAST_JWT_MALFORMED. 
+- Logout -> [Logouts with JWT](https://medium.com/devgorilla/how-to-log-out-when-using-jwt-a8c7823e8a6). As described in the article, the JWT tokens cannot be manually expired. Currently, when the user calls the /auth/logout endpoint, they get a successful response and if they go to call an endpoint that requires authentication it fails with unauthorised error. 
