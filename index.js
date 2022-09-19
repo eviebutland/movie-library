@@ -5,7 +5,6 @@ import fastifyMongodb from '@fastify/mongodb'
 import fastifyJwt from '@fastify/jwt'
 import { document } from './schema.js'
 import dotenv from 'dotenv'
-import jwt from 'jsonwebtoken'
 
 dotenv.config({ path: 'env.local' })
 

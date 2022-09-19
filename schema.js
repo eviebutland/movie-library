@@ -1271,8 +1271,9 @@ export const document = {
             type: 'string',
             minLength: 4
           },
-          role: {
-            type: 'string'
+          password: {
+            type: 'string',
+            minLength: 4
           },
           permissions: {
             type: 'array'

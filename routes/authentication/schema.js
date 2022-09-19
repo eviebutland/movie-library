@@ -1,6 +1,6 @@
 const userBody = {
   type: 'object',
-  required: ['name', 'email', 'permissions'],
+  required: ['name', 'email', 'password', 'permissions'],
   properties: {
     name: {
       type: 'string',
@@ -10,7 +10,7 @@ const userBody = {
       type: 'string',
       minLength: 4
     },
-    role: {
+    password: {
       type: 'string'
     },
     permissions: {

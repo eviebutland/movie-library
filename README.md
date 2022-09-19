@@ -24,9 +24,29 @@ AJV is used by Open API backend and Fastify behind the scenes to validate routes
 #### Authorisation and Authentication
 For Authorisation I wanted to use JWT to follow the work project. JWT tokens allow for different roles/permissions where as API keys are application level. 
 - [Fastify JWT token](https://github.com/fastify/fastify-jwt) is used to create and verify tokens. This allows me to store objects in an encryted value, seperated by dots i.e xxx.xxxxxxx.xxx. 
-On login, we check the user exists within the database, and if successful we create a new JWT token for the user. This value is stored within a global variable within Postman so all endpoints requiring authentication have access to the latest token. This token has an expiry of one hour. 
+
+On login, we check the user exists within the database, and if there password matches that user. If successful we create a new JWT token for the user. This value is stored within a global variable within Postman so all endpoints requiring authentication have access to the latest token. This token has an expiry of one hour. 
 If the user does not exist, they will get an error message and can use the create user endpoint to create one. This endpoint will set up the roles/permissions of the user and these values will be stored in their unique JWT token.
 
 Per call, we have a fastify hook ('onRequest') to check if there is an authentication and x-api-key header being sent, verifying these before continuing with request. 
+
+The next step is handled by the preHandler hook which is defined within the options for each endpoint. This calls a function that check if the user has the correct permissions set up or will reply with a 401 error. The ```hasAccess()``` function within authentication/permissions.js file takes in the area and the minimum required access that endpoint needs. It converts the letter (a -> admin, w -> write, or r -> read) to a number. If the user's current permissions for that area are greater than equal to that number, they user has the correct permissions to access.
+
+```
+const ranking = {
+    r: 1,
+    w: 2,
+    a: 3
+  }
+```
+
+The areas are broken down into:
+```
+a -> actors
+m -> movies
+g -> genres
+i -> identification
+
+```
 
 - Logout -> [Logouts with JWT](https://medium.com/devgorilla/how-to-log-out-when-using-jwt-a8c7823e8a6). As described in the article, the JWT tokens cannot be manually expired. Currently, when the user calls the /auth/logout endpoint, they get a successful response and if they go to call an endpoint that requires authentication it fails with unauthorised error. 
