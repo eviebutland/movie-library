@@ -50,3 +50,7 @@ i -> identification
 ```
 
 - Logout -> [Logouts with JWT](https://medium.com/devgorilla/how-to-log-out-when-using-jwt-a8c7823e8a6). As described in the article, the JWT tokens cannot be manually expired. Currently, when the user calls the /auth/logout endpoint, they get a successful response and if they go to call an endpoint that requires authentication it fails with unauthorised error. 
+
+
+## Testing
+I am creating unit tests for the endpoints using [Jest](https://jestjs.io/docs/getting-started) and following the [fastify documentation](https://www.fastify.io/docs/latest/Guides/Testing/)

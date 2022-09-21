@@ -7,7 +7,7 @@ import { document } from './schema.js'
 import dotenv from 'dotenv'
 
 dotenv.config({ path: 'env.local' })
-
+// TODO: Divide up this file to make it easier to read
 export const api = new OpenAPIBackend({
   definition: document, // need to break out this document per resource to make more readable
   strict: true,
@@ -21,7 +21,7 @@ export const api = new OpenAPIBackend({
 
 api.init()
 
-const fastify = Fastify({
+export const fastify = Fastify({
   logger: {
     transport: {
       target: 'pino-pretty',
