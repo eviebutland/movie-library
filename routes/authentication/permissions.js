@@ -10,7 +10,6 @@ function hasAccess(area, minLevelRequired, userPermissions) {
   const minRankingRequired = ranking[`${minLevelRequired}`]
   const currentPermissionRanking = ranking[currentArea?.split(':')[1]]
 
-  console.log('has access check', currentPermissionRanking >= minRankingRequired)
   return currentPermissionRanking >= minRankingRequired
 }
 
