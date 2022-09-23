@@ -1,29 +1,8 @@
 import { fastify } from '../index.js'
-
+import { login } from './partial/login.js'
 // This file keeps re creating const app = fastify() -> could this be changed?
 
 describe('Auth: Test login and logout', () => {
-  // beforeAll(() => {
-  // set up app call here?
-  // })
-
-  const login = async function () {
-    const app = fastify()
-
-    const response = await app.inject({
-      method: 'POST',
-      url: '/auth/login',
-      payload: {
-        username: 'read@access.com',
-        password: 'Password!23'
-      }
-    })
-
-    const authenticationCode = JSON.parse(response.body).code
-
-    return { response, authenticationCode }
-  }
-
   it('Should login successfully', async () => {
     const { response, authenticationCode } = await login()
 

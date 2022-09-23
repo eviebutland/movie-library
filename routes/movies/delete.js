@@ -54,7 +54,7 @@ export async function deleteMovieById(request, reply) {
         const id = this.mongo.ObjectId(movieToDelete._id)
         // Delete from current collection
         await movieCollection.deleteOne({ _id: id })
-        reply.code(200).send({ message: `Movie '${request.params.name}' was successfully deleted` })
+        reply.code(200).send({ message: `Movie '${request.params.id}' was successfully deleted` })
       }
     } else {
       reply.code(404).send({ message: `Movie with ID ${request.params.id} could not be found` })

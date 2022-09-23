@@ -3,7 +3,6 @@ export async function authLogin(request, reply) {
   const user = await userCollection.findOne({ email: request.body.username })
 
   if (user) {
-    console.log('user exists', user)
     // check the password matches
     if (request.body.password !== user.password) {
       reply.code(400).send({ message: 'Password is incorrect' })
