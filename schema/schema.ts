@@ -1,4 +1,5 @@
-export const document = {
+import { OpenAPIV3 } from 'openapi-types'
+export const document: OpenAPIV3.Document = {
   openapi: '3.0.1',
   info: {
     title: 'My API',
@@ -11,28 +12,28 @@ export const document = {
         summary: 'Get all movies',
         operationId: 'getListAllMovies',
         security: [{ jwt: [] }],
-        headers: {
-          Authorization: {
-            description: 'Authorization header',
-            schema: {
-              type: 'string'
-            }
-          },
-          'x-api-key': {
-            description: 'Authorization header',
-            schema: {
-              type: 'string'
-            }
-          }
-        },
-        headers: {
-          Authorization: {
-            description: 'Authorization header',
-            schema: {
-              type: 'string'
-            }
-          }
-        },
+        // headers: {
+        //   Authorization: {
+        //     description: 'Authorization header',
+        //     schema: {
+        //       type: 'string'
+        //     }
+        //   },
+        //   'x-api-key': {
+        //     description: 'Authorization header',
+        //     schema: {
+        //       type: 'string'
+        //     }
+        //   }
+        // },
+        // headers: {
+        //   Authorization: {
+        //     description: 'Authorization header',
+        //     schema: {
+        //       type: 'string'
+        //     }
+        //   }
+        // },
         responses: {
           200: {
             $ref: '#/components/schemas/Movie'
@@ -49,14 +50,14 @@ export const document = {
         tags: ['general'],
         summary: 'Create a single movie to add to database',
         operationId: 'createMovie',
-        headers: {
-          Authorization: {
-            description: 'Authorization header',
-            schema: {
-              type: 'string'
-            }
-          }
-        },
+        // headers: {
+        //   Authorization: {
+        //     description: 'Authorization header',
+        //     schema: {
+        //       type: 'string'
+        //     }
+        //   }
+        // },
         security: [{ jwt: [] }],
         responses: {
           200: {
@@ -795,20 +796,20 @@ export const document = {
           }
         ],
         security: [{ jwt: [] }],
-        headers: {
-          Authorization: {
-            description: 'Authorization header',
-            schema: {
-              type: 'string'
-            }
-          },
-          'x-api-key': {
-            description: 'Authorization header',
-            schema: {
-              type: 'string'
-            }
-          }
-        },
+        // headers: {
+        //   Authorization: {
+        //     description: 'Authorization header',
+        //     schema: {
+        //       type: 'string'
+        //     }
+        //   },
+        //   'x-api-key': {
+        //     description: 'Authorization header',
+        //     schema: {
+        //       type: 'string'
+        //     }
+        //   }
+        // },
         responses: {
           200: {
             description: 'OK',
@@ -929,20 +930,20 @@ export const document = {
         tags: ['actor'],
         summary: 'Delete actor by id',
         operationId: 'deleteActorById',
-        headers: {
-          Authorization: {
-            description: 'Authorization header',
-            schema: {
-              type: 'string'
-            }
-          },
-          'x-api-key': {
-            description: 'Authorization header',
-            schema: {
-              type: 'string'
-            }
-          }
-        },
+        // headers: {
+        //   Authorization: {
+        //     description: 'Authorization header',
+        //     schema: {
+        //       type: 'string'
+        //     }
+        //   },
+        //   'x-api-key': {
+        //     description: 'Authorization header',
+        //     schema: {
+        //       type: 'string'
+        //     }
+        //   }
+        // },
         parameters: [
           {
             name: 'id',
@@ -1032,14 +1033,14 @@ export const document = {
         summary: 'Logout as user',
         operationId: 'authLogout',
         security: [{ jwt: [] }],
-        headers: {
-          Authorization: {
-            description: 'Authorization header',
-            schema: {
-              type: 'string'
-            }
-          }
-        },
+        // headers: {
+        //   Authorization: {
+        //     description: 'Authorization header',
+        //     schema: {
+        //       type: 'string'
+        //     }
+        //   }
+        // },
         responses: {
           200: {
             description: 'OK'
@@ -1126,7 +1127,7 @@ export const document = {
             example: 'This is a musical'
           },
           keyWords: {
-            type: 'array',
+            // type: 'array',
             // items: {
             //   type: 'string'
             // },
@@ -1134,7 +1135,7 @@ export const document = {
             example: ['musical', 'romance', 'feel-good']
           },
           actors: {
-            type: 'array',
+            // type: 'array',
             // items: {
             //   type: 'string'
             // },
@@ -1276,7 +1277,7 @@ export const document = {
             minLength: 4
           },
           permissions: {
-            type: 'array'
+            // type: 'array'
           }
         }
       },

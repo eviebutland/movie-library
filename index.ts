@@ -1,9 +1,9 @@
 import { OpenAPIBackend } from 'openapi-backend'
 import Fastify from 'fastify'
-import { routes, handlers, responses } from './routes/index.js'
+import { routes, handlers, responses } from './routes/index.js' // typescript having problems with this file
 import fastifyMongodb from '@fastify/mongodb'
 import fastifyJwt from '@fastify/jwt'
-import { document } from './schema.js'
+import { document } from './schema/schema.js'
 import dotenv from 'dotenv'
 
 dotenv.config({ path: 'env.local' })
@@ -11,9 +11,7 @@ dotenv.config({ path: 'env.local' })
 export const api = new OpenAPIBackend({
   definition: document, // need to break out this document per resource to make more readable
   strict: true,
-  quick: false,
   validate: true,
-  ignoreTrailingSlashes: true,
   handlers,
   quick: true,
   apiRoot: '/movies'
@@ -48,7 +46,7 @@ export const fastify = function () {
 
   app.register(routes)
 
-  app.addHook('onRequest', async (request, reply) => {
+  app.addHook('onRequest', async (request: any, reply) => {
     if (request.url !== '/auth/login') {
       await api.securityHandlers.jwt(request, reply)
     }
@@ -69,7 +67,7 @@ const customMessages = {
 // Since we want authentication on all endpoints, we can register this handler on every request.
 // If we wanted authentication on only a few requests, we could use a decorator instead
 // https://github.com/fastify/fastify-jwt#usage
-api.registerSecurityHandler('jwt', async (request, reply) => {
+api.registerSecurityHandler('jwt', async (request:any, reply) => {
   try {
     await request.jwtVerify()
   } catch (err) {
@@ -77,7 +75,7 @@ api.registerSecurityHandler('jwt', async (request, reply) => {
   }
 })
 
-api.register('unauthorizedHandler', reply => {
+api.register('unauthorizedHandler', (reply:any) => {
   return reply.code(401).send({ err: 'unauthorized' })
 })
 

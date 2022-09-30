@@ -1,4 +1,4 @@
-import { fastify } from '../../index.js'
+import { fastify } from '../../index.ts'
 
 export const login = async function (user) {
   const app = fastify()
