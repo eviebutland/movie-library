@@ -4,7 +4,7 @@ export async function getListMoviesByGenre(request, reply) {
   try {
     const movies = await movieCollection.find({ genre: request.params.genre }).toArray()
 
-    const response = { docs: movies, total: movies.length }
+    const response = { docs: movies, total: movies.length, message: null }
 
     if (!movies.length) {
       response.message = 'There are no movies with that genre'

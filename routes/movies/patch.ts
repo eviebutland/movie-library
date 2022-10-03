@@ -1,4 +1,4 @@
-import { convertToKebabCase } from './../../utils/convert-to-kebab-case.js'
+import { convertToKebabCase } from '../../utils/convert-to-kebab-case'
 
 export async function updateMovieByName(request, reply) {
   const movieCollection = this.mongo.db.collection('movies')

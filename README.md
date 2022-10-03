@@ -17,7 +17,7 @@ but decided that I want to learn how to secure the database and how to manage it
 - Archive collection: I have created an archive collection for documents that have been soft deleted. I have done this because ...
 
 ## Typescript
-I am starting to integrate Typescript into this project to help with intergrating it in the FE project at work. [Fastify and TypeScript](https://www.fastify.io/docs/latest/Reference/TypeScript/)
+I am starting to integrate Typescript into this project to help with intergrating it in the FE project at work. [Fastify and TypeScript](https://www.fastify.io/docs/latest/Reference/TypeScript/). I have used [ts-node-dev](https://github.com/wclr/ts-node-dev) as this compiles the app and re-runs it on a file save. I was getting a lot of errors related to including the file paths when importing to updated the files to be Typescript and removed .js from the references. I also needed to update the tsconfig.json file and update the module to commonJs (and update the package.json to match).
 
 #### Validation
 AJV is used by Open API backend and Fastify behind the scenes to validate routes, operation IDs, requests and responses

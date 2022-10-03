@@ -23,7 +23,7 @@ export async function deleteActorById(request, reply) {
         reply.code(200).send({ message: `Actor '${request.params.id}' was successfully deleted` })
       }
     } else {
-      request.log.error(error)
+      request.log.error('Error')
       reply.code(404).send({ message: `Actor with ID ${request.params.id} could not be found` })
     }
   } catch (error) {

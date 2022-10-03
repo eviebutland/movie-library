@@ -8,16 +8,16 @@ import {
   getMovieById,
   updateMovieById,
   deleteMovieById
-} from './movies/index.js'
-import { getListMoviesByGenre, getAllGenres, createGenre, updateGenre, deleteGenre } from './genres/index.js'
-import { getAllActors, getActorById, createActor, updateActorById, deleteActorById } from './actors/index.js'
-import { authLogin, authLogout, createUser } from './authentication/index.js'
+} from './movies/index'
+import { getListMoviesByGenre, getAllGenres, createGenre, updateGenre, deleteGenre } from './genres/index'
+import { getAllActors, getActorById, createActor, updateActorById, deleteActorById } from './actors/index'
+import { authLogin, authLogout, createUser } from './authentication/index'
 
-import { ActorSchema } from './actors/schema.js'
-import { GenreSchema } from './genres/schema.js'
-import { MovieSchema } from './movies/schema.js'
-import { UserSchema } from './authentication/schema.js'
-import { checkAuthorisation } from './authentication/permissions.js'
+import { ActorSchema } from './actors/schema'
+import { GenreSchema } from './genres/schema'
+import { MovieSchema } from './movies/schema'
+import { UserSchema } from './authentication/schema'
+import { checkAuthorisation } from './authentication/permissions'
 
 export async function routes(fastify) {
   // Auth

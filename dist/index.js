@@ -1,6 +1,6 @@
 import { OpenAPIBackend } from 'openapi-backend';
 import Fastify from 'fastify';
-import { routes, handlers, responses } from './routes/index.js'; // typescript having problems with this file
+import { routes, handlers, responses } from './routes/index'; // typescript having problems with this file
 import fastifyMongodb from '@fastify/mongodb';
 import fastifyJwt from '@fastify/jwt';
 import { document } from './schema/schema.js';

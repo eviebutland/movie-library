@@ -1,4 +1,4 @@
-import { fastify } from './index.js'
+import { fastify } from './index'
 
 const app = fastify()
 app.listen({ port: 8000, host: '0.0.0.0' }, (err:any):void=> {

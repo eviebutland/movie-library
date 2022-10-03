@@ -24,7 +24,7 @@ export async function getActorById(request, reply) {
     if (actor) {
       reply.code(200).send(actor)
     } else {
-      request.log.error(error)
+      request.log.error('Error')
       reply.code(404).send({ message: `Movie with id ${request.params.id} does not exist` })
     }
   } catch (error) {
