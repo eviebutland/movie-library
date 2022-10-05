@@ -1,5 +1,6 @@
-import { login } from './partial/login.js'
-import { fastify } from '../index.js'
+import { login } from './partial/login'
+import { fastify } from '../index'
+
 describe('Movies: Test create, read, update and delete', () => {
   let authentication = ''
   const app = fastify()
@@ -8,7 +9,8 @@ describe('Movies: Test create, read, update and delete', () => {
 
   beforeAll(async () => {
     const adminTestUser = {
-      username: 'test-admin@access.com'
+      username: 'test-admin@access.com',
+      password: 'Password!23'
     }
     const { authenticationCode } = await login(adminTestUser)
     authentication = authenticationCode

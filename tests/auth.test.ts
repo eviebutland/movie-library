@@ -1,10 +1,11 @@
-import { fastify } from '../index.js'
-import { login } from './partial/login.js'
+import { fastify } from '../index'
+import { login } from './partial/login'
 // This file keeps re creating const app = fastify() -> could this be changed?
 
 describe('Auth: Test login and logout', () => {
   it('Should login successfully', async () => {
-    const { response, authenticationCode } = await login()
+   
+    const { response, authenticationCode } = await login({username: 'read@access.com', password: 'Password!23'})
 
     expect(response.statusCode).toBe(200)
     expect(authenticationCode).toBeDefined()
@@ -13,7 +14,7 @@ describe('Auth: Test login and logout', () => {
   it('Should fail creating new user when the user has read only access', async () => {
     const app = fastify()
 
-    const { authenticationCode } = await login()
+    const { authenticationCode } = await login({username: 'read@access.com', password: 'Password!23'})
 
     const logoutResponse = await app.inject({
       method: 'POST',
@@ -36,7 +37,7 @@ describe('Auth: Test login and logout', () => {
   it('Should logout successfully', async () => {
     const app = fastify()
 
-    const { authenticationCode } = await login()
+    const { authenticationCode } = await login({username: 'read@access.com', password: 'Password!23'})
 
     const logoutResponse = await app.inject({
       method: 'POST',

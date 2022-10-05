@@ -1,14 +1,19 @@
-import { fastify } from '../../index.ts'
+import { fastify } from '../../index'
 
-export const login = async function (user) {
+type User = {
+  username: string,
+  password: string
+}
+
+export const login = async function (user: User) {
   const app = fastify()
 
   const response = await app.inject({
     method: 'POST',
     url: '/auth/login',
     payload: {
-      username: user?.username ?? 'read@access.com',
-      password: user?.password ?? 'Password!23'
+      username: user?.username,
+      password: user?.password
     }
   })
 
