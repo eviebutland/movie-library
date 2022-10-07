@@ -69,14 +69,15 @@ describe('Movies: Test create, read, update and delete', () => {
               trailerUrl: ''
             },
             {
-              name: 'Testing list 2',
-              key: 'testing-list-2',
+              name: 'Testing list 3',
+              key: 'testing-list-3',
               yearReleased: 2022,
               description: 'This is a test film for testing',
               keyWords: ['test'],
               actors: ['Evie'],
               boxOfficeTotal: 1000,
-              rating: 2.4
+              rating: 2.4,
+              trailerUrl: ''
             }
           ]
         }
@@ -194,7 +195,7 @@ describe('Movies: Test create, read, update and delete', () => {
 
       expect(response.statusCode).toBe(200)
       console.log(JSON.parse(response.body).message)
-      //   expect(JSON.parse(response.body).message).toBe(`Movie '${singleMovieId}' was successfully deleted`)
+      expect(JSON.parse(response.body).message).toBe(`Movie '${singleMovieId}' was successfully deleted`)
     })
 
     it('Can delete the new movie by name', async () => {
