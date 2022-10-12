@@ -20,7 +20,11 @@ export async function deleteMovieByName(request, reply) {
         const id = this.mongo.ObjectId(movieToDelete._id)
         // Delete from current collection
         await movieCollection.deleteOne({ _id: id })
-        reply.code(200).send({ message: `Movie '${request.params.name}' was successfully deleted` })
+
+        const successResponse: standardisedDELETEResponse = {
+          message: `Movie '${request.params.name}' was successfully deleted`
+        }
+        reply.code(200).send(successResponse)
       }
     } else {
       request.log.error('Movie could not be found')
@@ -58,7 +62,11 @@ export async function deleteMovieById(request, reply) {
         const id = this.mongo.ObjectId(movieToDelete._id)
         // Delete from current collection
         await movieCollection.deleteOne({ _id: id })
-        reply.code(200).send({ message: `Movie '${request.params.id}' was successfully deleted` })
+
+        const successResponse: standardisedDELETEResponse = {
+          message: `Movie '${request.params.id}' was successfully deleted`
+        }
+        reply.code(200).send(successResponse)
       }
     } else {
       const response: ErrorResponse = { message: `Movie with ID ${request.params.id} could not be found` }

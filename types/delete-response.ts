@@ -1,0 +1,3 @@
+interface standardisedDELETEResponse {
+  message: string
+}

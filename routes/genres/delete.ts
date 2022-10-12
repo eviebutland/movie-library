@@ -18,7 +18,11 @@ export async function deleteGenre(request, reply) {
         const id = this.mongo.ObjectId(genreToDelete._id)
         // then delete from current collection
         await genreCollection.deleteOne({ _id: id })
-        reply.code(200).send({ message: `Genre '${request.params.genre}' has been removed` })
+
+        const successResponse: standardisedDELETEResponse = {
+          message: `Genre '${request.params.genre}' has been removed`
+        }
+        reply.code(200).send(successResponse)
       }
     } catch (error) {
       request.log.error(error)

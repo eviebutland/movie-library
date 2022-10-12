@@ -22,7 +22,10 @@ export async function deleteActorById(request, reply) {
         const id = this.mongo.ObjectId(actorToDelete._id)
         // Delete from current collection
         await actorsCollection.deleteOne({ _id: id })
-        reply.code(200).send({ message: `Actor '${request.params.id}' was successfully deleted` })
+        const successResponse: standardisedDELETEResponse = {
+          message: `Actor '${request.params.id}' was successfully deleted`
+        }
+        reply.code(200).send(successResponse)
       }
     } else {
       request.log.error('Error')
