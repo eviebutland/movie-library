@@ -19,8 +19,9 @@ export async function getMoviebyName(request, reply) {
   if (movie) {
     reply.code(200).send(movie)
   } else {
-    request.log.error(`Movie '${request.params.name}' could not be found`)
-    reply.code(404).send({ message: `Movie '${request.params.name}' could not be found` })
+    const response: ErrorResponse = { message: `Movie '${request.params.name}' could not be found` }
+    request.log.error(response.message)
+    reply.code(404).send(response)
   }
 }
 
@@ -35,7 +36,8 @@ export async function getMovieById(request, reply) {
     if (movie) {
       reply.code(200).send(movie)
     } else {
-      reply.code(404).send({ message: `Movie with id ${request.params.id} could not be found` })
+      const response: ErrorResponse = { message: `Movie with id ${request.params.id} could not be found` }
+      reply.code(404).send(response)
     }
   } catch (error) {
     request.log.error(error)

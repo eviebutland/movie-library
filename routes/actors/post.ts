@@ -9,7 +9,8 @@ export async function createActor(request, reply) {
       actorsCollection.insertOne(request.body)
       reply.code(201).send(request.body)
     } else {
-      reply.code(409).send({ message: 'Actor already exists', value: existingActor })
+      const response: ErrorResponse = { message: 'Actor already exists', value: existingActor }
+      reply.code(409).send(response)
     }
   } catch (error) {
     throw new Error(error)

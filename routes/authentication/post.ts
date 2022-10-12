@@ -5,15 +5,18 @@ export async function createUser(request, reply) {
   const matchingUser = await userCollection.findOne({ email: request.body.email })
 
   if (matchingUser) {
-    reply.code(409).send({ message: `Email: ${request.body.email} already in use` })
+    const response: ErrorResponse = { message: `Email: ${request.body.email} already in use` }
+    reply.code(409).send(response)
     return
   } else {
     // check the password is valid
     if (!hasValidPassword(request.body.password)) {
-      reply.code(400).send({
+      const response: ErrorResponse = {
         message:
           'Passwords must be at least 4 characters long and contain at least one special character, one uppercase character, one lowercase character and one digit'
-      })
+      }
+
+      reply.code(400).send(response)
       return
     }
 

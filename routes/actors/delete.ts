@@ -2,7 +2,9 @@ export async function deleteActorById(request, reply) {
   const actorsCollection = this.mongo.db.collection('actors')
 
   if (request.params.id === ':id') {
-    reply.code(400).send({ message: 'Please provide an ID' })
+    const response: ErrorResponse = { message: 'Please provide an ID' }
+
+    reply.code(400).send(response)
     return
   }
 
@@ -24,10 +26,14 @@ export async function deleteActorById(request, reply) {
       }
     } else {
       request.log.error('Error')
-      reply.code(404).send({ message: `Actor with ID ${request.params.id} could not be found` })
+      const response: ErrorResponse = { message: `Actor with ID ${request.params.id} could not be found` }
+
+      reply.code(404).send(response)
     }
   } catch (error) {
     request.log.error(error)
-    reply.code(500).send({ message: 'Something went wrong' })
+    const response: ErrorResponse = { message: 'Something went wrong' }
+
+    reply.code(500).send(response)
   }
 }

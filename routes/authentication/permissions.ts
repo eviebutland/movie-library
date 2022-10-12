@@ -42,6 +42,7 @@ export function checkAuthorisation(request, reply, done, area, method) {
   if (hasAccess(area, areaMinAccess[area][method], request.user.permissions)) {
     done()
   } else {
-    reply.code(401).send({ message: 'unauthorised' })
+    const response: ErrorResponse = { message: 'unauthorised' }
+    reply.code(401).send(response)
   }
 }

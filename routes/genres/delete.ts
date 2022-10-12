@@ -25,6 +25,7 @@ export async function deleteGenre(request, reply) {
       throw new Error(error)
     }
   } else {
-    reply.code(404).send({ message: `Genre '${request.params.genre}' could not be found` })
+    const response: ErrorResponse = { message: `Genre '${request.params.genre}' could not be found` }
+    reply.code(404).send(response)
   }
 }

@@ -4,7 +4,11 @@ export async function getAllActors(request, reply) {
   try {
     const actors = await actorsCollection.find().toArray()
 
-    reply.send({ docs: actors, total: actors.length })
+    const response: standardisedGETManyResponse = {
+      docs: actors,
+      total: actors.length
+    }
+    reply.send(response)
   } catch (error) {
     request.log.error('Error on list all movies by genre', error)
   }
@@ -14,7 +18,9 @@ export async function getActorById(request, reply) {
   const actorsCollection = this.mongo.db.collection('actors')
 
   if (request.params.id === ':id') {
-    reply.code(400).send({ message: 'Please provide an ID' })
+    const response: ErrorResponse = { message: 'Please provide an ID' }
+
+    reply.code(400).send(response)
     return
   }
 
@@ -25,10 +31,13 @@ export async function getActorById(request, reply) {
       reply.code(200).send(actor)
     } else {
       request.log.error('Error')
-      reply.code(404).send({ message: `Movie with id ${request.params.id} does not exist` })
+
+      const response: ErrorResponse = { message: `Movie with id ${request.params.id} does not exist` }
+      reply.code(404).send(response)
     }
   } catch (error) {
     request.log.error(error)
-    reply.code(500).send({ message: 'Something went wrong' })
+    const response: ErrorResponse = { message: 'Something went wrong' }
+    reply.code(500).send(response)
   }
 }

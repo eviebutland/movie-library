@@ -36,7 +36,7 @@ export async function updateGenre(request, reply) {
     }
     try {
       await genreCollection.updateOne({ _id: id }, updateDoc, {
-        upsert: true // what does this do?
+        upsert: true
       })
 
       reply.code(200).send(request.body)

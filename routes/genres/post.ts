@@ -14,6 +14,7 @@ export async function createGenre(request, reply) {
 
     reply.code(201).send(postModel)
   } else {
-    reply.code(409).send('Genre already exists')
+    const response: ErrorResponse = { message: 'Genre already exists' }
+    reply.code(409).send(response)
   }
 }

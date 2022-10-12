@@ -24,8 +24,8 @@ export async function updateMovieByName(request, reply) {
 
     reply.code(200).send(model)
   } else {
-    // do we want to make a new one?
-    reply.code(404).send({ message: `Could not find a match for '${request.params.name}'` })
+    const response: ErrorResponse = { message: `Could not find a match for '${request.params.name}'` }
+    reply.code(404).send(response)
   }
 }
 
@@ -55,8 +55,9 @@ export async function updateMovieById(request, reply) {
 
       reply.code(200).send(model)
     } else {
-      request.log.error(`Movie with id ${request.params.id} could not be found`)
-      reply.code(404).send({ message: `Movie with id ${request.params.id} could not be found` })
+      const response: ErrorResponse = { message: `Movie with id ${request.params.id} could not be found` }
+      request.log.error(response.message)
+      reply.code(404).send(response)
     }
   } catch (error) {
     request.log.error(error)

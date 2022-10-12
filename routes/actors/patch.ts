@@ -2,7 +2,9 @@ export async function updateActorById(request, reply) {
   const actorsCollection = this.mongo.db.collection('actors')
 
   if (request.params.id === ':id') {
-    reply.code(400).send({ message: 'Please provide an ID' })
+    const response: ErrorResponse = { message: 'Please provide an ID' }
+    reply.code(400).send(response)
+
     return
   }
 
@@ -31,6 +33,7 @@ export async function updateActorById(request, reply) {
     }
   } catch (error) {
     request.log.error(error)
-    reply.code(500).send({ message: 'Something went wrong' })
+    const response: ErrorResponse = { message: 'Something went wrong' }
+    reply.code(500).send(response)
   }
 }

@@ -45,6 +45,7 @@ export async function createMovie(request, reply) {
     reply.code(201).send(newMovie)
   } else {
     // Needs to describe what was failing validation here
-    reply.code(400).send({ error: 'Something went wrong' })
+    const response: ErrorResponse = { message: 'Something went wrong' }
+    reply.code(400).send(response)
   }
 }

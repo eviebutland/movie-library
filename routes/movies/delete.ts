@@ -24,7 +24,9 @@ export async function deleteMovieByName(request, reply) {
       }
     } else {
       request.log.error('Movie could not be found')
-      reply.code(404).send({ message: `Movie '${request.params.name}' could not be found` })
+
+      const response: ErrorResponse = { message: `Movie '${request.params.name}' could not be found` }
+      reply.code(404).send(response)
     }
   } catch (error) {
     request.log.error(error)
@@ -36,8 +38,10 @@ export async function deleteMovieById(request, reply) {
   const movieCollection = this.mongo.db.collection('movies')
 
   if (request.params.id === ':id') {
-    request.log.error({ message: 'No ID was provided' })
-    reply.code(400).send({ message: 'No ID was provided' })
+    const response: ErrorResponse = { message: 'No ID was provided' }
+
+    request.log.error(response.message)
+    reply.code(400).send(response)
     return
   }
 
@@ -57,7 +61,8 @@ export async function deleteMovieById(request, reply) {
         reply.code(200).send({ message: `Movie '${request.params.id}' was successfully deleted` })
       }
     } else {
-      reply.code(404).send({ message: `Movie with ID ${request.params.id} could not be found` })
+      const response: ErrorResponse = { message: `Movie with ID ${request.params.id} could not be found` }
+      reply.code(404).send(response)
     }
   } catch (error) {
     request.log.error(error)
