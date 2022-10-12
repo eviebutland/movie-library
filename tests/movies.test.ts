@@ -194,7 +194,7 @@ describe('Movies: Test create, read, update and delete', () => {
       })
 
       expect(response.statusCode).toBe(200)
-      console.log(JSON.parse(response.body).message)
+
       expect(JSON.parse(response.body).message).toBe(`Movie '${singleMovieId}' was successfully deleted`)
     })
 
