@@ -1,6 +1,10 @@
+import { FastifyReply, FastifyRequest } from 'fastify'
 import { convertToKebabCase } from '../../utils/convert-to-kebab-case'
 
-export async function deleteMovieByName(request, reply) {
+export async function deleteMovieByName(
+  request: FastifyRequest<{ Params: { name: string } }>,
+  reply: FastifyReply
+) {
   const movieCollection = this.mongo.db.collection('movies')
 
   try {
@@ -34,11 +38,11 @@ export async function deleteMovieByName(request, reply) {
     }
   } catch (error) {
     request.log.error(error)
-    throw new Error(error)
+    throw new Error('error')
   }
 }
 
-export async function deleteMovieById(request, reply) {
+export async function deleteMovieById(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
   const movieCollection = this.mongo.db.collection('movies')
 
   if (request.params.id === ':id') {

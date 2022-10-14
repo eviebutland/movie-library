@@ -1,4 +1,15 @@
-function hasAccess(area, minLevelRequired, userPermissions) {
+import { FastifyReply, FastifyRequest, HookHandlerDoneFunction } from 'fastify'
+
+type Area = 'm' | 'i' | 'g' | 'a'
+type Method = 'post' | 'get' | 'patch' | 'delete'
+type MinLevelRequired = 'r' | 'w' | 'a'
+
+interface Body {
+  user: {
+    permissions: Array<string>
+  }
+}
+function hasAccess(area: Area, minLevelRequired: MinLevelRequired, userPermissions) {
   const ranking = {
     r: 1,
     w: 2,
@@ -38,7 +49,13 @@ const areaMinAccess = {
   }
 }
 
-export function checkAuthorisation(request, reply, done, area, method) {
+export function checkAuthorisation(
+  request: FastifyRequest<{ Body: Body }>,
+  reply: FastifyReply,
+  done: HookHandlerDoneFunction,
+  area: Area,
+  method: Method
+) {
   if (hasAccess(area, areaMinAccess[area][method], request.user.permissions)) {
     done()
   } else {

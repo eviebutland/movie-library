@@ -1,15 +1,20 @@
-export async function getListMoviesByGenre(request, reply) {
+import { FastifyReply, FastifyRequest } from 'fastify'
+
+export async function getListMoviesByGenre(
+  request: FastifyRequest<{ Params: { genre: string } }>,
+  reply: FastifyReply
+) {
   const movieCollection = this.mongo.db.collection('movies')
 
   try {
     const movies = await movieCollection.find({ genre: request.params.genre }).toArray()
 
-    const response = { docs: movies, total: movies.length, message: null }
-
     if (!movies.length) {
-      response.message = 'There are no movies with that genre'
+      const response: ErrorResponse = { message: 'There are no movies with that genre' }
+
       reply.code(404).send(response)
     } else {
+      const response: standardisedGETManyResponse = { docs: movies, total: movies.length, message: 'Success' }
       reply.code(200).send(response)
     }
   } catch (error) {
@@ -18,9 +23,10 @@ export async function getListMoviesByGenre(request, reply) {
   }
 }
 
-export async function getAllGenres(request, reply) {
+export async function getAllGenres(_, reply) {
   const genreCollection = this.mongo.db.collection('genres')
   const allGenres = await genreCollection.find().toArray()
 
-  reply.code(200).send({ genres: allGenres, total: allGenres.length })
+  const response: standardisedGETManyResponse = { docs: allGenres, total: allGenres.length }
+  reply.code(200).send(response)
 }

@@ -1,6 +1,7 @@
+import { FastifyReply, FastifyRequest } from 'fastify'
 import { convertToKebabCase } from '../../utils/convert-to-kebab-case'
 
-export async function getListAllMovies(request, reply) {
+export async function getListAllMovies(request: FastifyRequest, reply: FastifyReply) {
   const movieCollection = this.mongo.db.collection('movies')
 
   try {
@@ -11,7 +12,7 @@ export async function getListAllMovies(request, reply) {
   }
 }
 
-export async function getMoviebyName(request, reply) {
+export async function getMoviebyName(request: FastifyRequest<{ Params: { name: string } }>, reply: FastifyReply) {
   const movieCollection = this.mongo.db.collection('movies')
 
   const movie = await movieCollection.findOne({ key: convertToKebabCase(request.params.name) })
@@ -25,7 +26,7 @@ export async function getMoviebyName(request, reply) {
   }
 }
 
-export async function getMovieById(request, reply) {
+export async function getMovieById(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
   const movieCollection = this.mongo.db.collection('movies')
 
   const id = this.mongo.ObjectId(request.params.id)
@@ -41,6 +42,8 @@ export async function getMovieById(request, reply) {
     }
   } catch (error) {
     request.log.error(error)
-    reply.code(500).send({ message: 'Something went wrong' })
+
+    const response: ErrorResponse = { message: 'Something went wrong' }
+    reply.code(500).send(response)
   }
 }

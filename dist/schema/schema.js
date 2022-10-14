@@ -794,20 +794,20 @@ export const document = {
                     }
                 ],
                 security: [{ jwt: [] }],
-                // headers: {
-                //   Authorization: {
-                //     description: 'Authorization header',
-                //     schema: {
-                //       type: 'string'
-                //     }
-                //   },
-                //   'x-api-key': {
-                //     description: 'Authorization header',
-                //     schema: {
-                //       type: 'string'
-                //     }
-                //   }
-                // },
+                headers: {
+                  Authorization: {
+                    description: 'Authorization header',
+                    schema: {
+                      type: 'string'
+                    }
+                  },
+                  'x-api-key': {
+                    description: 'Authorization header',
+                    schema: {
+                      type: 'string'
+                    }
+                  }
+                },
                 responses: {
                     200: {
                         description: 'OK',

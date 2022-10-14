@@ -1,3 +1,4 @@
+import { FastifyInstance, FastifyReply, FastifyRequest, HookHandlerDoneFunction } from 'fastify'
 import {
   getListAllMovies,
   getMoviebyName,
@@ -19,7 +20,7 @@ import { MovieSchema } from './movies/schema'
 import { UserSchema } from './authentication/schema'
 import { checkAuthorisation } from './authentication/permissions'
 
-export async function routes(fastify) {
+export async function routes(fastify: FastifyInstance) {
   // Auth
   fastify.post('/auth/login', authLogin)
   fastify.post('/auth/logout', authLogout)
@@ -27,7 +28,7 @@ export async function routes(fastify) {
     '/auth/new',
     {
       schema: UserSchema.post,
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'i', 'post')
       }
     },
@@ -38,7 +39,7 @@ export async function routes(fastify) {
   fastify.get(
     '/movies',
     {
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'm', 'get')
       }
     },
@@ -48,7 +49,7 @@ export async function routes(fastify) {
     '/movies/list',
     {
       schema: MovieSchema.postMany,
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'm', 'post')
       }
     },
@@ -58,7 +59,7 @@ export async function routes(fastify) {
     '/movies',
     {
       schema: MovieSchema.post,
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'm', 'post')
       }
     },
@@ -69,7 +70,7 @@ export async function routes(fastify) {
   fastify.get(
     '/movies/name/:name',
     {
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'm', 'get')
       }
     },
@@ -79,7 +80,7 @@ export async function routes(fastify) {
     '/movies/name/:name',
     {
       schema: MovieSchema.patch,
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'm', 'patch')
       }
     },
@@ -88,7 +89,7 @@ export async function routes(fastify) {
   fastify.delete(
     '/movies/name/:name',
     {
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'm', 'delete')
       }
     },
@@ -100,7 +101,7 @@ export async function routes(fastify) {
     '/movies/genres',
     {
       schema: GenreSchema.post,
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'g', 'post')
       }
     },
@@ -109,7 +110,7 @@ export async function routes(fastify) {
   fastify.get(
     '/movies/genres',
     {
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'g', 'get')
       }
     },
@@ -118,7 +119,7 @@ export async function routes(fastify) {
   fastify.get(
     '/movies/genres/:genre',
     {
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'g', 'get')
       }
     },
@@ -127,7 +128,7 @@ export async function routes(fastify) {
   fastify.delete(
     '/movies/genres/:genre',
     {
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'g', 'delete')
       }
     },
@@ -137,7 +138,7 @@ export async function routes(fastify) {
     '/movies/genres/:genre',
     {
       schema: GenreSchema.patch,
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'g', 'patch')
       }
     },
@@ -147,7 +148,7 @@ export async function routes(fastify) {
   fastify.get(
     '/movies/:id',
     {
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'm', 'get')
       }
     },
@@ -157,7 +158,7 @@ export async function routes(fastify) {
     '/movies/:id',
     {
       schema: MovieSchema.patch,
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'm', 'patch')
       }
     },
@@ -166,7 +167,7 @@ export async function routes(fastify) {
   fastify.delete(
     '/movies/:id',
     {
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'm', 'delete')
       }
     },
@@ -176,7 +177,7 @@ export async function routes(fastify) {
   fastify.get(
     '/movies/actors',
     {
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'a', 'get')
       }
     },
@@ -186,7 +187,7 @@ export async function routes(fastify) {
     '/movies/actors/:id',
     {
       schema: { params: ActorSchema.params },
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'a', 'get')
       }
     },
@@ -196,7 +197,7 @@ export async function routes(fastify) {
     '/movies/actors',
     {
       schema: ActorSchema.post,
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'a', 'post')
       }
     },
@@ -206,7 +207,7 @@ export async function routes(fastify) {
     '/movies/actors/:id',
     {
       schema: ActorSchema.post,
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'a', 'patch')
       }
     },
@@ -215,7 +216,7 @@ export async function routes(fastify) {
   fastify.delete(
     '/movies/actors/:id',
     {
-      preHandler: function (request, reply, done) {
+      preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
         checkAuthorisation(request, reply, done, 'a', 'delete')
       }
     },

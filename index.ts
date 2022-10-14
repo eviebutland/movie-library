@@ -1,6 +1,6 @@
 import { OpenAPIBackend } from 'openapi-backend'
-import Fastify from 'fastify'
-import { routes, handlers, responses } from './routes/index' // typescript having problems with this file
+import Fastify, { FastifyInstance } from 'fastify'
+import { routes, handlers, responses } from './routes/index'
 import fastifyMongodb from '@fastify/mongodb'
 import fastifyJwt from '@fastify/jwt'
 import { document } from './schema/schema'
@@ -20,7 +20,7 @@ export const api = new OpenAPIBackend({
 api.init()
 
 export const fastify = function () {
-  const app = Fastify({
+  const app: FastifyInstance = Fastify({
     logger: {
       transport: {
         target: 'pino-pretty',
@@ -67,7 +67,7 @@ const customMessages = {
 // Since we want authentication on all endpoints, we can register this handler on every request.
 // If we wanted authentication on only a few requests, we could use a decorator instead
 // https://github.com/fastify/fastify-jwt#usage
-api.registerSecurityHandler('jwt', async (request:any, reply) => {
+api.registerSecurityHandler('jwt', async (request: any, reply) => {
   try {
     await request.jwtVerify()
   } catch (err) {
@@ -75,8 +75,11 @@ api.registerSecurityHandler('jwt', async (request:any, reply) => {
   }
 })
 
-api.register('unauthorizedHandler', (reply:any) => {
-  return reply.code(401).send({ err: 'unauthorized' })
+api.register('unauthorizedHandler', (reply: any) => {
+  const response: ErrorResponse = {
+    message: 'unauthorized'
+  }
+  return reply.code(401).send(response)
 })
 
 api.register('validationFail', responses.validationFailHandler)

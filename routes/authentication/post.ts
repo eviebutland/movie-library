@@ -1,4 +1,11 @@
-export async function createUser(request, reply) {
+import { FastifyReply, FastifyRequest } from 'fastify'
+
+interface Body {
+  email: string
+  password: string
+}
+
+export async function createUser(request: FastifyRequest<{ Body: Body }>, reply: FastifyReply) {
   // check they don't exist in DB already
   const userCollection = this.mongo.db.collection('users')
 
@@ -7,7 +14,6 @@ export async function createUser(request, reply) {
   if (matchingUser) {
     const response: ErrorResponse = { message: `Email: ${request.body.email} already in use` }
     reply.code(409).send(response)
-    return
   } else {
     // check the password is valid
     if (!hasValidPassword(request.body.password)) {
@@ -17,7 +23,6 @@ export async function createUser(request, reply) {
       }
 
       reply.code(400).send(response)
-      return
     }
 
     const newUser = await userCollection.insertOne(request.body)
@@ -26,7 +31,7 @@ export async function createUser(request, reply) {
   }
 }
 
-function hasValidPassword(password) {
+function hasValidPassword(password: string): boolean {
   const passwordValidateRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\^$*.[\]{}()?\-"!@#%&/,><':;|_~`])\S{4,55}$/
 

@@ -1,4 +1,23 @@
-export async function createListOfMovies(request, reply) {
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { Movie } from './schema'
+// interface Movie {
+//   name: string
+//   key: string
+//   yearReleased: number
+//   description: string
+//   keyWords: Array<string>
+//   actors: Array<string>
+//   image: string
+//   boxOfficeTotal: number
+//   genre: string
+//   rating: number
+//   trailerUrl: string
+// }
+
+export async function createListOfMovies(
+  request: FastifyRequest<{ Body: { movies: Array<Movie> } }>,
+  reply: FastifyReply
+) {
   const moviesCollection = this.mongo.db.collection('movies')
 
   // check if it already exists
@@ -7,9 +26,9 @@ export async function createListOfMovies(request, reply) {
   // get all movies in DB
   const exisitingMovies = await moviesCollection.find().toArray()
 
-  const newMovies = []
+  const newMovies: Array<Movie> = []
 
-  moviesToAdd.forEach(movie => {
+  moviesToAdd.forEach((movie: Movie) => {
     const exisitingMovie = exisitingMovies.find(exisitingMovie => exisitingMovie.key === movie.key)
 
     if (!exisitingMovie) {
@@ -27,7 +46,7 @@ export async function createListOfMovies(request, reply) {
   }
 }
 
-export async function createMovie(request, reply) {
+export async function createMovie(request: FastifyRequest<{ Body: { key: string } }>, reply: FastifyReply) {
   const moviesCollection = this.mongo.db.collection('movies')
 
   const existingMovie = await moviesCollection.findOne({ key: request.body.key })

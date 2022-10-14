@@ -69,6 +69,20 @@ const listMovieRequestBody = {
   }
 }
 
+export interface Movie {
+  name: string
+  key: string
+  yearReleased: number
+  description: string
+  keyWords: Array<string>
+  actors: Array<string>
+  image: string
+  boxOfficeTotal: number
+  genre: string
+  rating: number
+  trailerUrl: string
+}
+
 const patchRequestBody = {
   type: 'object',
   ...movieProperties

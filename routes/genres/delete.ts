@@ -1,6 +1,8 @@
 // Remove from this collection and put into an archive
 
-export async function deleteGenre(request, reply) {
+import { FastifyReply, FastifyRequest } from 'fastify'
+
+export async function deleteGenre(request: FastifyRequest<{ Params: { genre: string } }>, reply: FastifyReply) {
   const genreCollection = this.mongo.db.collection('genres')
   const genreToDelete = await genreCollection.findOne({ name: request.params.genre })
 
@@ -26,7 +28,7 @@ export async function deleteGenre(request, reply) {
       }
     } catch (error) {
       request.log.error(error)
-      throw new Error(error)
+      throw new Error('error')
     }
   } else {
     const response: ErrorResponse = { message: `Genre '${request.params.genre}' could not be found` }

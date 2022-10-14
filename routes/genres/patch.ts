@@ -5,7 +5,17 @@
 //   console.log(moviesToUpdate)
 // }
 
-export async function updateGenre(request, reply) {
+import { FastifyReply, FastifyRequest } from 'fastify'
+
+interface Body {
+  name: string
+  characteristics: Array<string>
+}
+
+export async function updateGenre(
+  request: FastifyRequest<{ Body: Body; Params: { genre: string } }>,
+  reply: FastifyReply
+) {
   // Update the genre's details
   const genreCollection = this.mongo.db.collection('genres')
   const genreToUpdate = await genreCollection.findOne({ name: request.params.genre })
@@ -22,7 +32,7 @@ export async function updateGenre(request, reply) {
       reply.code(200).send(postModel)
     } catch (error) {
       request.log.error('Error update movie', error)
-      throw new Error(error)
+      throw new Error('error')
     }
   } else {
     const id = this.mongo.ObjectId(genreToUpdate._id)

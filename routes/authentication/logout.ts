@@ -1,5 +1,11 @@
-export function authLogout(request, reply) {
+import { FastifyReply, FastifyRequest } from 'fastify'
+
+interface Success {
+  message: string
+}
+export function authLogout(request: FastifyRequest, reply: FastifyReply): void {
   // this can invalidate that previous api key/ remove it
 
-  reply.code(200).send({ message: 'Successful log out' })
+  const response: Success = { message: 'Successful log out' }
+  reply.code(200).send(response)
 }
