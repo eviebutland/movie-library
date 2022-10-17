@@ -29,7 +29,7 @@ export async function createListOfMovies(
   const newMovies: Array<Movie> = []
 
   moviesToAdd.forEach((movie: Movie) => {
-    const exisitingMovie = exisitingMovies.find(exisitingMovie => exisitingMovie.key === movie.key)
+    const exisitingMovie = exisitingMovies.find((exisitingMovie: Movie) => exisitingMovie.key === movie.key)
 
     if (!exisitingMovie) {
       newMovies.push(movie)

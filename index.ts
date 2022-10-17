@@ -59,7 +59,7 @@ const customMessages = {
   badRequestErrorMessage: 'Format is Authorization: Bearer [token]',
   noAuthorizationInHeaderMessage: 'Autorization header is missing!',
   authorizationTokenExpiredMessage: 'Authorization token expired',
-  authorizationTokenInvalid: err => {
+  authorizationTokenInvalid: (err: { message: string }) => {
     return `Authorization token is invalid: ${err.message}`
   }
 }

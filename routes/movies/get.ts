@@ -1,7 +1,11 @@
+import { FastifyMongoObject } from '@fastify/mongodb'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { FastifyInstance } from 'fastify/types/instance'
 import { convertToKebabCase } from '../../utils/convert-to-kebab-case'
 
+// this:FasifyInstance
 export async function getListAllMovies(request: FastifyRequest, reply: FastifyReply) {
+  // const mlongo: FastifyMongoObject = this.mongo.db
   const movieCollection = this.mongo.db.collection('movies')
 
   try {

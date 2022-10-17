@@ -1,25 +1,32 @@
-import { FastifyReply, FastifyRequest, HookHandlerDoneFunction } from 'fastify'
+import { FastifyReply, FastifyRequest, HookHandlerDoneFunction, RouteGenericInterface } from 'fastify'
 
 type Area = 'm' | 'i' | 'g' | 'a'
 type Method = 'post' | 'get' | 'patch' | 'delete'
-type MinLevelRequired = 'r' | 'w' | 'a'
+type MinLevelRequired = string | 'r' | 'w' | 'a'
 
 interface Body {
   user: {
     permissions: Array<string>
   }
 }
-function hasAccess(area: Area, minLevelRequired: MinLevelRequired, userPermissions) {
+function hasAccess(area: Area, minLevelRequired: MinLevelRequired, userPermissions: Array<string>) {
   const ranking = {
     r: 1,
     w: 2,
     a: 3
   }
 
-  const currentArea = userPermissions.find(permission => permission.includes(`${area}:`))
+  const currentArea: string | undefined = userPermissions.find((permission: string): boolean => {
+    return permission.includes(`${area}:`)
+  })
 
-  const minRankingRequired = ranking[`${minLevelRequired}`]
-  const currentPermissionRanking = ranking[currentArea?.split(':')[1]]
+  const minRankingRequired: number = ranking[`${minLevelRequired}`]
+  let currentPermissionRanking = ''
+
+  if (currentArea) {
+    const split = currentArea?.split(':')[1] ?? 'r'
+    currentPermissionRanking = ranking[split]
+  }
 
   return currentPermissionRanking >= minRankingRequired
 }
@@ -33,7 +40,10 @@ const areaMinAccess = {
     delete: 'a'
   },
   i: {
-    post: 'a'
+    post: 'a',
+    get: 'a',
+    patch: 'a',
+    delete: 'a'
   },
   g: {
     get: 'r',
@@ -50,13 +60,16 @@ const areaMinAccess = {
 }
 
 export function checkAuthorisation(
-  request: FastifyRequest<{ Body: Body }>,
+  request: FastifyRequest<{ Body?: Body } | RouteGenericInterface>,
   reply: FastifyReply,
   done: HookHandlerDoneFunction,
   area: Area,
   method: Method
 ) {
-  if (hasAccess(area, areaMinAccess[area][method], request.user.permissions)) {
+  const minLevelRequired: MinLevelRequired = areaMinAccess[area][method]
+
+  const userPermissions: Array<string> = request.user.permissions
+  if (hasAccess(area, minLevelRequired, userPermissions)) {
     done()
   } else {
     const response: ErrorResponse = { message: 'unauthorised' }

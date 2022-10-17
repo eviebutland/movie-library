@@ -225,7 +225,7 @@ export async function routes(fastify: FastifyInstance) {
 }
 
 // Need to get this to validate the requests
-function validationFailHandler(c, req, res) {
+function validationFailHandler(c, req: FastifyRequest, res: FastifyReply) {
   return res.code(400).send({ status: 400, err: c.validation.errors })
 }
 
