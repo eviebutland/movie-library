@@ -23,7 +23,7 @@ export async function getListMoviesByGenre(
   }
 }
 
-export async function getAllGenres(_, reply) {
+export async function getAllGenres(_: FastifyRequest, reply: FastifyReply) {
   const genreCollection = this.mongo.db.collection('genres')
   const allGenres = await genreCollection.find().toArray()
 
