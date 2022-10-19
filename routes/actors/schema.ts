@@ -65,4 +65,12 @@ const params = {
   }
 }
 
+export interface Actor {
+  name: string
+  dateOfBirth: string
+  moviesAppearedIn: Array<{ name: string; label: string }>
+  gender: string
+  bornIn: string
+  awards: Array<{ type: string }>
+}
 export const ActorSchema = { post: { body: requestBody }, patch: { body: patchRequestBody }, params }

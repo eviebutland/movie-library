@@ -32,7 +32,7 @@ const patchRequestBody = {
 
 export const GenreSchema = { post: { body: requestBody }, patch: { body: patchRequestBody } }
 
-export interface Body {
+export interface Genre {
   name: string
   characteristics: Array<string>
 }

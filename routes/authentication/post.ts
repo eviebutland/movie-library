@@ -1,13 +1,12 @@
-import { FastifyReply, FastifyRequest } from 'fastify'
+import fastify, { FastifyReply, FastifyRequest } from 'fastify'
+import { Collection } from 'mongodb'
+import { Login } from './schema'
 
-interface Body {
-  email: string
-  password: string
-}
-
-export async function createUser(request: FastifyRequest<{ Body?: Body }>, reply: FastifyReply): Promise<void> {
+export async function createUser(request: FastifyRequest<{ Body?: Login }>, reply: FastifyReply): Promise<void> {
   // check they don't exist in DB already
-  const userCollection = this.mongo.db.collection('users')
+  console.log(this)
+
+  const userCollection: Collection = this.mongo.db.collection('users')
 
   if (request.body) {
     const matchingUser = await userCollection.findOne({ email: request.body.email })

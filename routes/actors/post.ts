@@ -1,5 +1,9 @@
-export async function createActor(request, reply) {
-  const actorsCollection = this.mongo.db.collection('actors')
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { Collection } from 'mongodb'
+import { Actor } from './schema'
+
+export async function createActor(request: FastifyRequest<{ Body: Actor }>, reply: FastifyReply) {
+  const actorsCollection: Collection = this.mongo.db.collection('actors')
 
   // check this actor doesn't already exist
   try {
@@ -13,6 +17,6 @@ export async function createActor(request, reply) {
       reply.code(409).send(response)
     }
   } catch (error) {
-    throw new Error(error)
+    throw new Error('error')
   }
 }

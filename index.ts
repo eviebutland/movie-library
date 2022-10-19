@@ -1,6 +1,6 @@
 import { OpenAPIBackend } from 'openapi-backend'
 import Fastify, { FastifyInstance } from 'fastify'
-import { routes, handlers, responses } from './routes/index'
+import { routes, handlers } from './routes/index'
 import fastifyMongodb from '@fastify/mongodb'
 import fastifyJwt from '@fastify/jwt'
 import { document } from './schema/schema'
@@ -82,7 +82,7 @@ api.register('unauthorizedHandler', (reply: any) => {
   return reply.code(401).send(response)
 })
 
-api.register('validationFail', responses.validationFailHandler)
+// api.register('validationFail', responses.validationFailHandler)
 
 // how do we use these?
 // api.register({

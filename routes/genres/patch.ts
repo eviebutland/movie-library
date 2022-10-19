@@ -4,20 +4,18 @@
 //   const moviesToUpdate = moviesCollection.find({ genre: 'comedy' })
 //   console.log(moviesToUpdate)
 // }
+import { Collection } from 'mongodb'
 
 import { FastifyReply, FastifyRequest } from 'fastify'
-
-interface Body {
-  name: string
-  characteristics: Array<string>
-}
+import { Genre } from './schema'
+import { ObjectId } from '@fastify/mongodb'
 
 export async function updateGenre(
-  request: FastifyRequest<{ Body: Body; Params: { genre: string } }>,
+  request: FastifyRequest<{ Body: Genre; Params: { genre: string } }>,
   reply: FastifyReply
 ) {
   // Update the genre's details
-  const genreCollection = this.mongo.db.collection('genres')
+  const genreCollection: Collection = this.mongo.db.collection('genres')
   const genreToUpdate = await genreCollection.findOne({ name: request.params.genre })
   if (genreToUpdate === null) {
     const postModel = {
@@ -35,7 +33,7 @@ export async function updateGenre(
       throw new Error('error')
     }
   } else {
-    const id = this.mongo.ObjectId(genreToUpdate._id)
+    const id: ObjectId = this.mongo.ObjectId(genreToUpdate._id)
 
     const { name, characteristics } = request.body
     const updateDoc = {

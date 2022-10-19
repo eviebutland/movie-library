@@ -1,10 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { Collection } from 'mongodb'
 
 export async function getListMoviesByGenre(
   request: FastifyRequest<{ Params: { genre: string } }>,
   reply: FastifyReply
 ) {
-  const movieCollection = this.mongo.db.collection('movies')
+  const movieCollection: Collection = this.mongo.db.collection('movies')
 
   try {
     const movies = await movieCollection.find({ genre: request.params.genre }).toArray()
@@ -24,7 +25,7 @@ export async function getListMoviesByGenre(
 }
 
 export async function getAllGenres(_: FastifyRequest, reply: FastifyReply) {
-  const genreCollection = this.mongo.db.collection('genres')
+  const genreCollection: Collection = this.mongo.db.collection('genres')
   const allGenres = await genreCollection.find().toArray()
 
   const response: standardisedGETManyResponse = { docs: allGenres, total: allGenres.length }

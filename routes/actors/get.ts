@@ -1,5 +1,8 @@
-export async function getAllActors(request, reply) {
-  const actorsCollection = this.mongo.db.collection('actors')
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { Collection } from 'mongodb'
+
+export async function getAllActors(request: FastifyRequest, reply: FastifyReply) {
+  const actorsCollection: Collection = this.mongo.db.collection('actors')
 
   try {
     const actors = await actorsCollection.find().toArray()
@@ -14,8 +17,8 @@ export async function getAllActors(request, reply) {
   }
 }
 
-export async function getActorById(request, reply) {
-  const actorsCollection = this.mongo.db.collection('actors')
+export async function getActorById(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
+  const actorsCollection: Collection = this.mongo.db.collection('actors')
 
   if (request.params.id === ':id') {
     const response: ErrorResponse = { message: 'Please provide an ID' }

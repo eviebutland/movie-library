@@ -1,5 +1,8 @@
-export async function deleteActorById(request, reply) {
-  const actorsCollection = this.mongo.db.collection('actors')
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { Collection } from 'mongodb'
+
+export async function deleteActorById(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
+  const actorsCollection: Collection = this.mongo.db.collection('actors')
 
   if (request.params.id === ':id') {
     const response: ErrorResponse = { message: 'Please provide an ID' }
@@ -12,11 +15,11 @@ export async function deleteActorById(request, reply) {
     const actorToDelete = await actorsCollection.findOne({ _id: this.mongo.ObjectId(request.params.id) })
 
     if (actorToDelete) {
-      const actorsArchive = this.mongo.db.collection('archive-actors')
+      const actorsArchive: Collection = this.mongo.db.collection('archive-actors')
 
       const actor = Object.entries(actorToDelete).filter(key => key[0] !== '_id')
 
-      const deletedActor = actorsArchive.insertOne(Object.fromEntries(actor))
+      const deletedActor = await actorsArchive.insertOne(Object.fromEntries(actor))
 
       if (deletedActor) {
         const id = this.mongo.ObjectId(actorToDelete._id)

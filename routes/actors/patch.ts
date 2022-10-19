@@ -1,5 +1,13 @@
-export async function updateActorById(request, reply) {
-  const actorsCollection = this.mongo.db.collection('actors')
+import { ObjectId } from '@fastify/mongodb'
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { Collection } from 'mongodb'
+import { Actor } from './schema'
+
+export async function updateActorById(
+  request: FastifyRequest<{ Params: { id: string }; Body: Actor }>,
+  reply: FastifyReply
+) {
+  const actorsCollection: Collection = this.mongo.db.collection('actors')
 
   if (request.params.id === ':id') {
     const response: ErrorResponse = { message: 'Please provide an ID' }
@@ -9,7 +17,7 @@ export async function updateActorById(request, reply) {
   }
 
   try {
-    const id = this.mongo.ObjectId(request.params.id)
+    const id: ObjectId = this.mongo.ObjectId(request.params.id)
     const actorToUpdate = await actorsCollection.findOne({ _id: id })
 
     const model = {

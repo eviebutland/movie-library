@@ -1,6 +1,5 @@
-import { FastifyMongodbOptions, FastifyMongoObject } from '@fastify/mongodb'
 import { FastifyReply, FastifyRequest } from 'fastify'
-
+import { Collection } from 'mongodb'
 interface Body {
   username: string
   password: string
@@ -10,7 +9,7 @@ export async function authLogin(
   request: FastifyRequest<{ Body: Body }>,
   reply: FastifyReply
 ): Promise<ErrorResponse | any> {
-  const userCollection = this.mongo.db.collection('users')
+  const userCollection: Collection = this.mongo.db.collection('users')
   const user = await userCollection.findOne({ email: request.body.username })
 
   if (user) {

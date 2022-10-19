@@ -1,17 +1,19 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { convertToKebabCase } from '../../utils/convert-to-kebab-case'
 import { Movie } from './schema'
+import { Collection } from 'mongodb'
+import { ObjectId } from '@fastify/mongodb'
 
 export async function updateMovieByName(
   request: FastifyRequest<{ Params: { name: string }; Body: { body: any } }>,
   reply: FastifyReply
 ) {
-  const movieCollection = this.mongo.db.collection('movies')
+  const movieCollection: Collection = this.mongo.db.collection('movies')
 
   const movieToUpdate = await movieCollection.findOne({ key: convertToKebabCase(request.params.name) })
 
   if (movieToUpdate) {
-    const id = this.mongo.ObjectId(movieToUpdate._id)
+    const id: ObjectId = this.mongo.ObjectId(movieToUpdate._id)
 
     const model = {
       ...movieToUpdate,
@@ -38,9 +40,9 @@ export async function updateMovieById(
   request: FastifyRequest<{ Params: { id: string }; Body: { body: Movie } }>,
   reply: FastifyReply
 ) {
-  const movieCollection = this.mongo.db.collection('movies')
+  const movieCollection: Collection = this.mongo.db.collection('movies')
 
-  const id = this.mongo.ObjectId(request.params.id)
+  const id: ObjectId = this.mongo.ObjectId(request.params.id)
   try {
     const movieToUpdate = await movieCollection.findOne({ _id: id })
 

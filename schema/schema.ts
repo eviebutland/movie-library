@@ -1,4 +1,5 @@
 import { OpenAPIV3 } from 'openapi-types'
+
 export const document: OpenAPIV3.Document = {
   openapi: '3.0.1',
   info: {

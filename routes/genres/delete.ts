@@ -1,14 +1,13 @@
-// Remove from this collection and put into an archive
-
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { Collection } from 'mongodb'
 
-export async function deleteGenre(request: FastifyRequest<{ Params: { genre: string } }>, reply: FastifyReply) {
-  const genreCollection = this.mongo.db.collection('genres')
+export const deleteGenre = async (request: FastifyRequest<{ Params: { genre: string } }>, reply: FastifyReply) => {
+  const genreCollection: Collection = this.mongo.db.collection('genres')
   const genreToDelete = await genreCollection.findOne({ name: request.params.genre })
 
   if (genreToDelete) {
     // add to archive collection
-    const archiveGenres = this.mongo.db.collection('archive-genres')
+    const archiveGenres: Collection = this.mongo.db.collection('archive-genres')
     try {
       const deletedGenre = await archiveGenres.insertOne({
         name: genreToDelete.name,

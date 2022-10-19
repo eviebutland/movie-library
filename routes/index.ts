@@ -14,17 +14,17 @@ import { getListMoviesByGenre, getAllGenres, createGenre, updateGenre, deleteGen
 import { getAllActors, getActorById, createActor, updateActorById, deleteActorById } from './actors/index'
 import { authLogin, authLogout, createUser } from './authentication/index'
 
-import { ActorSchema } from './actors/schema'
-import { GenreSchema } from './genres/schema'
-import { MovieSchema } from './movies/schema'
-import { UserSchema } from './authentication/schema'
+import { Actor, ActorSchema } from './actors/schema'
+import { Genre, GenreSchema } from './genres/schema'
+import { Movie, MovieSchema } from './movies/schema'
+import { Login, UserSchema } from './authentication/schema'
 import { checkAuthorisation } from './authentication/permissions'
 
 export async function routes(fastify: FastifyInstance) {
   // Auth
   fastify.post('/auth/login', authLogin)
   fastify.post('/auth/logout', authLogout)
-  fastify.post(
+  fastify.post<{ Body?: Login }>(
     '/auth/new',
     {
       schema: UserSchema.post,
@@ -45,7 +45,7 @@ export async function routes(fastify: FastifyInstance) {
     },
     getListAllMovies
   )
-  fastify.post(
+  fastify.post<{ Body: { movies: Movie[] } }>(
     '/movies/list',
     {
       schema: MovieSchema.postMany,
@@ -55,7 +55,8 @@ export async function routes(fastify: FastifyInstance) {
     },
     createListOfMovies
   )
-  fastify.post(
+
+  fastify.post<{ Body: { key: string } }>(
     '/movies',
     {
       schema: MovieSchema.post,
@@ -67,7 +68,7 @@ export async function routes(fastify: FastifyInstance) {
   )
 
   // By name
-  fastify.get(
+  fastify.get<{ Params: { name: string } }>(
     '/movies/name/:name',
     {
       preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
@@ -76,7 +77,8 @@ export async function routes(fastify: FastifyInstance) {
     },
     getMoviebyName
   )
-  fastify.patch(
+
+  fastify.patch<{ Params: { name: string }; Body: { body: any } }>(
     '/movies/name/:name',
     {
       schema: MovieSchema.patch,
@@ -86,7 +88,8 @@ export async function routes(fastify: FastifyInstance) {
     },
     updateMovieByName
   )
-  fastify.delete(
+
+  fastify.delete<{ Params: { name: string } }>(
     '/movies/name/:name',
     {
       preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
@@ -97,7 +100,7 @@ export async function routes(fastify: FastifyInstance) {
   )
 
   // Genre
-  fastify.post(
+  fastify.post<{ Body: Genre }>(
     '/movies/genres',
     {
       schema: GenreSchema.post,
@@ -107,6 +110,7 @@ export async function routes(fastify: FastifyInstance) {
     },
     createGenre
   )
+
   fastify.get(
     '/movies/genres',
     {
@@ -116,7 +120,8 @@ export async function routes(fastify: FastifyInstance) {
     },
     getAllGenres
   )
-  fastify.get(
+
+  fastify.get<{ Params: { genre: string } }>(
     '/movies/genres/:genre',
     {
       preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
@@ -125,7 +130,8 @@ export async function routes(fastify: FastifyInstance) {
     },
     getListMoviesByGenre
   )
-  fastify.delete(
+
+  fastify.delete<{ Params: { genre: string } }>(
     '/movies/genres/:genre',
     {
       preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
@@ -134,7 +140,7 @@ export async function routes(fastify: FastifyInstance) {
     },
     deleteGenre
   )
-  fastify.patch(
+  fastify.patch<{ Body: Genre; Params: { genre: string } }>(
     '/movies/genres/:genre',
     {
       schema: GenreSchema.patch,
@@ -145,7 +151,7 @@ export async function routes(fastify: FastifyInstance) {
     updateGenre
   )
   // By Id
-  fastify.get(
+  fastify.get<{ Params: { id: string } }>(
     '/movies/:id',
     {
       preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
@@ -154,7 +160,8 @@ export async function routes(fastify: FastifyInstance) {
     },
     getMovieById
   )
-  fastify.patch(
+
+  fastify.patch<{ Params: { id: string }; Body: { body: Movie } }>(
     '/movies/:id',
     {
       schema: MovieSchema.patch,
@@ -164,7 +171,8 @@ export async function routes(fastify: FastifyInstance) {
     },
     updateMovieById
   )
-  fastify.delete(
+
+  fastify.delete<{ Params: { id: string } }>(
     '/movies/:id',
     {
       preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
@@ -183,7 +191,8 @@ export async function routes(fastify: FastifyInstance) {
     },
     getAllActors
   )
-  fastify.get(
+
+  fastify.get<{ Params: { id: string } }>(
     '/movies/actors/:id',
     {
       schema: { params: ActorSchema.params },
@@ -193,7 +202,8 @@ export async function routes(fastify: FastifyInstance) {
     },
     getActorById
   )
-  fastify.post(
+
+  fastify.post<{ Body: Actor }>(
     '/movies/actors',
     {
       schema: ActorSchema.post,
@@ -203,7 +213,8 @@ export async function routes(fastify: FastifyInstance) {
     },
     createActor
   )
-  fastify.patch(
+
+  fastify.patch<{ Params: { id: string }; Body: Actor }>(
     '/movies/actors/:id',
     {
       schema: ActorSchema.post,
@@ -213,7 +224,8 @@ export async function routes(fastify: FastifyInstance) {
     },
     updateActorById
   )
-  fastify.delete(
+
+  fastify.delete<{ Params: { id: string } }>(
     '/movies/actors/:id',
     {
       preHandler: function (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) {
@@ -225,9 +237,10 @@ export async function routes(fastify: FastifyInstance) {
 }
 
 // Need to get this to validate the requests
-function validationFailHandler(c, req: FastifyRequest, res: FastifyReply) {
-  return res.code(400).send({ status: 400, err: c.validation.errors })
-}
+// function validationFailHandler(c, req: FastifyRequest, res: FastifyReply) {
+//   console.log(c)
+//   return res.code(400).send({ status: 400, err: c.validation.errors })
+// }
 
 export const handlers = {
   getListAllMovies,
@@ -251,6 +264,6 @@ export const handlers = {
   deleteActorById
 }
 
-export const responses = {
-  validationFailHandler
-}
+// export const responses = {
+//   validationFailHandler
+// }

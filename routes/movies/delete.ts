@@ -1,18 +1,19 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { convertToKebabCase } from '../../utils/convert-to-kebab-case'
-
+import { Collection } from 'mongodb'
+import { ObjectId } from '@fastify/mongodb'
 export async function deleteMovieByName(
   request: FastifyRequest<{ Params: { name: string } }>,
   reply: FastifyReply
 ) {
-  const movieCollection = this.mongo.db.collection('movies')
+  const movieCollection: Collection = this.mongo.db.collection('movies')
 
   try {
     const movieToDelete = await movieCollection.findOne({ key: convertToKebabCase(request.params.name) })
 
     if (movieToDelete) {
       // move to a new archive collection
-      const archiveMovies = this.mongo.db.collection('archive-movies')
+      const archiveMovies: Collection = this.mongo.db.collection('archive-movies')
 
       // remove id from previous collection
       const movie = Object.entries(movieToDelete).filter(movie => movie[0] !== '_id')
@@ -21,7 +22,7 @@ export async function deleteMovieByName(
 
       // Check its in the new collection
       if (deletedMovie.insertedId) {
-        const id = this.mongo.ObjectId(movieToDelete._id)
+        const id: ObjectId = this.mongo.ObjectId(movieToDelete._id)
         // Delete from current collection
         await movieCollection.deleteOne({ _id: id })
 
@@ -43,7 +44,7 @@ export async function deleteMovieByName(
 }
 
 export async function deleteMovieById(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
-  const movieCollection = this.mongo.db.collection('movies')
+  const movieCollection: Collection = this.mongo.db.collection('movies')
 
   if (request.params.id === ':id') {
     const response: ErrorResponse = { message: 'No ID was provided' }
@@ -57,13 +58,13 @@ export async function deleteMovieById(request: FastifyRequest<{ Params: { id: st
     const movieToDelete = await movieCollection.findOne({ _id: this.mongo.ObjectId(request.params.id) })
     if (movieToDelete) {
       // add to a new collection
-      const archiveMovies = this.mongo.db.collection('archive-movies')
+      const archiveMovies: Collection = this.mongo.db.collection('archive-movies')
       const movie = Object.entries(movieToDelete).filter(movie => movie[0] !== '_id')
 
       const deletedMovie = await archiveMovies.insertOne(Object.fromEntries(movie))
 
       if (deletedMovie.insertedId) {
-        const id = this.mongo.ObjectId(movieToDelete._id)
+        const id: ObjectId = this.mongo.ObjectId(movieToDelete._id)
         // Delete from current collection
         await movieCollection.deleteOne({ _id: id })
 

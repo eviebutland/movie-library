@@ -4,13 +4,16 @@ type Area = 'm' | 'i' | 'g' | 'a'
 type Method = 'post' | 'get' | 'patch' | 'delete'
 type MinLevelRequired = string | 'r' | 'w' | 'a'
 
+interface Ranking {
+  [key: string]: number
+}
 interface Body {
   user: {
     permissions: Array<string>
   }
 }
 function hasAccess(area: Area, minLevelRequired: MinLevelRequired, userPermissions: Array<string>) {
-  const ranking = {
+  const ranking: Ranking = {
     r: 1,
     w: 2,
     a: 3
@@ -21,10 +24,10 @@ function hasAccess(area: Area, minLevelRequired: MinLevelRequired, userPermissio
   })
 
   const minRankingRequired: number = ranking[`${minLevelRequired}`]
-  let currentPermissionRanking = ''
+  let currentPermissionRanking: number = 0
 
   if (currentArea) {
-    const split = currentArea?.split(':')[1] ?? 'r'
+    const split: string = currentArea?.split(':')[1] ?? 'r'
     currentPermissionRanking = ranking[split]
   }
 

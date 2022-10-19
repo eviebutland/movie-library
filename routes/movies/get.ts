@@ -1,12 +1,12 @@
-import { FastifyMongoObject } from '@fastify/mongodb'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { FastifyInstance } from 'fastify/types/instance'
-import { convertToKebabCase } from '../../utils/convert-to-kebab-case'
 
+import { convertToKebabCase } from '../../utils/convert-to-kebab-case'
+import { Collection } from 'mongodb'
+import { ObjectId } from '@fastify/mongodb'
 // this:FasifyInstance
 export async function getListAllMovies(request: FastifyRequest, reply: FastifyReply) {
   // const mlongo: FastifyMongoObject = this.mongo.db
-  const movieCollection = this.mongo.db.collection('movies')
+  const movieCollection: Collection = this.mongo.db.collection('movies')
 
   try {
     const movies = await movieCollection.find().toArray()
@@ -17,7 +17,7 @@ export async function getListAllMovies(request: FastifyRequest, reply: FastifyRe
 }
 
 export async function getMoviebyName(request: FastifyRequest<{ Params: { name: string } }>, reply: FastifyReply) {
-  const movieCollection = this.mongo.db.collection('movies')
+  const movieCollection: Collection = this.mongo.db.collection('movies')
 
   const movie = await movieCollection.findOne({ key: convertToKebabCase(request.params.name) })
 
@@ -31,9 +31,9 @@ export async function getMoviebyName(request: FastifyRequest<{ Params: { name: s
 }
 
 export async function getMovieById(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
-  const movieCollection = this.mongo.db.collection('movies')
+  const movieCollection: Collection = this.mongo.db.collection('movies')
 
-  const id = this.mongo.ObjectId(request.params.id)
+  const id: ObjectId = this.mongo.ObjectId(request.params.id)
 
   try {
     const movie = await movieCollection.findOne({ _id: id })
