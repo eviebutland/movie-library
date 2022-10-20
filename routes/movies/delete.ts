@@ -2,6 +2,8 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { convertToKebabCase } from '../../utils/convert-to-kebab-case'
 import { Collection } from 'mongodb'
 import { ObjectId } from '@fastify/mongodb'
+import { MovieWithID } from './schema'
+
 export async function deleteMovieByName(
   request: FastifyRequest<{ Params: { name: string } }>,
   reply: FastifyReply
@@ -9,7 +11,9 @@ export async function deleteMovieByName(
   const movieCollection: Collection = this.mongo.db.collection('movies')
 
   try {
-    const movieToDelete = await movieCollection.findOne({ key: convertToKebabCase(request.params.name) })
+    const movieToDelete = await movieCollection.findOne<MovieWithID>({
+      key: convertToKebabCase(request.params.name)
+    })
 
     if (movieToDelete) {
       // move to a new archive collection

@@ -7,7 +7,7 @@
 import { Collection } from 'mongodb'
 
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { Genre } from './schema'
+import { Genre, GenreWithID } from './schema'
 import { ObjectId } from '@fastify/mongodb'
 
 export async function updateGenre(
@@ -16,7 +16,7 @@ export async function updateGenre(
 ) {
   // Update the genre's details
   const genreCollection: Collection = this.mongo.db.collection('genres')
-  const genreToUpdate = await genreCollection.findOne({ name: request.params.genre })
+  const genreToUpdate = await genreCollection.findOne<GenreWithID>({ name: request.params.genre })
   if (genreToUpdate === null) {
     const postModel = {
       ...request.body,

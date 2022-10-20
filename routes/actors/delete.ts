@@ -1,5 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Collection } from 'mongodb'
+import { Actor } from './schema'
 
 export async function deleteActorById(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
   const actorsCollection: Collection = this.mongo.db.collection('actors')

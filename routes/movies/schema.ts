@@ -1,3 +1,5 @@
+import { ObjectId } from '@fastify/mongodb'
+
 const movieProperties = {
   properties: {
     name: {
@@ -81,6 +83,10 @@ export interface Movie {
   genre: string
   rating: number
   trailerUrl: string
+}
+
+export type MovieWithID = Movie & {
+  _id: ObjectId
 }
 
 const patchRequestBody = {

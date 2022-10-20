@@ -1,3 +1,5 @@
+import { ObjectId } from '@fastify/mongodb'
+
 const actorProperties = {
   properties: {
     name: {
@@ -73,4 +75,9 @@ export interface Actor {
   bornIn: string
   awards: Array<{ type: string }>
 }
+
+export type ActorWithID = Actor & {
+  _id: ObjectId
+}
+
 export const ActorSchema = { post: { body: requestBody }, patch: { body: patchRequestBody }, params }

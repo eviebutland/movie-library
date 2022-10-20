@@ -1,7 +1,7 @@
 import { ObjectId } from '@fastify/mongodb'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Collection } from 'mongodb'
-import { Actor } from './schema'
+import { Actor, ActorWithID } from './schema'
 
 export async function updateActorById(
   request: FastifyRequest<{ Params: { id: string }; Body: Actor }>,
@@ -18,7 +18,7 @@ export async function updateActorById(
 
   try {
     const id: ObjectId = this.mongo.ObjectId(request.params.id)
-    const actorToUpdate = await actorsCollection.findOne({ _id: id })
+    const actorToUpdate = await actorsCollection.findOne<ActorWithID>({ _id: id })
 
     const model = {
       ...actorToUpdate,

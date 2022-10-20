@@ -1,3 +1,5 @@
+import { ObjectId } from '@fastify/mongodb'
+
 const requestBody = {
   type: 'object',
   required: ['name', 'characteristics'],
@@ -35,4 +37,8 @@ export const GenreSchema = { post: { body: requestBody }, patch: { body: patchRe
 export interface Genre {
   name: string
   characteristics: Array<string>
+}
+
+export type GenreWithID = Genre & {
+  _id: ObjectId
 }

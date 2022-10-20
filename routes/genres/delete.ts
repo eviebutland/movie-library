@@ -1,9 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Collection } from 'mongodb'
+import { GenreWithID } from './schema'
 
 export const deleteGenre = async (request: FastifyRequest<{ Params: { genre: string } }>, reply: FastifyReply) => {
   const genreCollection: Collection = this.mongo.db.collection('genres')
-  const genreToDelete = await genreCollection.findOne({ name: request.params.genre })
+  const genreToDelete = await genreCollection.findOne<GenreWithID>({ name: request.params.genre })
 
   if (genreToDelete) {
     // add to archive collection

@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { Movie } from './schema'
+import { Movie, MovieWithID } from './schema'
 import { Collection } from 'mongodb'
 
 export async function createListOfMovies(
@@ -12,13 +12,13 @@ export async function createListOfMovies(
   const moviesToAdd = request.body.movies
 
   // get all movies in DB
-  const exisitingMovies = await moviesCollection.find().toArray()
+  const exisitingMovies = await moviesCollection.find<MovieWithID>({}).toArray()
 
   const newMovies: Array<Movie> = []
 
   moviesToAdd.forEach((movie: Movie) => {
     // Type 'WithId<Document>' is not assignable to type 'Movie
-    const exisitingMovie = exisitingMovies.find((exisitingMovie: Movie) => exisitingMovie.key === movie.key)
+    const exisitingMovie = exisitingMovies.find((exisitingMovie: MovieWithID) => exisitingMovie.key === movie.key)
 
     if (!exisitingMovie) {
       newMovies.push(movie)
@@ -38,7 +38,7 @@ export async function createListOfMovies(
 export async function createMovie(request: FastifyRequest<{ Body: { key: string } }>, reply: FastifyReply) {
   const moviesCollection: Collection = this.mongo.db.collection('movies')
 
-  const existingMovie = await moviesCollection.findOne({ key: request.body.key })
+  const existingMovie = await moviesCollection.findOne<MovieWithID>({ key: request.body.key })
 
   if (existingMovie) {
     reply

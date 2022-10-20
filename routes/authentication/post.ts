@@ -1,15 +1,15 @@
 import fastify, { FastifyReply, FastifyRequest } from 'fastify'
 import { Collection } from 'mongodb'
+import { UserWithID } from '../../fastify-jwt'
 import { Login } from './schema'
 
 export async function createUser(request: FastifyRequest<{ Body?: Login }>, reply: FastifyReply): Promise<void> {
   // check they don't exist in DB already
-  console.log(this)
 
   const userCollection: Collection = this.mongo.db.collection('users')
 
   if (request.body) {
-    const matchingUser = await userCollection.findOne({ email: request.body.email })
+    const matchingUser = await userCollection.findOne<UserWithID>({ email: request.body.email })
 
     if (matchingUser) {
       const response: ErrorResponse = { message: `Email: ${request.body.email} already in use` }
