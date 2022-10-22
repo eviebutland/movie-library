@@ -1,8 +1,13 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Genre, GenreWithID } from './schema'
 import { Collection } from 'mongodb'
+import { FastifyMongoObject } from '@fastify/mongodb'
 
-export async function createGenre(request: FastifyRequest<{ Body: Genre }>, reply: FastifyReply) {
+export async function createGenre(
+  this: any | FastifyMongoObject,
+  request: FastifyRequest<{ Body: Genre }>,
+  reply: FastifyReply
+) {
   const genreCollection: Collection = this.mongo.db.collection('genres')
 
   // check this is a new genre in the database

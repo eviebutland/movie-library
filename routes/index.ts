@@ -19,6 +19,7 @@ import { Genre, GenreSchema } from './genres/schema'
 import { Movie, MovieSchema } from './movies/schema'
 import { Login, UserSchema } from './authentication/schema'
 import { checkAuthorisation } from './authentication/permissions'
+import { FastifyMongoObject } from '@fastify/mongodb'
 
 export async function routes(fastify: FastifyInstance) {
   // Auth

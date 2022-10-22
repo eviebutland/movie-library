@@ -2,11 +2,14 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { convertToKebabCase } from '../../utils/convert-to-kebab-case'
 import { Collection } from 'mongodb'
-import { ObjectId } from '@fastify/mongodb'
+import { FastifyMongoObject, ObjectId } from '@fastify/mongodb'
 import { MovieWithID } from './schema'
 // this:FasifyInstance
-export async function getListAllMovies(request: FastifyRequest, reply: FastifyReply) {
-  // const mlongo: FastifyMongoObject = this.mongo.db
+export async function getListAllMovies(
+  this: any | FastifyMongoObject,
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
   const movieCollection: Collection = this.mongo.db.collection('movies')
 
   try {
@@ -17,7 +20,11 @@ export async function getListAllMovies(request: FastifyRequest, reply: FastifyRe
   }
 }
 
-export async function getMoviebyName(request: FastifyRequest<{ Params: { name: string } }>, reply: FastifyReply) {
+export async function getMoviebyName(
+  this: any | FastifyMongoObject,
+  request: FastifyRequest<{ Params: { name: string } }>,
+  reply: FastifyReply
+) {
   const movieCollection: Collection = this.mongo.db.collection('movies')
 
   const movie = await movieCollection.findOne<MovieWithID>({ key: convertToKebabCase(request.params.name) })
@@ -31,7 +38,11 @@ export async function getMoviebyName(request: FastifyRequest<{ Params: { name: s
   }
 }
 
-export async function getMovieById(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
+export async function getMovieById(
+  this: any | FastifyMongoObject,
+  request: FastifyRequest<{ Params: { id: string } }>,
+  reply: FastifyReply
+) {
   const movieCollection: Collection = this.mongo.db.collection('movies')
 
   const id: ObjectId = this.mongo.ObjectId(request.params.id)

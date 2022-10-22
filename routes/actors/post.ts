@@ -1,8 +1,13 @@
+import { FastifyMongoObject } from '@fastify/mongodb'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Collection } from 'mongodb'
 import { Actor, ActorWithID } from './schema'
 
-export async function createActor(request: FastifyRequest<{ Body: Actor }>, reply: FastifyReply) {
+export async function createActor(
+  this: any | FastifyMongoObject,
+  request: FastifyRequest<{ Body: Actor }>,
+  reply: FastifyReply
+) {
   const actorsCollection: Collection = this.mongo.db.collection('actors')
 
   // check this actor doesn't already exist

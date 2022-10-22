@@ -8,9 +8,10 @@ import { Collection } from 'mongodb'
 
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Genre, GenreWithID } from './schema'
-import { ObjectId } from '@fastify/mongodb'
+import { FastifyMongoObject, ObjectId } from '@fastify/mongodb'
 
 export async function updateGenre(
+  this: any | FastifyMongoObject,
   request: FastifyRequest<{ Body: Genre; Params: { genre: string } }>,
   reply: FastifyReply
 ) {

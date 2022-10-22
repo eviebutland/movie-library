@@ -8,10 +8,9 @@ interface Ranking {
   [key: string]: number
 }
 interface Body {
-  user: {
-    permissions: Array<string>
-  }
+  permissions: Array<string>
 }
+
 function hasAccess(area: Area, minLevelRequired: MinLevelRequired, userPermissions: Array<string>) {
   const ranking: Ranking = {
     r: 1,

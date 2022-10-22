@@ -1,10 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { convertToKebabCase } from '../../utils/convert-to-kebab-case'
 import { Collection } from 'mongodb'
-import { ObjectId } from '@fastify/mongodb'
+import { FastifyMongoObject, ObjectId } from '@fastify/mongodb'
 import { MovieWithID } from './schema'
 
 export async function deleteMovieByName(
+  this: any | FastifyMongoObject,
   request: FastifyRequest<{ Params: { name: string } }>,
   reply: FastifyReply
 ) {
@@ -47,7 +48,11 @@ export async function deleteMovieByName(
   }
 }
 
-export async function deleteMovieById(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
+export async function deleteMovieById(
+  this: any | FastifyMongoObject,
+  request: FastifyRequest<{ Params: { id: string } }>,
+  reply: FastifyReply
+) {
   const movieCollection: Collection = this.mongo.db.collection('movies')
 
   if (request.params.id === ':id') {

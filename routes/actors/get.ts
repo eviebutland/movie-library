@@ -1,13 +1,13 @@
+import { FastifyMongoObject } from '@fastify/mongodb'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Collection } from 'mongodb'
 import { ActorWithID } from './schema'
 
-export async function getAllActors(request: FastifyRequest, reply: FastifyReply) {
-  const actorsCollection: Collection = this.mongo.db.collection('actors')
+export async function getAllActors(this: any | FastifyMongoObject, request: FastifyRequest, reply: FastifyReply) {
+  const actorsCollection: Collection = this.db.collection('actors')
 
   try {
     const actors = await actorsCollection.find<ActorWithID>({}).toArray()
-
     const response: standardisedGETManyResponse = {
       docs: actors,
       total: actors.length
@@ -18,7 +18,11 @@ export async function getAllActors(request: FastifyRequest, reply: FastifyReply)
   }
 }
 
-export async function getActorById(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
+export async function getActorById(
+  this: any | FastifyMongoObject,
+  request: FastifyRequest<{ Params: { id: string } }>,
+  reply: FastifyReply
+) {
   const actorsCollection: Collection = this.mongo.db.collection('actors')
 
   if (request.params.id === ':id') {

@@ -13,7 +13,7 @@ type UserWithID = User & {
 }
 declare module '@fastify/jwt' {
   interface FastifyJWT {
-    payload: { user: UserWithID }
+    payload: UserWithID
     user: User
   }
 }

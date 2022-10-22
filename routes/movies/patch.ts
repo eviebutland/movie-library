@@ -2,9 +2,10 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { convertToKebabCase } from '../../utils/convert-to-kebab-case'
 import { Movie, MovieWithID } from './schema'
 import { Collection } from 'mongodb'
-import { ObjectId } from '@fastify/mongodb'
+import { FastifyMongoObject, ObjectId } from '@fastify/mongodb'
 
 export async function updateMovieByName(
+  this: any | FastifyMongoObject,
   request: FastifyRequest<{ Params: { name: string }; Body: { body: any } }>,
   reply: FastifyReply
 ) {
@@ -39,6 +40,7 @@ export async function updateMovieByName(
 }
 
 export async function updateMovieById(
+  this: any | FastifyMongoObject,
   request: FastifyRequest<{ Params: { id: string }; Body: { body: Movie } }>,
   reply: FastifyReply
 ) {

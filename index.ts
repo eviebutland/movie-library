@@ -1,10 +1,11 @@
 import { OpenAPIBackend } from 'openapi-backend'
-import Fastify, { FastifyInstance } from 'fastify'
+import Fastify, { FastifyInstance, FastifyReply } from 'fastify'
 import { routes, handlers } from './routes/index'
 import fastifyMongodb from '@fastify/mongodb'
 import fastifyJwt from '@fastify/jwt'
 import { document } from './schema/schema'
 import dotenv from 'dotenv'
+import { FastifyReplyType } from 'fastify/types/type-provider'
 
 dotenv.config({ path: 'env.local' })
 // TODO: Divide up this file to make it easier to read
@@ -59,7 +60,7 @@ const customMessages = {
   badRequestErrorMessage: 'Format is Authorization: Bearer [token]',
   noAuthorizationInHeaderMessage: 'Autorization header is missing!',
   authorizationTokenExpiredMessage: 'Authorization token expired',
-  authorizationTokenInvalid: (err: { message: string }) => {
+  authorizationTokenInvalid: (err: { message: string }): string => {
     return `Authorization token is invalid: ${err.message}`
   }
 }
@@ -67,7 +68,7 @@ const customMessages = {
 // Since we want authentication on all endpoints, we can register this handler on every request.
 // If we wanted authentication on only a few requests, we could use a decorator instead
 // https://github.com/fastify/fastify-jwt#usage
-api.registerSecurityHandler('jwt', async (request: any, reply) => {
+api.registerSecurityHandler('jwt', async (request: any, reply: any): Promise<void> => {
   try {
     await request.jwtVerify()
   } catch (err) {
@@ -81,17 +82,3 @@ api.register('unauthorizedHandler', (reply: any) => {
   }
   return reply.code(401).send(response)
 })
-
-// api.register('validationFail', responses.validationFailHandler)
-
-// how do we use these?
-// api.register({
-//   notFound: (c, req, res) => {
-//     res.statusCode = 404
-//     res.send({ code: 3, message: 'no such function', data: null })
-//   },
-//   notImplemented: (c, req, res) => {
-//     res.statusCode = 501
-//     res.send({ code: 3, message: 'not implemented', data: null })
-//   }
-// })

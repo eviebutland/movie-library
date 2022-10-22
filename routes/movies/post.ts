@@ -1,8 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Movie, MovieWithID } from './schema'
 import { Collection } from 'mongodb'
+import { FastifyMongoObject } from '@fastify/mongodb'
 
 export async function createListOfMovies(
+  this: any | FastifyMongoObject,
   request: FastifyRequest<{ Body: { movies: Array<Movie> } }>,
   reply: FastifyReply
 ) {
@@ -35,7 +37,11 @@ export async function createListOfMovies(
   }
 }
 
-export async function createMovie(request: FastifyRequest<{ Body: { key: string } }>, reply: FastifyReply) {
+export async function createMovie(
+  this: any | FastifyMongoObject,
+  request: FastifyRequest<{ Body: { key: string } }>,
+  reply: FastifyReply
+) {
   const moviesCollection: Collection = this.mongo.db.collection('movies')
 
   const existingMovie = await moviesCollection.findOne<MovieWithID>({ key: request.body.key })

@@ -1,3 +1,4 @@
+import { FastifyMongoObject } from '@fastify/mongodb'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Collection } from 'mongodb'
 import { UserWithID } from '../../fastify-jwt'
@@ -7,9 +8,10 @@ interface Body {
 }
 
 export async function authLogin(
+  this: any | FastifyMongoObject,
   request: FastifyRequest<{ Body: Body }>,
   reply: FastifyReply
-): Promise<ErrorResponse | any> {
+): Promise<ErrorResponse | void> {
   const userCollection: Collection = this.mongo.db.collection('users')
   const user = await userCollection.findOne<UserWithID>({ email: request.body.username })
 
@@ -21,7 +23,7 @@ export async function authLogin(
     }
 
     // Could set user document active: true and set to false when they logout?
-    const signature = reply.jwtSign({ user: user })
+    const signature = await reply.jwtSign(user)
 
     reply.code(200).send({ message: `Successful login, ${user.name}`, code: signature })
   } else {

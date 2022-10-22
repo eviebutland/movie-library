@@ -1,9 +1,10 @@
-import { ObjectId } from '@fastify/mongodb'
+import { FastifyMongoObject, ObjectId } from '@fastify/mongodb'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Collection } from 'mongodb'
 import { Actor, ActorWithID } from './schema'
 
 export async function updateActorById(
+  this: any | FastifyMongoObject,
   request: FastifyRequest<{ Params: { id: string }; Body: Actor }>,
   reply: FastifyReply
 ) {

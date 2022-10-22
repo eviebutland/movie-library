@@ -1,9 +1,11 @@
+import { FastifyMongoObject } from '@fastify/mongodb'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { Collection } from 'mongodb'
 import { MovieWithID } from '../movies/schema'
 import { GenreWithID } from './schema'
 
 export async function getListMoviesByGenre(
+  this: any | FastifyMongoObject,
   request: FastifyRequest<{ Params: { genre: string } }>,
   reply: FastifyReply
 ) {
@@ -26,7 +28,7 @@ export async function getListMoviesByGenre(
   }
 }
 
-export async function getAllGenres(_: FastifyRequest, reply: FastifyReply) {
+export async function getAllGenres(this: any | FastifyMongoObject, _: FastifyRequest, reply: FastifyReply) {
   const genreCollection: Collection = this.mongo.db.collection('genres')
   const allGenres = await genreCollection.find<GenreWithID>({}).toArray()
 
