@@ -14,7 +14,15 @@
 
 - MongoDB Atlas - free noSQL document database in the cloud. Choose this as I have worked with MongoDB locally and will be able to build on my knowledge but not have as much of a steep learning curve as with DynanmoDB. To add, there was a [fastify/mongoDB plugin](https://github.com/fastify/fastify-mongodb). Selected AWS as the cloud provider and connected to new cluster in Mongo compass.
 
-- ACID transcations: need to be covered in this project but is supported by Mongo. We need to make sure that the database either fully completes the task or doesn’t at all in order to ensure data is in the most consistent state
+- ACID transcations: need to be covered in this project but is supported by [Mongo](https://www.mongodb.com/basics/acid-transactions). We need to make sure that the database either fully completes the task or doesn’t at all in order to ensure data is in the most consistent state. In order to do this, MongDB must be configured to use replica sets or shared clusters. Since this project uses Atlas, every Atlas cluster is either a replica set or shared cluster.
+
+In most cases, each document will have related data stored together, so transactions may not needed. However, they can be used in scenerios such as financial transactions, [AirBnB bookings](https://www.mongodb.com/developer/languages/javascript/node-transactions-3-3-2/) etc.
+
+We can create sessions per handler function that calls `sessions.withTransations()` and `await session.abortTransaction()` to end the transaction.
+
+```
+const transactionResults = await session.withTransaction(async () => {}, transactionOptions);
+```
 
 - Archive collection: I have created an archive collection for documents that have been soft deleted. I have done this because ...
 

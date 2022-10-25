@@ -1,12 +1,18 @@
 import { FastifyMongoObject } from '@fastify/mongodb'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { Collection } from 'mongodb'
+import { Collection, TransactionOptions, ClientSession } from 'mongodb'
 
 export async function deleteActorById(
   this: any | FastifyMongoObject,
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ) {
+  // const transaction: TransactionOptions = {}
+
+  // const session: ClientSession = this.client.session()
+
+  // console.log(session)
+
   if (request.params.id === ':id') {
     const response: ErrorResponse = { message: 'Please provide an ID' }
 
