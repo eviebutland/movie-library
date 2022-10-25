@@ -17,7 +17,7 @@ describe('Genres: Test create, read, update and delete', () => {
   it('Can create a new genre', async () => {
     const response = await app.inject({
       method: 'POST',
-      url: '/movies/genre',
+      url: '/movies/genres',
       headers: {
         authorization: `Bearer ${authentication}`,
         'x-api-key': authentication
@@ -37,7 +37,7 @@ describe('Genres: Test create, read, update and delete', () => {
   it('Can amend the new genre', async () => {
     const response = await app.inject({
       method: 'PATCH',
-      url: '/movies/genre/Testing Genre',
+      url: '/movies/genres/Testing Genre',
       headers: {
         authorization: `Bearer ${authentication}`,
         'x-api-key': authentication
@@ -50,14 +50,14 @@ describe('Genres: Test create, read, update and delete', () => {
 
     const responseBody = JSON.parse(response.body)
 
-    expect(response.statusCode).toBe(201)
+    expect(response.statusCode).toBe(200)
     expect(responseBody.characteristics).toBe(['changed characteristics'])
   })
 
   it('Can return all the genres', async () => {
     const response = await app.inject({
       method: 'GET',
-      url: '/movies/genre',
+      url: '/movies/genres',
       headers: {
         authorization: `Bearer ${authentication}`,
         'x-api-key': authentication
@@ -71,7 +71,7 @@ describe('Genres: Test create, read, update and delete', () => {
   it('Can get an individual Genre', async () => {
     const response = await app.inject({
       method: 'GET',
-      url: '/movies/genre/Testing Genre',
+      url: '/movies/genres/Testing Genre',
       headers: {
         authorization: `Bearer ${authentication}`,
         'x-api-key': authentication
@@ -86,7 +86,7 @@ describe('Genres: Test create, read, update and delete', () => {
   it('Can delete the new genre', async () => {
     const response = await app.inject({
       method: 'DELETE',
-      url: '/movies/genre/Testing Genre',
+      url: '/movies/genres/Testing Genre',
       headers: {
         authorization: `Bearer ${authentication}`,
         'x-api-key': authentication

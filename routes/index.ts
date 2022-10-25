@@ -20,6 +20,7 @@ import { Movie, MovieSchema } from './movies/schema'
 import { Login, UserSchema } from './authentication/schema'
 import { checkAuthorisation } from './authentication/permissions'
 import { FastifyMongoObject } from '@fastify/mongodb'
+import { Context } from 'vm'
 
 export async function routes(fastify: FastifyInstance) {
   // Auth
@@ -243,7 +244,7 @@ export async function routes(fastify: FastifyInstance) {
 //   return res.code(400).send({ status: 400, err: c.validation.errors })
 // }
 
-export const handlers = {
+export const handlers: Context = {
   getListAllMovies,
   getMovieById,
   updateMovieById,

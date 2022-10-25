@@ -4,14 +4,13 @@ import { convertToKebabCase } from '../../utils/convert-to-kebab-case'
 import { Collection } from 'mongodb'
 import { FastifyMongoObject, ObjectId } from '@fastify/mongodb'
 import { MovieWithID } from './schema'
-// this:FasifyInstance
+
 export async function getListAllMovies(
   this: any | FastifyMongoObject,
   request: FastifyRequest,
   reply: FastifyReply
 ) {
   const movieCollection: Collection = this.mongo.db.collection('movies')
-
   try {
     const movies = await movieCollection.find().toArray()
     reply.send({ docs: movies, total: movies.length })

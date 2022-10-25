@@ -7,12 +7,6 @@ export async function deleteActorById(
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ) {
-  // const transaction: TransactionOptions = {}
-
-  // const session: ClientSession = this.client.session()
-
-  // console.log(session)
-
   if (request.params.id === ':id') {
     const response: ErrorResponse = { message: 'Please provide an ID' }
 

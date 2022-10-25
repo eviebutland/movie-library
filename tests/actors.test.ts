@@ -37,8 +37,6 @@ describe('Actors: Test create, read, update and delete', () => {
 
     newActorId = responseBody._id
 
-    console.log(responseBody)
-
     expect(response.statusCode).toBe(201)
     expect(responseBody.name).toBe('Steve owen')
   })
