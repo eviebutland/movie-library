@@ -18,28 +18,14 @@ export async function updateGenre(
   // Update the genre's details
   const genreCollection: Collection = this.mongo.db.collection('genres')
   const genreToUpdate = await genreCollection.findOne<GenreWithID>({ name: request.params.genre })
-  if (genreToUpdate === null) {
-    const postModel = {
-      ...request.body,
-      name: request.body.name.toLowerCase()
-    }
 
-    try {
-      await genreCollection.insertOne(postModel)
-      request.log.info('Creating new genre', postModel)
-
-      reply.code(200).send(postModel)
-    } catch (error) {
-      request.log.error('Error update movie', error)
-      throw new Error('error')
-    }
-  } else {
+  if (genreToUpdate) {
     const id: ObjectId = this.mongo.ObjectId(genreToUpdate._id)
 
     const { name, characteristics } = request.body
     const updateDoc = {
       $set: {
-        name,
+        name: name.toLowerCase(),
         characteristics
       }
     }
@@ -52,5 +38,8 @@ export async function updateGenre(
     } catch (error) {
       request.log.error('Error update movie', error)
     }
+  } else {
+    const response: ErrorResponse = { message: `Genre '${request.params.genre}' could not be found` }
+    reply.code(404).send(response)
   }
 }

@@ -94,7 +94,8 @@ describe('Actors: Test create, read, update and delete', () => {
     })
 
     expect(response.statusCode).toBe(200)
-    expect(JSON.parse(response.body).length).toBeGreaterThan(1)
+
+    expect(JSON.parse(response.body).docs.length).toBeGreaterThan(1)
   })
 
   it('Can delete the new actor', async () => {

@@ -31,19 +31,20 @@ describe('Genres: Test create, read, update and delete', () => {
     const responseBody = JSON.parse(response.body)
 
     expect(response.statusCode).toBe(201)
-    expect(responseBody.acknowledged).toBe(true)
+    expect(responseBody.name).toBe('testing genre')
+    expect(responseBody.characteristics).toStrictEqual(['test', 'trial'])
   })
 
   it('Can amend the new genre', async () => {
     const response = await app.inject({
       method: 'PATCH',
-      url: '/movies/genres/Testing Genre',
+      url: '/movies/genres/testing genre',
       headers: {
         authorization: `Bearer ${authentication}`,
         'x-api-key': authentication
       },
       payload: {
-        name: 'Testing Genre',
+        name: 'testing genre',
         characteristics: ['changed characteristics']
       }
     })
@@ -51,7 +52,7 @@ describe('Genres: Test create, read, update and delete', () => {
     const responseBody = JSON.parse(response.body)
 
     expect(response.statusCode).toBe(200)
-    expect(responseBody.characteristics).toBe(['changed characteristics'])
+    expect(responseBody.characteristics).toStrictEqual(['changed characteristics'])
   })
 
   it('Can return all the genres', async () => {
@@ -71,7 +72,7 @@ describe('Genres: Test create, read, update and delete', () => {
   it('Can get an individual Genre', async () => {
     const response = await app.inject({
       method: 'GET',
-      url: '/movies/genres/Testing Genre',
+      url: '/movies/genres/testing genre',
       headers: {
         authorization: `Bearer ${authentication}`,
         'x-api-key': authentication
@@ -79,14 +80,15 @@ describe('Genres: Test create, read, update and delete', () => {
     })
 
     const responseBody = JSON.parse(response.body)
+
     expect(responseBody.total).toBe(1)
-    expect(responseBody.docs[0].name).toBe('Testing Genre')
+    expect(responseBody.docs[0].genre).toBe('testing genre')
   })
 
   it('Can delete the new genre', async () => {
     const response = await app.inject({
       method: 'DELETE',
-      url: '/movies/genres/Testing Genre',
+      url: '/movies/genres/testing genre',
       headers: {
         authorization: `Bearer ${authentication}`,
         'x-api-key': authentication
@@ -94,6 +96,6 @@ describe('Genres: Test create, read, update and delete', () => {
     })
 
     expect(response.statusCode).toBe(200)
-    expect(JSON.parse(response.body).message).toBe(`Genre 'Testing Genre' has been removed`)
+    expect(JSON.parse(response.body).message).toBe(`Genre 'testing genre' has been removed`)
   })
 })

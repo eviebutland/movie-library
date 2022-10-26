@@ -32,6 +32,7 @@ describe('Movies: Test create, read, update and delete', () => {
           description: 'This is a test film for testing',
           keyWords: ['test'],
           actors: ['Evie'],
+          genre: 'testing genre',
           image: '',
           boxOfficeTotal: 1000,
           rating: 2.9,
@@ -208,8 +209,19 @@ describe('Movies: Test create, read, update and delete', () => {
         }
       })
 
+      const response2 = await app.inject({
+        method: 'DELETE',
+        url: '/movies/name/testing list 3',
+        headers: {
+          authorization: `Bearer ${authentication}`,
+          'x-api-key': authentication
+        }
+      })
+
       expect(response.statusCode).toBe(200)
-      //   expect(JSON.parse(response.body).message).toBe("Movie 'testing film here 1' was successfully deleted")
+      expect(JSON.parse(response.body).message).toBe("Movie 'testing list 1' was successfully deleted")
+      expect(response2.statusCode).toBe(200)
+      expect(JSON.parse(response2.body).message).toBe("Movie 'testing list 3' was successfully deleted")
     })
   })
 })

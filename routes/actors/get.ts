@@ -4,7 +4,7 @@ import { Collection } from 'mongodb'
 import { ActorWithID } from './schema'
 
 export async function getAllActors(this: any | FastifyMongoObject, request: FastifyRequest, reply: FastifyReply) {
-  const actorsCollection: Collection = this.db.collection('actors')
+  const actorsCollection: Collection = this.mongo.db.collection('actors')
 
   try {
     const actors = await actorsCollection.find<ActorWithID>({}).toArray()
